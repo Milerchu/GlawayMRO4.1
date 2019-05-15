@@ -1,0 +1,60 @@
+body { 
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:12px; 
+	background-color:#ffffff;
+	text-align: center;
+}
+
+p {
+  line-height:21px;
+}
+
+body, iframe, table, thead, tbody, tr, td, div, input, span {
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+ul#menu, ul#menu ul {
+  list-style-type:none;
+  margin: 0;
+  padding: 0;
+  width: 190px;
+}
+
+ul#menu a {
+  display: block;
+  text-decoration: none;	
+}
+
+ul#menu li {
+  margin-top: 3px;
+}
+
+ul#menu li a {
+  background: #95b8e7;
+  color: #000;	
+  padding:5px 5px 5px 10px;
+}
+
+ul#menu li a:hover {
+  background: #6d99d3;
+}
+
+ul#menu li ul li a {
+  background: #e0ecff;
+  color: #000;
+  padding-left: 20px;
+}
+
+ul#menu li ul li a:hover {
+  background: #97bcf6;
+  border-left: 5px #6694de solid;
+  padding-left: 20px;
+}
+
+<!-- KPI图表弹出框配置 -->
+#Cchart1{
+	margin:0 auto;
+}
+#fhchart1,#fhchart2,#fhchart3{
+	margin:0 auto;
+}

@@ -1,0 +1,172 @@
+
+/** HOME start **/
+.h_contentTb {
+	width: 100%;
+	border: 0 none;
+	padding: 0;
+	margin: 0 auto;
+	border: 0px solid red;
+}
+/* left start */
+.h_contentTdLeft {
+	width: 360px;
+	border: 0 none;
+}
+.sub_chart {
+	width: 360px;
+	height: 255px;
+	margin: 5px 0px 0px 0px;
+	padding: 0px;
+	overflow: hidden;
+	border: 1px solid #cccccc;
+}
+.sub_chart .chart_title {
+	width: 360px;
+	height: 30px;
+	line-height: 30px;
+	font-size:12px;
+	background-color: #dbdbdb;
+}
+.sub_chart .chart_title table {
+	height: 30px;
+	width: 360px;
+}
+.sub_chart .chart_title .leader {
+	width: 25px;
+	height: 30px;
+	background:url(img/title_leader.gif) right center no-repeat;
+}
+.sub_chart .chart_title .more {
+	width: 65px;
+	height: 30px;
+	line-height:30px;
+	text-align: right;
+	vertical-align: middle;
+	padding-right: 10px;
+}
+.sub_chart .chart_title .more a {
+	text-decoration:none;
+	width: 60px;
+	display: inline;
+	line-height: 30px;
+	
+	font-family: "宋体"; 
+	font-size: 12px; 
+	color: #8a8a8a;
+}
+.sub_chart .chart_title .more a:hover {
+	text-decoration: underline;
+	color: #1d92df;
+}
+
+.sub_chart .chart_title .title {
+	width: 270px;
+	height: 30px;
+	line-height:30px;
+	display: inline;
+	vertical-align: middle;
+	text-align: left;
+	padding: 2px 0 0 8px;
+	
+	font-family: "宋体"; 
+	font-size: 12px; 
+	color: #1b648d;
+	font-weight: bold;
+}
+.sub_chart .chart_content {
+	width:360px;
+	height:225px;
+	line-height: 225px;
+	font-size:12px;
+	background:#FFF;
+	padding: 0px;
+	position: relative;
+	top: 0px;
+	left: 0px;
+	overflow: hidden;
+}
+.sub_chart .chart_content div.chart {
+	width: 360px; 
+	height: 225px; 
+	margin: 0;
+	position: relative;
+	top: 0px;
+	left: 0px;
+}
+/* left end */
+
+/* center start */
+.h_contentTdCenter {
+	padding: 5px 5px 0 5px;
+	border: 0 none;
+}
+/* 可调整窗体宽度与屏幕适应：SCREEN（width增加多少，则相应在style1280中增加多少） */
+.h_contentTdCenter .contDiv_center{
+	float:left;
+	width:100%;
+	height:517px;
+	margin:0;
+	border: 1px solid #cccccc;
+	
+}
+/* center end */
+
+/* right start */
+.h_contentTdRight {
+	width: 360px;
+	border: 0px solid red;
+	
+}
+
+
+.h_contentTdRight ul {
+	margin:0px;
+	margin-left:15px;
+	padding:0px;
+	list-style:none;
+}
+.h_contentTdRight ul li{
+	background:url(img/newsico.gif) no-repeat;
+	background-position:2px;
+	padding-left:15px;
+	height:25px;
+	line-height:25px;
+	margin:0px;
+	text-align: left;
+	
+}
+.h_contentTdRight ul li a{
+	text-decoration:none;
+	display:block; 
+	font-size:13px;
+	color:#000000;
+	padding-right:5px;
+	word-break:keep-all;/* 不换行 */
+    white-space:nowrap;/* 不换行 */
+	overflow:hidden;	
+	text-overflow:ellipsis;
+	margin:0px;
+}
+.h_contentTdRight ul li a:hover{
+	text-decoration:underline;
+}
+/* right end */
+
+/* 罗表盘图frame样式 */
+.l_frame {
+	width: 100%;
+	height: 100%; 
+	margin: 0 auto;
+	border: 0 none;
+	overflow: hidden;
+}
+
+/* map frame */
+.innerFrame {
+	width: 100%; 
+	height: 100%;
+	border: 0 none;
+}
+/** HOME end **/
+
+

@@ -1,0 +1,82 @@
+#center{
+	background:url("img/gisbg1920x1080.jpg");
+}
+#title{
+	background:url("img/gistitle1920x1080.png") no-repeat;
+	margin-top:0.8%;
+	margin-left:0.8%;
+	width:450px;
+	height:65px;
+}
+#maplayer{
+	width: 64.4%;
+	height:80.6%;
+	margin-left:17.8%;
+	top:7%;
+}
+/*地图头部 start*/
+#map-header{
+	top:6%;
+	left:1%;
+	height:11%;
+}
+
+/*统计表格 start*/
+#equipTotal{
+	width:24%;	
+	margin-top: 1.3%;
+}
+#equipTotal>table{
+	width:85%;
+}
+#equipTotal>table td{
+	font-size:1.25em;
+}
+#equipTotal span{
+	margin-left:2%;
+	font-size:1em; 
+}
+/*统计表格 end*/
+
+/*kpi图层*/
+#equipKPI{
+	height: 88%;
+	top: 14.5%;
+}
+#equipKPI>div {
+	height: 29.5%;
+	width: 17%;
+}
+#EChart1 {
+	left: 0.5%;
+	top: 0;
+}
+#EChart2 {
+	left: 0.5%;
+	top: 31.6%;
+}
+#EChart3 {
+	left: 0.5%;
+	bottom: 7%;
+}
+#EChart4 {
+	right: 0.5%;
+	top: 0;
+}
+#EChart5 {
+	right: 0.5%;
+	top: 31.6%;
+}
+#EChart6 {
+	right: 0.5%;
+	bottom: 7%;
+}
+
+/**滚动条 start****/
+.shell{
+	width:20%;
+	padding:3px 2px 2px 25px; 
+	left:40%;
+	top:10%;
+}
+/**滚动条end****/

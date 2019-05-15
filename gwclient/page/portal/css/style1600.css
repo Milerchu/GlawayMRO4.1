@@ -1,0 +1,20 @@
+iframe{
+	height:825px;
+}
+/*弹出框设置 start*/
+#FHDialog{
+	height:600px;
+}
+#Cchart1{
+	width:655px;
+	height:430px;
+}
+#fhchart1{
+	width:1070px;
+	height:296px;
+}
+#fhchart2,#fhchart3{
+	width:530px;
+	height:275px;
+}
+/*弹出框设置 end*/

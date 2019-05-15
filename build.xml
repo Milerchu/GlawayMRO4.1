@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="gwmro">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+	
+	<property name="project.version" value="1.0"/>
+	
+	<property name ="findbugs.home" value ="${basedir}/jenkinslib/findbugs"/>
+	<property name ="checkstyle.home" value ="${basedir}/jenkinslib/checkstyle/5.5"/>
+	<property name ="pmd.home" value ="${basedir}/jenkinslib/pmd"/>
+	<property name="junit.home" value="${basedir}/jenkinslib/junit"/>
+	<property name="cobertura.home" value="${basedir}/jenkinslib/cobertura"/>
+	<property name="tomcat.home" value="${basedir}/jenkinslib/tomcat-ant"/>
+	<property name="Junit.report.path" value="${basedir}/report/junit"/>
+	<property name="App.Lib.home" value="${basedir}/gwclient/WEB-INF/lib"/>
+	<property name="refrencelib.home" value="${basedir}/jenkinslib/refrencelib"/>
+	
+	<!-- <property name="mainclass" value="com.smart.main"/> -->  
+	
+    <path id="Java.classpath">
+        <pathelement location="bin"/>
+    </path>
+	
+	<path id="findbugs.path"> 
+		<fileset dir ="${findbugs.home}/lib"> 
+			<include name ="**/*.jar" />
+		</fileset> 
+	</path>
+	
+	<path id="pmd.path">  
+		<fileset dir ="${pmd.home}"> 
+			<include name ="**/*.jar" />
+		</fileset> 
+	</path> 
+	
+	<path id="junit.path">        
+         <fileset dir="${junit.home}">
+             <include name="*.jar"/>
+         </fileset>
+         <pathelement path="${basedir}/bin"/>
+     </path>     
+	 
+	 <path id="cobertura.classpath">
+		<fileset dir="${cobertura.home}">
+			<include name="cobertura-2.1.1.jar" />
+			<include name="lib/**/*.jar" />
+		</fileset>
+	</path>
+	<property name="temp.bin.path" value="temp/bin"/>
+	<property name="cobertura.report.path" value="report/cobertura"/>
+	
+	<path id="tomcat-ant.classpath">
+		<fileset dir="${tomcat.home}">
+			<include name="catalina-ant.jar"/>
+			<include name="tomcat-coyote.jar"/>
+			<include name="tomcat-util.jar"/>
+			<include name="tomcat-juli.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="refrencelib.path">  
+		<fileset dir ="${refrencelib.home}"> 
+			<include name ="**/*.jar" />
+		</fileset> 
+	</path> 
+	
+	<path id="app.includeLib">
+		<fileset dir="${App.Lib.home}">
+			<include name ="**/*.jar" />
+		</fileset>
+	</path>
+<!--===========================================================================================================-->
+     <target name="clean">
+        <delete dir="bin"/>
+		<delete dir="report"/>
+		<delete dir="${target}"/>
+		<delete dir="temp"/>
+    </target>
+	
+    <target depends="clean" name="cleanall" />
+	
+    <target name="init" depends="cleanall">
+        <mkdir dir="bin"/>
+		<mkdir dir="report"/>
+		<mkdir dir="${Junit.report.path}"/>
+		<mkdir dir="target" />
+		<mkdir dir="temp"/>
+		<mkdir dir="temp/cobertura"/>
+		<mkdir dir="report/cobertura"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+	
+	<target name="build-subprojects" />
+   
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<!-- 编译项目源码 -->
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="on" encoding="UTF-8">
+            <src path="src"/>
+			<src path="resouce"/>
+			<!--<classpath>
+				<pathelement location="${basedir}/gwclient/WEB-INF/lib/*.jar" />
+			</classpath>-->
+			<classpath refid="app.includeLib"/>
+			<classpath refid="refrencelib.path"/>
+            <classpath refid="Java.classpath"/>
+			<classpath refid="cobertura.classpath" />
+        </javac>
+		<!-- 编译Junit项目单元测试源码 -->
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="on" encoding="UTF-8">
+            <src path="test"/>
+			<src path="resouce"/>
+			<classpath refid="app.includeLib"/>
+			<classpath refid="refrencelib.path"/>
+            <classpath refid="Java.classpath"/>
+			<classpath refid="cobertura.classpath" />
+        </javac>
+    </target>
+	
+    <target depends="display-properties,build-subprojects,build-project,cobertura,checkstyle,pmd,findbugs,junit,cobertura-report,warFile" name="build" />
+
+	<!-- 输出当前环境的信息 -->
+    <target name="display-properties">
+        <echoproperties />
+    </target> 
+<!--===========================================================================================================-->
+	<!-- Checkstyle -->
+	<target name="checkstyle" >	
+		<taskdef resource="checkstyletask.properties" classpath="${checkstyle.home}/checkstyle-5.5-all.jar" />
+		<echo message="Checkstyle_5.5 Checking Start......" />
+		 <!--  resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties" classname="com.puppycrawl.tools.checkstyle.CheckStyleTask" -->
+        <checkstyle config="${checkstyle.home}/sun_checks.xml" failureProperty="checkstyle.failure" failOnViolation="false" >      
+            <fileset dir="${basedir}/src/com" includes="**/*.java" />
+			<formatter type="plain" />  
+			<formatter type="xml" toFile="report/checkstyle_report.xml" />
+        </checkstyle>
+		<echo message="Checkstyle_5.5 Checked End" />
+    </target>
+<!--===========================================================================================================-->
+	<!-- PMD -->
+	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.path" />  
+	<target  name="pmd">  
+		<echo message="PMD_3.2.6 Checking Start......" />
+		<!-- 定义代码检测规则，这里直接列出规则imports.xml和java-unusedcode规则，本例注释了，使用下面一种在另一文件中定义规则集-->  
+			<!-- 定义PMD检测规则所在的文件，规则集在pmd.xml文件中定义-->  
+			<pmd rulesetfiles="${basedir}/pmd.xml" encoding="UTF-8">  
+				<!-- 输出XML格式的报告-->  
+				<formatter type="xml" tofile="${basedir}/report/pmd_report.xml" toconsole="true" /> 
+				 
+				<!-- 静态代码检测工程下src目录下的所有java文件-->  
+				<fileset dir="${basedir}/src">  
+					<include name="**/*.java" />  
+				</fileset> 
+			</pmd>  
+		<echo message="PMD_3.2.6 Checked End" />
+	</target>  
+<!--===========================================================================================================-->	
+	<!-- Findbugs -->
+	<taskdef name="findbugs" classpathref ="findbugs.path" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" />
+	<target name ="findbugs" description="Findbugs">
+		<echo message="Findbugs_3.0.1 Checking Start......" />
+		<findbugs home="${findbugs.home}" includeFilter="${basedir}/findbugs.xml" output ="xml" outputFile ="${basedir}/report/findbugs_report.xml">  <!--input="findbugs.xml" -->
+			<class location ="${basedir}/bin"/>     
+			<!--  以上定义findbugs查找的类路径     -->
+			<auxClasspath path="${findbugs.home}/lib/findbugs-ant.jar" />  
+			<!--<auxClasspath>     
+				<fileset dir="${build.home}/WEB-INF/lib" includes="**/*.jar" />     
+			</auxClasspath>-->
+			<!--  以上定义上述类所依赖的类路径  -->     
+			<sourcePath path ="${basedir}/src" /> 
+			<!--  以上定义源代码的路径  -->  
+		</findbugs>
+		 <echo message="Findbugs_3.0.1 Checked End" />
+	</target>
+<!--===========================================================================================================-->	
+	<!-- Cobertura -->
+	<taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>
+	<target name="cobertura">
+		<delete file="cobertura.ser"/>
+		<cobertura-instrument todir="${temp.bin.path}">
+			<ignore regex="org.apache.log4j.*" />
+			<fileset dir="${basedir}/bin">
+				<include name="**/*.class" />
+				<exclude name="**/*Test.class" />
+			</fileset>
+		</cobertura-instrument>
+	</target>
+	
+	<target name="cobertura-report" depends="junit">
+      <cobertura-report srcdir="${basedir}/src" destdir="${cobertura.report.path}" format="xml" />
+	</target>  
+<!--===========================================================================================================-->	
+	<!-- Junit -->
+	<target name="junit" depends="cobertura">
+		<echo message="Junit_4.12 Checking Start......" />
+		<junit printsummary="true" fork="true">
+			<classpath location="${temp.bin.path}" />
+			<classpath location="${basedir}/bin" />
+			<classpath refid="cobertura.classpath" />
+			
+			<formatter type="xml" usefile="true"/> 
+			<classpath refid="junit.path"/>    
+			              
+			<!--<test name="test.com.smart.CI_TestTest" todir="${Junit.report.path}" fork="true" />-->
+			<batchtest fork="on" todir="${Junit.report.path}" haltonfailure="no">
+				<fileset dir="${basedir}/bin">
+					<include name="**/*Test.class"/>
+				</fileset>
+			</batchtest> 
+
+		</junit>
+		
+		<!-- 产生单元测试报表文档 -->
+		<junitreport todir="${Junit.report.path}">
+			<fileset dir="${Junit.report.path}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${Junit.report.path}" />
+		</junitreport>
+		<echo message="Junit_4.12 Checking End" />
+	</target>
+<!--===========================================================================================================-->	
+	<!-- Package -->
+	<!--生成可运行的jar包
+    <target name="jar" depends ="build-project">
+		<copy todir="target/jenkinslib">  
+            <fileset dir="${basedir}/jenkinslib"/>  
+        </copy>  
+				
+        <jar destfile="target/${ant.project.name}-${project.version}.${env.SVN_REVISION}.jar" basedir="${basedir}/bin">
+            <manifest>
+                <attribute name="Main-class" value="${mainclass}"/>
+				<attribute name="Class-Path" value="jenkinslib/*"/>
+            </manifest>
+        </jar>
+    </target>-->
+	
+	
+	<!-- 以下两个target（name = warFile or war）都是生成war包的，两个用一个就可以了,本build中都没有使用 -->
+	<!-- 打war 包-->
+	<target name ="war" depends ="build-project">
+		<war destfile ="target/${ant.project.name}-${project.version}.J${env.BUILD_ID}.S${env.SVN_REVISION}.war" webxml ="${basedir}/gwclient/WEB-INF/web.xml">
+			<!-- 拷贝gwclient 下除了WEB-INF 和META-INF 的两个文件夹-->
+			<fileset dir ="${basedir}/gwclient" includes ="**/*.jsp"/>
+			<!-- 拷贝lib 目录下的jar 包-->
+			<lib dir ="${basedir}/gwclient/WEB-INF/lib"/>
+			<!-- 拷贝build/classes 下的class 文件-->
+			<classes dir ="${basedir}/build/classes"/>
+		</war>
+	</target>
+	
+	<!-- 定义默认任务，将class文件集合成jar包。 -->  
+    <target name="warFile" depends="build-project"> 
+        <!-- 建立新war包。 -->  
+        <war destfile="target/${ant.project.name}.war" webxml="${basedir}/gwclient/WEB-INF/web.xml">  
+            <!-- 将非jar和非class文件拷贝到war包的对应路径下。 -->  
+            <fileset dir="${basedir}/gwclient">  
+                <include name="**/**.*" />  
+                <exclude name="**/*.jar"/>  
+                <exclude name="**/*.class"/>  
+            </fileset>  
+            <!-- 将jar和class文件拷贝到war包的对应路径下。 -->  
+            <lib dir="${basedir}/gwclient/WEB-INF/lib" />  
+            <classes dir="${basedir}/bin" />  
+        </war>  
+    </target>
+<!--===========================================================================================================-->	
+	<taskdef name="undeploy" classpathref ="tomcat-ant.classpath" classname="org.apache.catalina.ant.UndeployTask" />
+	<target name="undeploy" description="Remove web application" depends="warFile">
+		<undeploy url="http://localhost:8080/manager" username="admin" password="admin" path="/${ant.project.name}" />
+	</target>
+ 
+	<taskdef name="deploy" classpathref ="tomcat-ant.classpath" classname="org.apache.catalina.ant.DeployTask" />
+	<target name="deploy" description="Install web application" >
+		<deploy url="http://localhost:8080/manager" username="admin" password="admin" path="/${ant.project.name}" war="target/${ant.project.name}.war" />
+	</target>
+<!--===========================================================================================================-->	
+
+</project>

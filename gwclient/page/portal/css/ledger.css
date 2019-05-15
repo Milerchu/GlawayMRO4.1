@@ -1,0 +1,18 @@
+
+.ledger_gauge {
+	width: 330px;
+	height: 220px;
+	margin: 0px auto;
+	padding: 0px;
+	border: 0 none;
+	overflow: hidden;
+}
+
+.ledger_gauge iframe {
+	height: 180px;
+	width: 100%;
+	overflow: hidden;
+}
+
+
+

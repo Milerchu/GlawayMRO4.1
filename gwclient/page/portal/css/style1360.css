@@ -1,0 +1,274 @@
+body { 
+	font-family: "宋体"; 
+	font-size:12px; 
+	background-color:#ffffff;
+	text-align: center;
+}
+
+body, iframe, table, thead, tbody, tr, td, div, input, span {
+	border-collapse: collapse;
+	bordr-spacing: 0px;
+}
+
+/* 可调整窗体宽度与屏幕适应：SCREEN（width增加多少，则相应在home.css中增加多少） */
+div.limitcontent {
+	padding: 0px; 
+	margin: 0 auto; 
+	text-align: center;
+	width: 1335px;
+	display: block;
+	border: 0 none;
+}
+
+/* logo start */
+.logo {
+	width: 100%;
+	background-color:#ffffff;
+	text-align: center;
+}
+.logo div.limitcontent {
+	text-align: left;
+}
+/* logo end */
+
+/* banner start */
+.banner {
+	width: 100%;
+	background-color:#0190df;
+	text-align: center;
+	padding: 0px;
+}
+.banner div.limitcontent {
+	background-color:#0190df;
+	vertical-align: bottom;
+	height: 200px;
+	background:url(img/header_banner.jpg) center no-repeat;
+}
+.banner div.limitcontent img {
+	margin: 0px;
+}
+/* banner end */
+
+/* navigator start */
+.navigator {
+	background-color:#1a658f;
+	height: 30px;
+	width: 100%;
+	text-align: center;
+	padding: 0;
+	marign: 0;
+}
+.navigator div.limitcontent {
+	background-color:#1a658f;
+}
+
+.navigator .nav_table {
+	align: center;
+	margin: 0 auto;
+	border: 0 none;
+	padding: 0px;
+}
+.navigator .nav_table .selected { 
+	background-color:#103c55;
+}
+.navigator .nav_table .nav_td { 
+	width: 167px;
+	color: #ffffff;
+	text-align: center;
+	border: 0 none;
+	padding: 0px;
+	margin: 0px;
+}
+.navigator .nav_table .nav_td:hover { 
+	background-color:#103c55;
+}
+
+.navigator .nav_table .nav_td a.hovering {
+	width:100%;
+	padding: 0px;
+	margin: 0px;
+	border: 0 none;
+}
+.navigator .nav_table .nav_td table {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	border: 0 none;
+}
+.navigator .nav_table .nav_td a.hovering table td {
+	font-family: "宋体"; 
+	font-size: 14px;
+	color: #ffffff;
+	font-weight: bold;
+	text-align: center;
+	padding: 0px;
+	margin: 0px;
+}
+.navigator .nav_table .nav_td a.hovering:hover {
+	background-color:#103c55;
+}
+.navigator .nav_table .nav_td a, .navigator .nav_table .nav_td .rootVoice {
+	font-family: "宋体"; 
+	color: #ffffff;
+	text-decoration:none;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+}
+/* navigator end */
+
+/* footer start */
+.footer {
+	height: 42px;
+	line-height: 42px;
+	background-color:#e6e6e6;
+	color: #8c8c8c;
+	text-align: center;
+	vertical-align: middle;
+	margin-top: 5px;
+}
+.footer div.limitcontent {
+	background-color:#e6e6e6;
+}
+/* footer end */
+
+/* 当前窗口内的最大宽度，如果释放至100%，则会顶部及底部会满页： SCREEN */
+.logo, .banner, .navigator, .innerbody, .footer {
+	padding: 0px; 
+	margin: 0px auto; 
+	text-align: center;
+	width: 1335px;
+	display: block;
+	border: 0 none;
+}
+.footer {
+	margin-top: 5px;
+}
+
+
+/* innerbody start */
+.innerbody {
+	padding: 0px; 
+	margin: 0px; 
+	width: 100%;
+	text-align: center;
+	background-color: #ffffff;
+}
+/*内容展示单元*/
+.innerbody .limitcontent .contentunit {
+	width: 1010px; 
+	margin: 0 auto;
+	margin-top: 5px;
+	border: 0 none;
+}
+/* 罗表盘图样式 */
+.gaugeFrame {
+	width: 100%;
+	height: 100%; 
+	margin: 0 auto;
+	border: 0 none;
+	overflow: hidden;
+}
+/* innerbody end */
+
+
+
+/* 信息表格顶样式 start */
+table.it {
+	width: 100%;
+	margin:0 auto;
+}
+table.it table {
+	width: 100%;
+	margin:0 auto;
+}
+table.it tbody {
+	padding: 0;
+}
+table.it .it_h_l {
+	background-image:url(img/table_info_lc.jpg);/*background-image:url(../images/table_toolbar_lcap.gif); for extend */
+	background-repeat:no-repeat;
+	background-position: top left; /* background-position: top left; for extend */
+	height:29px;
+	width: 3px;
+	border-bottom: 1px solid #dcdcdc;  /* border-bottom: 1px solid #aaaaaa; for extend */
+	white-space: nowrap;
+	display: inline;
+}
+table.it .it_h_r {
+	background-image:url(img/table_info_rc.jpg);/*background-image:url(../images/table_toolbar_lcap.gif); for extend */
+	background-repeat:no-repeat;
+	background-position: top right; /* background-position: top right; for extend */
+	height:29px;
+	width: 3px;
+	border-bottom: 1px solid #dcdcdc;  /* border-bottom: 1px solid #aaaaaa; for extend */
+	white-space: nowrap;
+}
+table.it .it_h_c{
+	background: url(img/table_info_bg.jpg) top repeat-x; 
+	padding: 0 2px 0 5px;
+	border: 0 null;
+	border-bottom: 1px solid #dcdcdc; /* border-bottom: 1px solid #aaaaaa; for extend */
+	vertical-align: middle;
+	text-align: left;
+	height:29px;
+	
+	font-family: "宋体"; 
+	font-size:12px;
+	color:#238fcd;
+	font-weight:bold;
+	white-space: nowrap;
+}
+table.it .it_c_l {
+	border-left: 1px solid #dcdcdc;
+}
+table.it .it_c_c {
+	overflow: hidden;
+}
+table.it .it_c_r {
+	border-right: 1px solid #dcdcdc;
+}
+table.it .it_f {
+	border-left: 1px solid #dcdcdc;
+	border-bottom: 1px solid #dcdcdc;
+	border-right: 1px solid #dcdcdc;
+	padding: 0px;
+	overflow: hidden;
+}
+table.it .it_f_l {
+	border-left: 1px solid #dcdcdc;
+	border-bottom: 1px solid #dcdcdc;
+}
+table.it .it_f_c {
+	border-bottom: 1px solid #dcdcdc;
+	overflow: hidden;
+	padding-top: 5px;
+}
+table.it .it_f_r {
+	border-right: 1px solid #dcdcdc;
+	border-bottom: 1px solid #dcdcdc;
+}
+/* 信息表格顶样式 end */
+
+/* CONTENT START */
+.content_t {
+	width: 100%;
+	border: 0 none;
+}
+.content_t td {
+	height: 25px;
+	line-height: 25px;
+	font-family: "宋体"; 
+	font-size:12px;
+	letter-spacing: 1px;
+}
+.content_t td.tdr {
+	text-align: right;
+}
+.content_t td.tdl {
+	text-align: left;
+	color: #5d584f;
+}
+/* CONTENT END */
+
+

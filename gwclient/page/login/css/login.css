@@ -1,0 +1,201 @@
+@charset "utf-8";
+
+body {
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.75em;
+	margin: 0;
+	padding: 0;
+	background: #62b2e5 url(../images/ge_login_bkgnd.jpg) top center no-repeat;
+	overflow: hidden;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+table.log_lay_t {
+	width: 100%;
+	height: 100%;
+}
+
+table.log_lay_t td.log_lay_td {
+	height: 100%;
+	width: 100%;
+	text-align: center;
+}
+
+.main_tbl {
+	clear: both;
+	width: 600px;
+	height: 660px;
+	border: none;
+	background: transparent url(../images/login.jpg) top center no-repeat;
+	margin:100px 200px;
+	opacity: 0.8;
+}
+
+.main_tbl .toptr {
+	height: 100px;
+}
+.main_tbl .lc {
+	width: 100%;
+	height: 560px;
+	vertical-align: top;
+}
+.main_tbl .ld {
+/* 	padding-left:80px;
+ */	font-weight:bold;
+	font-family:黑体;
+	font-size:29px;
+	color:#00426b;
+/* 	background:transparent url(../images/logo.png) no-repeat 30px center;
+ */}
+.main_tbl .lc form {
+	width: 100%;
+	height: 100%;
+}
+.main_tbl .lc form table {
+}
+.main_tbl .lc form table td {
+}
+
+span.log_err_msg {
+	text-align: center;
+	word-wrap: break-word;
+	word-break: break-all;
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	height: 20px;
+	font-family :Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+a:link {
+    font-family :Verdana, Arial, Helvetica, sans-serif;
+    font-weight :normal;
+    color :#336699;
+	text-decoration :none;
+}
+
+a:active, a:visited {
+    color :#0033CC;
+    text-decoration :none;
+}
+
+a:hover {
+    color :#336699;
+    text-decoration :underline;
+} 
+
+.dialog {
+	background: #FFF url(../images/ge_login_dialog_bkgnd.png) top left repeat-x;
+	border: 1px #033985 solid;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	padding-top: 35px;
+	padding-right: 20px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+}
+
+.prod_name {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 24px;
+	font-weight: normal;
+	color: #003482;
+	padding-bottom: 20px;
+}
+
+input[type=text], input[type=password], select {
+	/*background: #FFF url(../images/ge_login_txtbox.png) bottom left repeat-x;
+	border: 1px solid #033985;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;*/
+}
+
+select {
+	/*background: #FFF url(../images/ge_login_txtbox.png) bottom left repeat-x;*/
+	border: 1px solid #c6c6c6;
+}
+
+.input_pad {
+	padding: 0px 10px 0px 10px;
+	vertical-align: middle;
+	text-align: left;
+}
+.input_pad input {
+	width: 95%;
+	height: 34px;
+	line-height: 34px;
+}
+
+.tiv_btn {
+	border: 0 none;
+	width: 440px;
+	height: 35px;
+	line-height: 35px;
+	font-size: 14px;
+	color: #ffffff;
+	font-weight: 600; 
+	background: url(../images/buttonEnabled_tiv.jpg) no-repeat center;
+}
+.tiv_btn:hover {
+	color:#ffffff;
+	background:url(../images/buttonHover_tiv.jpg) no-repeat center;
+}
+.errorText {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #CC0000;
+	padding-top: 2px;
+	padding-right: 2px;
+	padding-bottom: 2px;
+	padding-left: 2px;
+}
+.copyright	{
+	font-size: 0.8em;
+	padding-top: 3px;
+	text-align: center;
+}
+.enterUnZH {
+	background:url(../images/enterUnZH.jpg) no-repeat left center;
+}
+.enterUnEN {
+	background:url(../images/enterUnEN.jpg) no-repeat left center;
+}
+.enterPwZH {
+	background:url(../images/enterPwZH.jpg) no-repeat left center;
+}
+.enterPwEN {
+	background:url(../images/enterPwEN.jpg) no-repeat left center;
+}
+
+.system_title {
+	height: 75px; 
+	line-height: 75px; 
+	display: inline;
+	font-family: "微软雅黑", STHeiti, MingLiu; 
+	font-size: 30px; 
+	color: #01426c; 
+	font-weight: 600;
+	padding: 0px;
+	padding-left: 100px;
+	text-align: left;
+	background:url(../images/logo.png) no-repeat left center !important;
+	background:url(../images/logoie6.jpg) no-repeat left center;
+	
+}
+.focus{
+	color:#333;
+}
+.un{
+	color:#ccc;
+}
+.wait {
+	background: url(../images/gwwaitmark_loading.gif) no-repeat center;
+}

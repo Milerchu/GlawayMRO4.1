@@ -1,0 +1,14 @@
+E:\src> wsimport -keep -d . -p gwmro.client http://127.0.0.1:58000/gwmro/mroservice/plmTomro?wsdl
+
+
+E:\src> wsimport -keep -d . -p gwmro.client http://localhost:58000/com.sddq.mro.ErpToMroService?wsdl
+
+wsimport -keep -d . -p gwmro.client http://localhost:58000/gwmro/mroservice/erpTomro?wsdl
+
+wsimport -keep -d . -p gwmro.client http://mrotst.teg.cn:58000/gwmro/mroservice/erpTomro?wsdl
+
+
+wsimport -keep -d . -p gwmro.client.mro http://localhost:58000/gwmro/mroservice/ZfunerpTomro?wsdl
+
+WSDL2Java -uri document.wsdl -p mro.erp -o feedback 
+

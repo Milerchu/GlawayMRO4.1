@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
+
+  <bean id="dbProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location" value="classpath:jpo.properties" />
+    <!-- Allow other PropertyPlaceholderConfigurer to run as well -->
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+  </bean>
+    
+  <!-- 创建数据库的数据源  
+  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="driverClassName" value="${c3p0.driverClass}" />
+    <property name="url" value="${c3p0.jdbcUrl}" />
+    <property name="username" value="${c3p0.user}" />
+    <property name="password" value="${c3p0.password}" />
+    <property name="defaultAutoCommit" value="false" />
+  </bean> -->
+  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass" value="${c3p0.driverClass}" />
+    <property name="jdbcUrl" value="${c3p0.jdbcUrl}" />
+    <property name="user" value="${c3p0.user}" />
+    <property name="password" value="${c3p0.password}" />
+    <property name="initialPoolSize" value="${c3p0.initialPoolSize}" />
+    <property name="minPoolSize" value="${c3p0.minPoolSize}" />
+    <property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
+    <property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+    <property name="maxStatements" value="${c3p0.maxStatements}" />
+    <property name="acquireIncrement" value="${c3p0.acquireIncrement}" />
+    <property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttemts}" />
+    <property name="acquireRetryDelay" value="${c3p0.acquireRetryDelay}" />
+    <property name="testConnectionOnCheckin" value="${c3p0.testConnectionOnCheckin}" />
+    <property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}" />
+    <property name="checkoutTimeout" value="${c3p0.checkoutTimeout}" />
+    <property name="breakAfterAcquireFailure" value="${c3p0.breakAfterAcquireFailure}" />
+    <property name="preferredTestQuery" value="${c3p0.preferredTestQuery}" />
+  </bean>
+
+  <!-- 定义事务管理器，并注入数据源 -->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+  	<property name="dataSource" ref="dataSource" />
+  </bean>
+  
+  <!-- 定义基于Spring的引擎配置对象Bean -->
+  <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+  	<property name="dataSource" ref="dataSource" />
+  	<property name="transactionManager" ref="transactionManager" />
+  	<property name="databaseSchemaUpdate" value="true" />
+  	<property name="jobExecutorActivate" value="true" />
+    <property name="enableDatabaseEventLogging" value="true" />
+    <property name="customFormTypes">
+      <list>
+        <bean class="org.activiti.explorer.form.UserFormType"/>
+        <bean class="org.activiti.explorer.form.ProcessDefinitionFormType"/> 
+        <bean class="org.activiti.explorer.form.MonthFormType"/>   
+      </list>
+    </property>
+    
+     <!-- 生成流程图的字体 -->
+        <property name="activityFontName" value="宋体"/>
+        <property name="labelFontName" value="宋体"/>
+	
+ 	<property name="typedEventListeners">
+		<map>
+			<entry key="TASK_ASSIGNED,PROCESS_COMPLETED,ACTIVITY_STARTED">
+				<list>
+					<bean class="com.glaway.mro.app.system.workflow.listener.GlobalEventListeners"/>
+				</list>
+			</entry>
+		</map>
+	</property>
+	
+  </bean>
+  
+  <!-- 配置引擎工厂Bean -->
+  <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean" destroy-method="destroy">
+  	<property name="processEngineConfiguration" ref="processEngineConfiguration" />
+  </bean>
+  
+  <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" />
+  <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" />
+  <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" />
+  <bean id="formService" factory-bean="processEngine" factory-method="getFormService"/>
+  <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" />
+  <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" />
+  <bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService" />
+  
+  <bean id="activitiLoginHandler" class="org.activiti.explorer.ui.login.DefaultLoginHandler">
+    <property name="identityService" ref="identityService" />
+  </bean>
+
+
+  <!-- spring bean的获取工具类 -->
+  <bean id="springApp" class="com.glaway.mro.util.SpringAppUtil" />
+
+  <bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+		<property name="applicationContextSchedulerContextKey" value="applicationContext"/>
+         <!--指定QUARTZ配置文件-->
+		<property name="configLocation" value="classpath:quartz.properties"/>
+		<property name="autoStartup" value="true" />
+		<!--启动时更新己存在的Job，这样就不用每次修改targetObject后删除qrtz_job_details表对应记录了-->
+		<property name="overwriteExistingJobs" value="true"/>
+		
+		<!--必须的，QuartzScheduler 延时启动，应用启动完后 QuartzScheduler 再启动 -->
+		<property name="startupDelay" value="10" />
+  </bean>
+</beans>

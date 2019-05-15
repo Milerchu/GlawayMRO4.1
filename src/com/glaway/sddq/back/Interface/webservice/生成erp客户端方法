@@ -1,0 +1,3 @@
+1. 首先去apache 官网 下载axis2, 我下载的是axis2-1.5.6，将文件解压，然后配置win7系统的环境变量，新建AXIS2_HOME，并在变量值中输入axis2的路径“E:\axis2-1.5.6”
+2. 访问sap webservice地址，右键将其保存成xml文件，然后将后缀名改为.WSDL， 我的文件名为document.wsdl。将其放到axis2的bin目录下“E:\axis2-1.5.6\bin”
+3. 将WSDL文件生成本地代码。打开CMD，进入“C:\axis2-1.7.8\bin”，输入命令WSDL2Java -uri document.wsdl -p mro.sap -o feedback

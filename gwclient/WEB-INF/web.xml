@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<servlet>
+		<description>Glaway Mro Start servlet</description>
+		<display-name>Glaway Mro Start servlet</display-name>
+		<servlet-name>MroStartServlet</servlet-name>
+		<servlet-class>
+			com.glaway.mro.servlet.MroStartServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MroStartServlet</servlet-name>
+		<url-pattern>/servlet/MroStartServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>MroRequestServlet</servlet-name>
+		<servlet-class>
+			com.glaway.mro.servlet.MroRequestServlet
+		</servlet-class>
+		<init-param>
+			<param-name>char_encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MroRequestServlet</servlet-name>
+		<url-pattern>/mro/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>downloadattachments</servlet-name>
+		<servlet-class>
+			com.glaway.mro.servlet.DownloadRequestServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>downloadattachments</servlet-name>
+		<url-pattern>/downloadattachments/*</url-pattern>
+	</servlet-mapping>
+		<!--配置数据导出 -->
+	<servlet>
+		<servlet-name>ConfigDowmloadServlet</servlet-name>
+		<servlet-class>
+			com.glaway.mro.servlet.ConfigDowmloadServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ConfigDowmloadServlet</servlet-name>
+		<url-pattern>/configdowmload/*</url-pattern>
+	</servlet-mapping>
+	<!-- 文件预览 -->
+	<servlet>
+		<servlet-name>filePreview</servlet-name>
+		<servlet-class>
+			com.glaway.mro.servlet.FilePreviewRequestServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>filePreview</servlet-name>
+		<url-pattern>/filePreview/*</url-pattern>
+	</servlet-mapping>
+		<!-- 导出更新包-->
+	<servlet>
+		<servlet-name>DownloadPatchServlrt</servlet-name>
+		<servlet-class> 
+			com.glaway.mro.servlet.DownloadPatchServlrt</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadPatchServlrt</servlet-name>
+		<url-pattern>/downloadPatch/*</url-pattern>
+	</servlet-mapping>
+	
+		<!-- 单点登录 -->
+	<servlet>
+		<servlet-name>HandleLoginRequestServlet</servlet-name>
+		<servlet-class> 
+			com.glaway.mro.servlet.HandleLoginRequestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HandleLoginRequestServlet</servlet-name>
+		<url-pattern>/mrosso/*</url-pattern>
+	</servlet-mapping>
+	<!-- 单点登录 -->
+	
+	<!-- 模板下载 -->
+	<servlet>
+		<servlet-name>downloadTmpRequestServlet</servlet-name>
+		<servlet-class>
+			com.glaway.mro.servlet.DownloadTmpRequestServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+			<servlet-name>downloadTmpRequestServlet</servlet-name>
+			<url-pattern>/downloadtmp</url-pattern>
+	</servlet-mapping>
+	
+	
+	<!-- 显示图片 -->
+	<servlet>
+  		<servlet-name>recordimageservlet</servlet-name>
+  		<servlet-class>com.glaway.mro.servlet.RecordImageServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+  		<servlet-name>recordimageservlet</servlet-name>
+  		<url-pattern>/recordimage/*</url-pattern>
+ 	</servlet-mapping>
+	 	
+	<servlet>
+		<servlet-name>CheckDeafaultLangServlet</servlet-name>
+		<servlet-class>
+			com.glaway.mro.servlet.CheckDeafaultLangServlet
+		</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+  		<servlet-name>CheckDeafaultLangServlet</servlet-name>
+  		<url-pattern>/cdfl/*</url-pattern>
+ 	</servlet-mapping>
+ 	
+ 	<servlet>
+		<servlet-name>FileUploadProgressServlet</servlet-name>
+		<servlet-class>
+			com.glaway.mro.servlet.FileUploadProgressServlet
+		</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+  		<servlet-name>FileUploadProgressServlet</servlet-name>
+  		<url-pattern>/fps/*</url-pattern>
+ 	</servlet-mapping>
+ 	
+ 	<servlet>
+		<servlet-name>FileDownloadProgressServlet</servlet-name>
+		<servlet-class>
+			com.glaway.mro.servlet.FileDownloadProgressServlet
+		</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+  		<servlet-name>FileDownloadProgressServlet</servlet-name>
+  		<url-pattern>/fdps/*</url-pattern>
+ 	</servlet-mapping>
+ 	
+ 	<servlet>
+		<servlet-name>LangPackageExpServlet</servlet-name>
+		<servlet-class>
+			com.glaway.mro.servlet.LangPackageExpServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+	    <servlet-name>LangPackageExpServlet</servlet-name>
+	    <url-pattern>/lpes/*</url-pattern>
+	</servlet-mapping>
+	<!-- gis -->
+ 	<servlet>
+		<servlet-name>GisServlet</servlet-name>
+ 		<servlet-class>com.glaway.mro.servlet.GisServlet</servlet-class>
+ 	</servlet>
+	<servlet-mapping>
+ 		<servlet-name>GisServlet</servlet-name>
+ 		<url-pattern>/gis/*</url-pattern>
+ 	</servlet-mapping>
+
+	<!-- 工作流start -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>RestletServlet</servlet-name>
+		<servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+		<init-param>
+			<!-- Application class name -->
+			<param-name>org.restlet.application</param-name>
+			<param-value>com.glaway.mro.app.system.workflow.activiti.ExplorerRestApplication</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RestletServlet</servlet-name>
+		<url-pattern>/mservice/*</url-pattern>
+	</servlet-mapping>
+	
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 工作流end -->
+	<!-- webService -->
+ 	<!-- 访问权限控制 下 -->
+ 	<security-role>
+ 		<description>webservice usergroup</description>
+ 		<role-name>mrosddq</role-name>
+ 	</security-role>
+ 	<security-constraint>
+ 		<web-resource-collection>
+ 			<web-resource-name>mro group</web-resource-name>
+ 			<url-pattern>/mroservice/*</url-pattern>
+ 		</web-resource-collection>
+ 		<auth-constraint>
+ 			<role-name>mrosddq</role-name>
+ 		</auth-constraint>
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint> 	
+ 	</security-constraint>
+ 	<login-config><auth-method>BASIC</auth-method></login-config>
+ 	<!-- 访问权限控制 上-->
+	
+    <servlet>
+        <servlet-name>JerseyService</servlet-name>
+        <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>com.glaway.sddq.back.Interface.webservice.bigdata</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+    </servlet>
+	<servlet>
+		<servlet-name>MobileService</servlet-name>
+		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>com.glaway.sddq.back.Interface.webservice.mobile</param-value>
+		</init-param>
+	
+	<load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>JerseyService</servlet-name>
+        <url-pattern>/mroservice/rest/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>MobileService</servlet-name>
+        <url-pattern>/mobile/*</url-pattern>
+    </servlet-mapping>
+    
+	<listener>  
+        <listener-class>
+            com.sun.xml.ws.transport.http.servlet.WSServletContextListener  
+        </listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>MroService</servlet-name>  
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet  
+        </servlet-class>
+    </servlet>  
+    <servlet-mapping>  
+        <servlet-name>MroService</servlet-name>  
+        <url-pattern>/mroservice/*</url-pattern>  
+    </servlet-mapping>
+	
+  	<servlet>
+    	<servlet-name>MroReportServlet</servlet-name>
+    	<servlet-class>com.glaway.mro.servlet.MroReportServlet</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+    	<servlet-name>MroReportServlet</servlet-name>
+    	<url-pattern>/report/*</url-pattern>
+  	</servlet-mapping>
+
+
+	<servlet>
+    	<servlet-name>RemoteService</servlet-name>
+    	<servlet-class>com.caucho.hessian.server.HessianServlet</servlet-class>
+    	<init-param>
+      		<param-name>home-class</param-name>
+      		<param-value>com.glaway.mro.remote.hessian.imp.RemoteService</param-value>
+    	</init-param>
+    	<init-param>
+      		<param-name>home-api</param-name>
+      		<param-value>com.glaway.mro.remote.hessian.IRemoteService</param-value>
+    	</init-param>
+  	</servlet>
+  <servlet>
+    <servlet-name>GetparamsServlet</servlet-name>
+    <servlet-class>com.glaway.mro.servlet.GetparamsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CacheInfoGetter</servlet-name>
+    <servlet-class>com.glaway.mro.servlet.CacheInfoGetter</servlet-class>
+  </servlet>
+
+
+  	<servlet-mapping>
+    	<servlet-name>RemoteService</servlet-name>
+    	<url-pattern>/RemoteService</url-pattern>
+  	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetparamsServlet</servlet-name>
+    <url-pattern>/GetparamsServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CacheInfoGetter</servlet-name>
+    <url-pattern>/servlet/cacheInfo</url-pattern>
+  </servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<listener>     
+		<listener-class>
+			com.glaway.license.ProjectContextListener
+		</listener-class>
+	</listener>
+	
+	<listener>     
+		<listener-class>
+			com.glaway.mro.system.session.MroSessionListener
+		</listener-class>
+	</listener>
+
+	<!-- 项目配置路径 --> 
+  	<context-param> 
+     	<param-name>projectConfigure</param-name> 
+     	<param-value>/WEB-INF/configure.properties</param-value> 
+  	</context-param>
+  	<context-param> 
+     	<param-name>serverType</param-name> 
+     	<param-value>TOMCAT</param-value> 
+  	</context-param>
+	<context-param> 
+     	<param-name>sessionTimeout</param-name> 
+     	<param-value>60</param-value> 
+  	</context-param>
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+</web-app>

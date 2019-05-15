@@ -1,0 +1,32 @@
+@charset "utf-8";
+.dropdown {outline:none;display:inline-block;*display:inline;}
+.dropdown h4{cursor:default; margin:0; padding:0;overflow:hidden;display:inline-block;}
+.dropdown * {-moz-user-select:none;}
+.dropdown h4.over {}
+.dropdown div {display:block; /*fix bug*/}
+.dropdown ul{position:absolute;overflow:auto;display:none;margin:0;padding:0;float:left;clear:both;}
+.dropdown ul li{text-indent:5px;margin:0;padding:0;list-style:none;display:block;cursor:default;}
+.dropdown ul li.over{}
+.dropselectbox {display:inline;}
+/* write you style here */
+//.dropselectbox {background:#DDD url(../images/selectBg.png) repeat-x left top;}
+
+.dropdown h4{height:21px; font:12px/21px Arial, Helvetica, sans-serif; border:solid 1px #AAA;}
+.dropdown h4.over{border-color:#369;}
+.dropdown h4.current{border-color:#003;}
+
+.dropdown h4.disable{border:#d5d5d8 1px solid;color:#d5d5d8}
+
+.dropdown h5{cursor:default; float:right;height:100%; width:12px;margin:0; padding:0;overflow:hidden;display:inline-block;}
+.dropdown h5{background:url(../images/droparrow.gif) no-repeat right center;}
+.dropdown h5.over{background:url(../images/droparrowover.gif) no-repeat right center;}
+.dropdown h4.disable h5{background:url(../images/droparrowDisable.gif) no-repeat right center;}
+
+.dropdown ul{border:1px solid #AAA; background:#FFF;}
+.dropdown ul li{background:#FFF;font:400 12px/19px Arial, Helvetica, sans-serif;}
+.dropdown ul li.over{background:#D0E5F5; color:#000;}
+.dropdown ul li.selectedli{background:#f7f3c4; color:#000;}
+
+.dropdown h4 span{
+	float:left;margin:0; padding:0;width:20px;display:inline-block;overflow:hidden;height:100%;
+}

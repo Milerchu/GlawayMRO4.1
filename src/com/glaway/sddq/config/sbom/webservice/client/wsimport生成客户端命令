@@ -1,0 +1,1 @@
+E:\src> wsimport -keep -d . -p gwmro.client http://127.0.0.1:58000/gwmro/mroservice/plmTomro?wsdl

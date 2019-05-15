@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="SDDQ4.1"
+  id="myeclipse.1447637179706"
+  context-root="/gwmro"
+  j2ee-spec="1.4"
+  archive="SDDQ4.1.war">
+  <attributes>
+    <attribute name="webrootdir" value="gwclient" />
+  </attributes>
+</project-module>
+

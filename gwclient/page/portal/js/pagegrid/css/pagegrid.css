@@ -1,0 +1,288 @@
+/* for ie 6 */
+td, td input {
+	font-family: "宋体"; 
+	font-size:12px;
+}
+
+.pagegrid {
+
+}
+
+/* 表格顶部td外围样式 */
+.hbouter {
+	padding: 0px;
+	width:100%;
+}
+/* 表格底部td外围样式 */
+.fbouter {
+	border-bottom: 1px solid #dcdcdc; 
+	border-left: 1px solid #dcdcdc;
+	border-right: 1px solid #dcdcdc;
+}
+/* 表格顶部标题左侧圆角 */
+.pagegrid .h_l {
+	background-image:url(images/table_toolbar_lcap.jpg);/*background-image:url(../images/table_toolbar_lcap.gif); for extend */
+	background-repeat:no-repeat;
+	background-position: center left; /* background-position: top left; for extend */
+	height:29px;
+	width: 3px;
+	border-bottom: 1px solid #dcdcdc;  /* border-bottom: 1px solid #aaaaaa; for extend */
+	white-space: nowrap;
+}
+/* 表格顶部标题右侧圆角 */
+.pagegrid .h_r {
+	background-image:url(images/table_toolbar_rcap.jpg);/*background-image:url(../images/table_toolbar_lcap.gif); for extend */
+	background-repeat:no-repeat;
+	background-position: center left; /* background-position: top left; for extend */
+	height:29px;
+	width: 3px;
+	border-bottom: 1px solid #dcdcdc;  /* border-bottom: 1px solid #aaaaaa; for extend */
+	white-space: nowrap;
+}
+/* 表格head的td样式 */
+.pagegrid .h_c{
+	background: url(images/table_toolbar_bkg.jpg) top repeat-x; 
+	padding: 0 2px 0 0;
+	border: 0 null;
+	border-bottom: 1px solid #dcdcdc; /* border-bottom: 1px solid #aaaaaa; for extend */
+	text-align: left;
+	white-space: nowrap;
+	height: 29px;
+	vertical-align: middle;
+}
+/* 表格head的border样式 */
+.pagegrid .thb {
+	border-bottom: 1px solid #dcdcdc;
+}
+/* 表格head的border样式 */
+.pagegrid .hbsh{
+	height:29px;
+}
+/* 表格head的操作隔离按钮样式 */
+.pagegrid .h_divid {
+	width: 20px;
+	height: 25px;
+	padding-right: 20px;
+	background: url(images/tablebtn_divider.gif) center no-repeat; 
+}
+
+/* 文字样式 */
+.text { 
+	font-family: "宋体"; 
+	font-size:12px;
+}
+
+
+/* BEGIN table */
+	/* tableRowDeleted */
+	.pagegrid .trd {
+		background: transparent;
+	}
+
+	.pagegrid .tablerow {
+		height: 30px;
+	}
+
+	.pagegrid .treven {
+		background: #f2f2f2; /* background: #f2f2f2; */
+	}
+
+	.pagegrid .trodd {
+		background: #ffffff;
+	}
+	
+	.pagegrid tr.trhover:hover {
+		background: #fde9d2;
+	}
+	
+	.pagegrid .trselect {
+		background: #c1e1f5;
+	}
+
+	.pagegrid .trdr {
+		background-image: url(images/strike.gif);
+		background-position: center left;
+		background-repeat: repeat-x;
+	}
+
+	.pagegrid .table {
+		margin-top:0px;
+		margin-bottom:5px;
+		border:1px solid #cdcdcd;
+		border-right:0 none;
+		width:100%;
+	}
+
+	/* toggleselectrows */
+	.pagegrid .tsrs {
+		background-image: url(images/table_footbar_bkg.jpg);
+		background-repeat: repeat-x;
+		font-size:11px;
+		vertical-align: middle;
+		padding-left:4px;
+		border-right: 1px solid #cdcdcd;
+	}
+
+	.pagegrid .tsrsa {
+		font-size:11px;
+		vertical-align: middle;
+		padding-left:4px;
+	}
+
+	/* norowmessage */
+	.pagegrid .nrm {
+		text-align:center;
+		font-weight:normal;
+		color:#AA8E72;
+		padding-top:10px;
+	}
+	
+    .pagegrid .bg_gray {
+    	color:#446191;
+    	background-color:#EDEDED;
+    	font-weight:bold;
+    }
+    
+    /* tablecell */
+	.pagegrid .tc {
+		padding:0px;
+		padding-left:1px;
+		border-right:1px solid #cdcdcd;
+		border-bottom:1px solid #cdcdcd;
+		height:26px;
+		text-decoration: none;
+		text-align: left;
+		font-family: "宋体"; 
+		font-size:12px;
+	}
+
+	/* tablebody */
+	.pagegrid .tbod {
+		width:100%;
+		padding: 1px 0 0 0;
+	}
+	.pagegrid .tbod_tb {
+		width:100%;
+		border-top:1px solid #cdcdcd;
+		border-left:1px solid #cdcdcd;		
+	} 
+	/* tablecol */
+	.pagegrid .tcol {
+		padding:0px;
+		padding-left:2px;
+		padding-right:2px;
+		background:#FFFFFF;
+		border-bottom:1px solid #aaaaaa;
+	}
+
+	.pagegrid .tcolmulti {
+		padding:0px;
+		padding-left:2px;
+		border-bottom:0px solid #999999;
+	}
+
+	.pagegrid .numdat {
+		padding-right:10px;
+		border:1px solid red;
+	}
+
+	/* tabletitle */
+	.pagegrid .ttit {
+		color:#238fcd;
+		font-weight:bold;
+		font-size:12px;
+		top:0px;
+		margin-left: 7px;
+	}
+	/* tabletitlerow */
+	.pagegrid .ttitr {
+		background-image: url(images/table_columnHeader_bkg.jpg);
+		background-repeat: repeat-x;
+		ackground-position: center;
+		height: 30px;
+	}
+	/* 基本信息查询过滤行样式 */
+	.pagegrid .filter {
+		background-image: none;
+		background-color: #ffffff;
+	}
+	
+	/* tableheadertext */
+	.pagegrid .tht {
+		font-weight: normal;
+		margin:0px;
+		margin-left:0px;
+		margin-right:5px;
+		padding-left:2px;
+		color:#003366;
+		font-size:11px;
+	}
+	/* tabledetails */
+	.pagegrid .td {
+		border:1px solid #aaaaaa;
+		border-top: 0px;
+	}
+
+
+	/* header_col_name_sortable */
+    .hcns {
+     	font-weight:normal;
+        text-decoration:underline;
+        padding-left:5px;
+    }
+    
+    
+    /* tfoot */
+    .tftd {
+    	text-align: right; 
+    }
+    
+    .tsrs {
+		background-image: url(images/table_footbar_bkg.jpg) center repeat-x;
+		font-size:11px;
+		height: 29px;
+		vertical-align: middle;
+		valign: middle;
+		padding-left:10px;
+		border-right: 0 none;
+	}
+
+/* END table */
+
+
+/* pagination start */	
+	.pagemsg {
+		margin-left:5px;
+		font-family: "宋体"; 
+		font-size:12px;
+	}
+	.firstpage {
+		width: 23px;
+		height: 22px;
+		cursor: pointer;
+		border: #FFFFFF;
+		background-image: url(images/sharp/tostart.png);
+	}
+	.touppage {
+		width: 23px;
+		height: 22px;
+		cursor: pointer;
+		border: #FFFFFF;
+		background-image: url(images/sharp/backward.png)
+	}
+	.todownpage {
+		width: 23px;
+		height: 22px;
+		cursor: pointer;
+		border: #FFFFFF;
+		background-image: url(images/sharp/foward.png)
+	}
+	.lastpage {
+		width: 23px;
+		height: 22px;
+		cursor: pointer;
+		border: #FFFFFF;
+		background-image: url(images/sharp/toend.png);
+	}
+
+/* pagination end */

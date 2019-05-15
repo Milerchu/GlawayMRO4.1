@@ -1,0 +1,160 @@
+.icon-blank{
+	background:url('icons/blank.gif') no-repeat center center;
+}
+.icon-add{
+	background:url('icons/edit_add.png') no-repeat center center;
+}
+.icon-edit{
+	background:url('icons/pencil.png') no-repeat center center;
+}
+.icon-remove{
+	background:url('icons/edit_remove.png') no-repeat center center;
+}
+.icon-save{
+	background:url('icons/filesave.png') no-repeat center center;
+}
+.icon-cut{
+	background:url('icons/cut.png') no-repeat center center;
+}
+.icon-ok{
+	background:url('icons/ok.png') no-repeat center center;
+}
+.icon-no{
+	background:url('icons/no.png') no-repeat center center;
+}
+.icon-cancel{
+	background:url('icons/cancel.png') no-repeat center center;
+}
+.icon-reload{
+	background:url('icons/reload.png') no-repeat center center;
+}
+.icon-search{
+	background:url('icons/search.png') no-repeat center center;
+}
+.icon-print{
+	background:url('icons/print.png') no-repeat center center;
+}
+.icon-help{
+	background:url('icons/help.png') no-repeat center center;
+}
+.icon-undo{
+	background:url('icons/undo.png') no-repeat center center;
+}
+.icon-redo{
+	background:url('icons/redo.png') no-repeat center center;
+}
+.icon-back{
+	background:url('icons/back.png') no-repeat center center;
+}
+.icon-sum{
+	background:url('icons/sum.png') no-repeat center center;
+}
+.icon-tip{
+	background:url('icons/tip.png') no-repeat center center;
+}
+
+.icon-mini-add{
+	background:url('icons/mini_add.png') no-repeat center center;
+}
+.icon-mini-edit{
+	background:url('icons/mini_edit.png') no-repeat center center;
+}
+.icon-mini-refresh{
+	background:url('icons/mini_refresh.png') no-repeat center center;
+}
+
+
+.icon-memeber{
+	background:url('icons/memeber.gif') no-repeat center center;
+}
+.icon-role{
+	background:url('icons/role.gif') no-repeat center center;
+}
+.icon-attibutes{
+	background:url('icons/attibutes.gif') no-repeat center center;
+}
+.icon-communication{
+	background:url('icons/communication.gif') no-repeat center center;
+}
+.icon-sys{
+	background:url('icons/mainManu/sys.gif') no-repeat center center;
+}
+.icon-base{
+	background:url('icons/mainManu/base.gif') no-repeat center center;
+}
+.icon-use{
+	background:url('icons/mainManu/use.gif') no-repeat center center;
+}
+.icon-repair{
+	background:url('icons/mainManu/repair.gif') no-repeat center center;
+}
+.icon-zbyx{
+	background:url('icons/mainManu/zbyx.gif') no-repeat center center;
+}
+
+.icon-zbyx1{
+	background:url('icons/mainManu/zbyx.png') no-repeat center center;
+}
+
+.icon-company{
+	background:url('icons/mainManu/company.gif') no-repeat center center;
+}
+.icon-report{
+	background:url('icons/mainManu/report.gif') no-repeat center center;
+}
+.icon-importDat{
+	background:url('icons/mainManu/importDat.png') no-repeat center center;
+}
+.icon-upload{
+	background:url('icons/mainManu/upload.png') no-repeat center center;
+}
+.icon-download{
+	background:url('icons/mainManu/download.png') no-repeat center center;
+}
+.icon-perview{
+	background:url('icons/mainManu/perview.png') no-repeat center center;
+}
+.icon-ladar{
+	background:url('icons/mainManu/ladar.png') no-repeat center center;
+}
+.icon-spare{
+	background:url('icons/mainManu/spare.png') no-repeat center center;
+}
+.icon-parts{
+	background:url('icons/mainManu/parts.png') no-repeat center center;
+}
+.icon-intoStoreApply{
+	background:url('icons/mainManu/intoStoreApply.png') no-repeat center center;
+}
+.icon-outStoreApply{
+	background:url('icons/mainManu/outStoreApply.png') no-repeat center center;
+}
+.icon-backStoreApply{
+	background:url('icons/mainManu/backStoreApply.png') no-repeat center center;
+}
+.icon-rejectApply{
+	background:url('icons/mainManu/rejectApply.png') no-repeat center center;
+}
+.icon-detail{
+	background:url('icons/mainManu/detail.png') no-repeat center center;
+}
+.icon-rpApply{
+	background:url('icons/mainManu/rpApply.png') no-repeat center center;
+}
+.icon-red{
+	background:url('icons/mainManu/red.png') no-repeat center center;
+}
+.icon-blue{
+	background:url('icons/mainManu/blue.png') no-repeat center center;
+}
+.icon-green{
+	background:url('icons/mainManu/green.png') no-repeat center center;
+}
+.icon-yellow{
+	background:url('icons/mainManu/yellow.png') no-repeat center center;
+}
+
+.icon-dept{
+	background:url('icons/mainManu/deptlog.gif') no-repeat center center;
+}
+

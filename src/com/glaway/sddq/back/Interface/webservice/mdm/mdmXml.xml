@@ -1,0 +1,44 @@
+<crrc-objects>
+<object>
+    <personBaseInfo>
+      <emp_id>13762560169356</emp_id>
+      <emp_code>001122</emp_code>
+      <empname>李测试</empname>
+      <nation>汉</nation>
+      <gender>男</gender>
+      <emp_type1>A</emp_type1>
+      <emp_type2>1</emp_type2>
+      <hireinfo>1-1</hireinfo>
+      <status>2</status>
+      <emp_stat>1</emp_stat>
+      <work_tel>28892821</work_tel>
+      <mobile>186733336888</mobile>
+      <emp_mail>yinzzx@teg.cn</emp_mail>
+    </personBaseInfo>
+  </object>  
+ 
+    <object>
+        <personOrgList>
+            <personOrgInfo>
+                <empjob_id>2-75325050376</empjob_id>
+                <emp_id>13762560169356</emp_id>
+                <emp_code>001122</emp_code>
+                <comp_id>13762565952835</comp_id>
+                <depa_id>75301104636</depa_id>
+                <depa_code>01061700</depa_code>
+                <depa_name>中车时代电气售后服务中心重庆办事处</depa_name>
+                <job_id>75325050375</job_id>
+                <job_code>010617000004</job_code>
+                <job_name>服务工程师</job_name>
+                <is_prim>0</is_prim>
+                <star_date>2018-08-01</star_date>
+                <end_date></end_date>
+                <pri_stat>1</pri_stat>
+                <data_source></data_source>
+                <del_code></del_code>
+            </personOrgInfo>
+        </personOrgList>
+    </object>
+
+  
+</crrc-objects>

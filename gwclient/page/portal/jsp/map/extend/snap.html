@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="snap.css" />
+	<script type="text/javascript" src="jquery-1.7.2.js"></script>
+    
+    <script>
+		var TIP_X_HOLD = false;
+		$(function() {
+			initTip();
+			$(".target").each(function() {
+				$(this).bind("mousemove", function() {
+					showTip($(this), $("#tip_x"));
+				});
+				$(this).bind("mouseout", function() {
+					hideTip();
+				});
+				$(this).bind("mousedown", function() {
+					TIP_X_HOLD = true;
+					showTip($(this), $("#tip_x"));
+				});
+			});
+		})
+		function initTip() {
+			$("#tip_x").hide();
+		}
+
+		function showTip($target, $tip) {
+			var cW = $target.parent().width();
+			var cH = $target.parent().height();
+			var cT = $target.parent().offset().top;
+			var cL = $target.parent().offset().left;
+			
+			var tT = $target.position().top;
+			var tL = $target.position().left;
+			var tW = $target.width();
+			var tH = $target.height();
+			
+			var tipW = $tip.find("table.content").width();
+			var tipH = $tip.find("table.content").height();
+			if((tL + tW/2.0) <= (cW/2.0)) {
+				$tip.offset({ top: (cT + tT + tH/2.0 - tipH/2.0), left: (cL + tL + tW + 15) });
+				$("#tipPointer").removeClass().addClass("pointer_w");
+				$tip.find("#tipPointer").offset({ top: (cT + tT + tH/2.0 - 6.5), left: (cL + tL + tW) });
+			} else {
+				$tip.offset({ top: (cT + tT + tH/2.0 - tipH/2.0), left: (cL + tL - 315) });
+				$("#tipPointer").removeClass().addClass("pointer_e");
+				$tip.find("#tipPointer").offset({ top: (cT + tT + tH/2.0 - 6), left: (cL + tL -15) });
+			}
+			$tip.show();
+		}
+
+		function hideTip() {
+			if(!TIP_X_HOLD) {
+				$("#tip_x").hide();
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class="target" style="position:absolute; top:100px; left:100px; width:15px; height:24px; border:1px solid blue;"></div>
+	<div class="target" style="position:absolute; top:300px; left:300px; width:15px; height:24px; border:1px solid blue;"></div>
+	<div class="target" style="position:absolute; top:800px; left:800px; width:15px; height:24px; border:1px solid blue;"></div>
+    
+	<div class="target" style="position:absolute; top:800px; left:1300px; width:15px; height:24px; border:1px solid blue;"></div>
+	<div class="target" style="position:absolute; top:300px; left:800px; width:15px; height:24px; border:1px solid blue;"></div>
+	<div class="target" style="position:absolute; top:100px; left:600px; width:15px; height:24px; border:1px solid blue;"></div>
+
+	<div class="tip_x" id="tip_x">
+		<table class="content">
+			<tr class="tr_t">
+				<td class="tr_t_c">
+					<table>
+                    	<tr>
+                        	<td class="tr_t_tdl"></td>
+                            <td class="tr_t_tdc" style="width:257px;">
+                            	<div id="tipTitle">兰州军区</div>
+                            </td>
+                            <td width="100%"></td>
+                            <td class="tr_t_tdb">
+                            	<a href="javascript:void(0)" class="tip_b_max" onfocus="this.blur();"><img src="images/tip_b_max.png" /></a>
+                            	<a href="javascript:void(0)" class="tip_b_close" onfocus="this.blur();"><img src="images/tip_b_close.png" /></a>
+                            </td>
+                            <td class="tr_t_tdr"></td>
+                        </tr>
+                    </table>
+				</td>
+			</tr>
+            <tr class="tr_c">
+            	<td class="tr_c_c" id="tipContent">
+                	<div>当前位置共有2个正在进行的外出任务，有6人在执行这些任务。</div>
+                </td>
+            </tr>
+			<tr class="tr_b">
+				<td class="tr_b_c">
+					<table>
+                    	<tr>
+                        	<td class="tr_b_tdl"></td>
+                            <td class="tr_b_tdc"></td>
+                            <td class="tr_b_tdr"></td>
+                        </tr>
+                    </table>
+				</td>
+			</tr>
+		</table>
+        <div class="pointer_w" id="tipPointer"></div>
+	</div>
+</body>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
+	version="2.0">
+	<endpoint name="PlmToMroService"
+		implementation="com.glaway.sddq.back.Interface.webservice.plm.PlmToMroServiceImp"
+		url-pattern="/mroservice/plmTomro"/>
+		
+	<endpoint name="ErpToMroService"
+		implementation="com.glaway.sddq.back.Interface.webservice.erp.ZfunErpToMroServiceImp"
+		url-pattern="/mroservice/ZfunerpTomro"/>
+		
+	<endpoint name="MdmToMroService"
+		implementation="com.glaway.sddq.back.Interface.webservice.mdm.MdmToMroServiceImp"
+		url-pattern="/mroservice/mdmTomro"/>
+		
+	<endpoint name="QmsToMroService"
+		implementation="com.glaway.sddq.back.Interface.webservice.qms.QmsToMroServiceImp"
+		url-pattern="/mroservice/qmsTomro"/>
+		
+</endpoints>

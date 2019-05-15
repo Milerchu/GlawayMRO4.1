@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Jul 2, 2013 4:49:28 PM                                                        
+
+     mro4.0    
+     综合保障平台
+                   
+     qhsong                                                                
+     ====================================================================== -->
+<project name="mro4.0" default="rmic">
+    <description>
+            综合保障平台
+    </description>
+
+    <!-- ================================= 
+          target: rmic              
+         ================================= -->
+    <target name="rmicall" description="综合保障平台">
+        <rmic base="${basedir}/gwclient/WEB-INF/classes" destdir="${basedir}/gwclient/WEB-INF/classes" excludes="*_Stub.class" />
+    </target>
+	<target name="rmic" description="综合保障平台">
+	    <rmic base="${basedir}/gwclient/WEB-INF/classes" verify="true">
+	    	<classpath path="${basedir}/gwclient/WEB-INF/classes"/>    
+	    	<classpath path="${basedir}/gwclient/WEB-INF/lib"/>
+	    	<include name="com/glaway/mro/system/MroServer.class"/>
+	    </rmic>
+		<echo>${basedir}目录RMIC编译完成</echo>
+	</target>
+</project>

@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>jQuery Select(单选) 模拟插件 V1.3.6</title>
+		<style type="text/css">
+h2 {
+	font: 900 12px/ 1.6 Arial, Helvetica, sans-serif;
+}
+</style>
+		<link href="selectStyle.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="jquery132.js"></script>
+		<script type="text/javascript" src="jquery.select-1.3.6.js"></script>
+		<script type="text/javascript">
+$(document).ready(function(){
+	$("select").sSelect({});
+	//提交表单
+	$("#postform").click(function(){
+		if ($("select[name=birthday]").val() == ''){
+			alert ('未选择出生年份');
+			return false;
+		}else if ($("select[name=money]").val() == ''){
+			alert ('未选择收入');
+			return false;
+		}else{
+			$("#value")
+			.empty()
+			.append("<b>出生年份:</b>"+$("select[name=birthday]").val()+"<br />")
+			.append("<b>学历:</b>"+$("select[name=student]").val()+"<br />");
+		}
+	});
+	$('#city').change(function(){
+		var getVal = $('#city option:selected').val();
+		if(getVal == 'bj'){
+			$('#area').empty().append('<option val="cy">朝阳区</option><option val="hd">海淀区</option><option val="ft">丰台区</option>');
+		}else if(getVal == 'tj'){
+			$('#area').empty().append('<option val="bh">滨海新区</option><option val="hp">和平区</option><option val="tg">塘沽区</option>');
+		}
+		$('#area').show().sSelect();
+	});
+	$("#postform2").click(function(){
+			if ($("select[name=city]").val() == ''){
+				alert ('请选择城市');
+				return false;
+			}else if($("select[name=area]").val() == ''){
+				alert ('请选择城区');
+				return false;
+			}
+			$("#value")
+			.empty()
+			.append("<b>城市:</b>"+$("select[name=city] option:selected").html()+"<br />")
+			.append("<b>城区:</b>"+$("select[name=area] option:selected").html()+"<br />");
+	});
+	$('#city1').change(function(){
+		var getVal = $('#city1 option:selected').val();
+		if(getVal == 'bj'){
+			$('#area1').empty().append('<option val="cy">朝阳区</option><option val="hd">海淀区</option><option val="ft">丰台区</option>');
+		}else if(getVal == 'tj'){
+			$('#area1').empty().append('<option val="bh">滨海新区</option><option val="hp">和平区</option><option val="tg">塘沽区</option>');
+		}
+		$('#area1').sSelect();
+	});
+	$("#postform3").click(function(){
+			if ($("select[name=city1]").val() == ''){
+				alert ('请选择城市');
+				return false;
+			}else if($("select[name=area1]").val() == ''){
+				alert ('请选择城区');
+				return false;
+			}
+			$("#value")
+			.empty()
+			.append("<b>城市:</b>"+$("select[name=city1] option:selected").html()+"<br />")
+			.append("<b>城区:</b>"+$("select[name=area1] option:selected").html()+"<br />");
+	});
+})
+</script>
+	</head>
+	<body>
+		<h1>
+			jQuery Select(单选) 模拟插件 V1.3.6
+		</h1>
+		<div style="float: left;">
+			<h2>
+				模拟示例
+			</h2>
+			<form action="#" method="get" style="margin: 10px;" id="test">
+				<select name="birthday" onchange="//alert('change');">
+					<option value="">
+						请选择出生年份
+					</option>
+					<option value="1980">
+						1980
+					</option>
+					<option value="1981">
+						1981
+					</option>
+					<option value="1982">
+						1982
+					</option>
+					<option value="1983">
+						1983
+					</option>
+					<option value="1984">
+						1984
+					</option>
+					<option value="1985">
+						1985
+					</option>
+					<option value="1986">
+						1986
+					</option>
+					<option value="1987">
+						1987
+					</option>
+					<option value="1988">
+						1988
+					</option>
+					<option value="1989">
+						1989
+					</option>
+				</select>
+				<br />
+				<br />
+				<select name="student">
+					<option value="">
+						请选择学历
+					</option>
+					<option value="大专">
+						大专
+					</option>
+					<option value="本科">
+						本科
+					</option>
+					<option value="硕士">
+						硕士
+					</option>
+				</select>
+				<input type="button" id="postform" value="提交表单"
+					style="border: 1px solid #000; width: auto; height: 23px; margin-left: 20px;" />
+			</form>
+		</div>
+		<div style="float: left;">
+			<h2>
+				联动菜单示例
+			</h2>
+			<select name="city" id="city">
+				<option value="">
+					请选择城市
+				</option>
+				<option value="bj">
+					北京市
+				</option>
+				<option value="tj">
+					天津市
+				</option>
+			</select>
+			<select name="area" id="area" style="display: none;">
+				<option value="">
+					请选择城区
+				</option>
+			</select>
+			<input type="button" id="postform2" value="提交表单"
+				style="border: 1px solid #000; width: auto; height: 23px; margin-left: 20px;" />
+			<br />
+			<br />
+			<select name="city1" id="city1">
+				<option value="">
+					请选择城市
+				</option>
+				<option value="bj">
+					北京市
+				</option>
+				<option value="tj">
+					天津市
+				</option>
+			</select>
+			<select name="area1" id="area1">
+				<option value="">
+					请选择城区
+				</option>
+			</select>
+			<input type="button" id="postform3" value="提交表单"
+				style="border: 1px solid #000; width: auto; height: 23px; margin-left: 20px;" />
+		</div>
+		<div id="value" style="margin: 0 10px; clear: both;"></div>
+		<div
+			style="margin: 10px; font: 12px/ 1.6 Arial, Helvetica, sans-serif;">
+			<fieldset style="padding: 10px;">
+				<legend>
+					<strong>插件下载</strong>
+				</legend>
+				<h3
+					style="margin: 0; padding: 0; font: 900 14px/ 1.6 Arial, Helvetica, sans-serif;">
+					<a href="jQuery.Select.zip">点此链接下载Jquery Select(单选) 模拟插件 V1.3.6</a>
+				</h3>
+			</fieldset>
+			<fieldset style="padding: 10px;">
+				<legend>
+					<strong>简介</strong>
+				</legend>
+				1、根据原有的select 模拟生成新的 select。
+				<br />
+				2、支持键盘，可通过键盘选择选项。
+				<br />
+				3、可自定义样式。
+				<br />
+				4、方便灵活，可选择需要的seletc 进行模拟（非全局模拟）
+				<br />
+				5、判断用户是否开启脚本支持，若未开启，不进行模拟。
+				<br />
+				6、测试通过IE6+,Firefox 3.5.5,Chrome 3.0.1,Opera 10.0,Safari 4.0.4
+				<br />
+			</fieldset>
+			<fieldset style="padding: 10px;">
+				<legend>
+					<strong>11月14日更新 V1.3.6</strong>
+				</legend>
+				a、增加了onchange事件。（谢谢fjgysai）
+				<br />
+				b、可以支持方法连缀了。
+				<br />
+				c、修正opera下的笔误。
+				<br />
+				d、可支持jQuery的选择器了
+			</fieldset>
+			<fieldset style="padding: 10px;">
+				<legend>
+					<strong>08月29日更新 V1.3.5</strong>
+				</legend>
+				a、修正safari下的样式问题
+				<br />
+				b、使用其他的方法生成select后面的下拉箭头
+				<br />
+				c、增加对鼠标滚轮的支持。
+				<br />
+				d、一些细节上的写法。
+			</fieldset>
+			<fieldset style="padding: 10px;">
+				<legend>
+					<strong>03月19日更新 V1.3.4</strong>
+				</legend>
+				a、修正纵向排列时候z-index的问题。（不建议对包含select的容器设置定位【若设置一定要在IE下仔细看页面有无问题】）
+				<br />
+				b、修正了对弹出选择层位置的一个Bug。
+				<br />
+				c、修正了Opera下面的一些问题。
+			</fieldset>
+			<fieldset style="padding: 10px;">
+				<legend>
+					<strong>03月05日更新 V1.3.2</strong>
+				</legend>
+				a、修正了键盘选择时，浏览器滚动条位置变动问题。（谢谢小飞）
+				<br />
+				b、对弹出的选择层的高度做了判断。
+				<br />
+				c、jQuery 版本更新到1.3.2
+			</fieldset>
+			<fieldset style="padding: 10px;">
+				<legend>
+					<strong>12月09日更新 V1.3</strong>
+				</legend>
+				a、优化代码。
+				<br />
+				b、针对索引值进行了测试，修正部分情况下索引值混乱的Bug。
+				<br />
+				c、增加对home\pg up\pg dn\end 的支持
+				<br />
+				d、生成select宽度可自动延展性质。
+				<br />
+				e、一些细节调整。
+			</fieldset>
+		</div>
+		<div id="value3" style="margin: 0 10px;"></div>
+	</body>
+</html>

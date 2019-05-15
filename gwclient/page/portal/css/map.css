@@ -1,0 +1,521 @@
+body { 
+	font-family: "Microsoft YaHei"; 
+	font-size: 12px; 
+	background-color: #ffffff;
+	padding-top: 30px;
+}
+
+body, iframe, table, thead, tbody, tr, td, div, input, span {
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+
+/* map页样式 start */
+.m_filter {
+	width: 100%; 
+	height: 30px; 
+	line-height: 30px;
+	vertical-align: middle;
+	color: #ffffff;
+	/*background:url(img/m_filter_bg.png) center repeat-x;*/
+	padding: 0;
+	margin: 0;
+	text-align: left;
+	/*border: 1px solid #000;*/
+}
+
+.m_filter table {
+	/*height: 30px;*/ 
+	padding: 0;
+	margin: 0;
+}
+
+.m_filter .m_label {
+	padding-left: 20px;
+	text-align: right;
+	font-family: "宋体"; 
+	font-size: 10px; 
+	color: #000;
+}
+.m_filter .m_input {
+	text-align: left;
+}
+.m_filter .m_input input, .m_filter .m_input select {
+	/*border: 1px solid #809eba;*/
+}
+.m_filter .m_search {
+	width: 72px; 
+	height: 28px; 
+	line-height: 20px;
+	background:url(img/122_03.png) center no-repeat;
+	border: 0 none;
+	color: #ffffff;
+}
+.m_filter .m_search:hover {
+	background:url(img/343_03.png) center no-repeat;
+}
+.m_filter .m_reset {
+	width: 72px; 
+	height: 28px; 
+	line-height: 20px;
+	background:url(img/122_06.png) center no-repeat;
+	border: 0 none;
+	color: #ffffff;
+}
+.m_filter .m_reset:hover {
+	background:url(img/343_06.png) center no-repeat;
+}
+/* map页样式 end */
+
+.m_map {
+	width: 100%; 
+	height: 100%;
+	background-color: #A6C2DE;
+	border: 1px solid #96B8E6;
+}
+
+
+/* map innerframe页样式 start */
+.m_in_filter {
+	width: 100%; 
+	height: 61px; 
+	vertical-align: middle;
+	color: #ffffff;
+	background:url(img/m_in_filter_bg.png) top repeat-x;
+	padding: 0;
+	margin: 0;
+	text-align: left;
+	border: 0px solid #000;
+	overflow:hidden;
+}
+
+.m_in_filter table {
+	width: 100%;
+	height: 60px; 
+	padding: 0;
+	margin: 0;
+}
+
+.m_in_filter .m_label {
+	text-align: right;
+	font-family: "宋体"; 
+	font-size: 12px; 
+	color: #ffffff;
+}
+.m_in_filter .m_input {
+	text-align: left;
+}
+.m_in_filter .m_input input {
+	width: 118px;
+	border: 1px solid #809eba;
+}
+.m_in_filter .m_input select {
+	width: 120px;
+	border: 1px solid #809eba;
+}
+.m_in_filter .m_input .m_search {
+	width: 43; 
+	height: 20px; 
+	line-height: 20px;
+	background:url(img/m_search_n_l.gif) center no-repeat;
+	border: 0 none;
+	color: #ffffff;
+}
+.m_in_filter .m_input .m_search:hover {
+	background:url(img/m_search_m_l.gif) center no-repeat;
+}
+/* map innerframe页样式 end */
+
+
+
+
+/******** 悬浮提示窗口样式 start **********/
+.tip_x {	
+	border:0px solid green;
+	position: absolute;
+	z-index: 9999999999;
+	display: none;
+	/*top: -700px;
+	left: -300px;*/
+}
+
+.tip_x table.content {
+	width: 145px;
+	margin:0px;
+}
+
+/* 提示窗体tr.title  start */
+.tip_x table.content tr.tr_t, .tip_x table.content tr.tr_t td.tr_t_c {
+	height: 29px;
+	margin:0px;
+	padding:0;
+}
+.tip_x table.content tr.tr_t table { 
+	width: 100%;
+	height: 29px;
+	margin:0px;
+}
+/* 提示窗体tr.title内table所有td样式 */
+.tip_x table.content tr.tr_t table td { 
+	height: 29px;
+	vertical-align: middle;
+	padding: 0;
+	background: url(img/tip_top_middle_bg.png) center repeat-x;
+}
+
+/* title部分左侧背景 */
+.tip_x table.content tr.tr_t td.tr_t_tdl { 
+	background: url(img/tip_top_left_bg.png) center no-repeat;
+	padding-left:3px;
+	width: 3px;
+}
+
+/* title部分文本内容 */
+.tip_x table.content tr.tr_t td.tr_t_tdc { 
+	padding: 0 10px 0 10px;
+	overflow: hidden;
+}
+.tip_x table.content tr.tr_t td.tr_t_tdc div {
+	color: #FFFFFF;
+	font-size: 13px;
+	font-weight: bold;
+	width: 145px;
+	overflow:hidden;
+	font-size:12px;
+}
+
+/* title部分按钮区域 */
+.tip_x table.content tr.tr_t td.tr_t_tdb { 
+	width: 100%;
+	padding-right: 4px;
+	text-align: right;
+}
+.tip_x tr.tr_t a, .tip_x tr.tr_t a:link, .tip_x tr.tr_t a:active, .tip_x tr.tr_t a:visited, .tip_x tr.tr_t a:hover, { 
+	color:#000000; 
+	text-decoration: none;
+	border: 0 none;
+}
+.tip_x tr.tr_t a img {
+	border: 0 none;
+	margin: 0;
+}
+/* title部分最大化按钮 */
+.tip_x a.tip_b_max {
+	width: 11px;
+	height: 10px;
+	border: 0 none;
+	margin: 0 3px 0 0;
+}
+
+/* title部分右侧背景 */
+.tip_x table.content tr.tr_t td.tr_t_tdr { 
+	background: url(img/tip_top_right_bg.png) center no-repeat;
+	padding-left:3px;
+	width: 3px;
+} 
+/* 提示窗体tr.title  end */
+
+/* 提示窗体底部tr.bottom start */
+.tip_x table.content tr.tr_b, .tip_x table.content tr.tr_b td.tr_b_c {
+	height: 17px;
+	margin:0px;
+	padding:0;
+}
+.tip_x table.content tr.tr_b table { 
+	width: 100%;
+	margin:0px;
+	height: 17px;
+}
+/* 提示窗体tr.bottom内table所有td样式 */
+.tip_x table.content tr.tr_b table td { 
+	height: 17px;
+	vertical-align: middle;
+	padding: 0;
+	border:0 none;
+}
+
+/* 底部左侧背景 */
+.tip_x table.content tr.tr_b td.tr_b_tdl { 
+	background: url(img/tip_bottom_left_bg.png) center no-repeat;
+	padding-left:3px;
+	width: 3px;
+}
+
+/* 底部内容 */
+.tip_x table.content tr.tr_b td.tr_b_tdc { 
+	width: 100%;
+	background-color:#FFFFFF;
+}
+
+/* 底部右侧背景 */
+.tip_x table.content tr.tr_b td.tr_b_tdr { 
+	background: url(img/tip_bottom_right_bg.png) center no-repeat;
+	padding-left:3px;
+	width: 3px;
+} 
+/* 提示窗体底部tr.bottom end */
+
+/* 提示窗体内容tr.content start */
+.tip_x table.content tr.tr_c, .tip_x table.content tr.tr_c td.tr_c_c {
+	margin:0px;
+	padding:0;
+	background-color:#FFFFFF;
+}
+.tip_x table.content tr.tr_c td.tr_c_c {
+	padding: 12px 22px 0px 12px;
+	word-break:break-all;
+	word-wrap: break-word;
+}
+.tip_x table.content tr.tr_c td.tr_c_c div {
+	width:145px;
+	display: block;
+	word-wrap: break-word;
+	word-break:break-all;
+	overflow:hidden;
+	font-size:12px;
+	font-weight:bold;
+	color:black;
+	line-height: 18px;
+}
+/* 提示窗体内容tr.content end */
+
+/* 提示窗指针 */
+.tip_x .pointer_n {
+	width: 13px;
+	height: 15px;
+	background: url(img/tip_pointer_s.png) center no-repeat;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.tip_x .pointer_s {
+	width: 13px;
+	height: 15px;
+	background: url(img/tip_pointer_s.png) center no-repeat;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.tip_x .pointer_w {
+	width: 15px;
+	height: 13px;
+	background: url(img/tip_pointer_w.png) center no-repeat;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.tip_x .pointer_e {
+	width: 15px;
+	height: 13px;
+	background: url(img/tip_pointer_e.png) center no-repeat;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+/******** 悬浮提示窗口样式 end **********/
+
+/*****KPI example start****/
+/*add by ZH, 2016/05/25*/
+/*title*/
+#title{
+	/*color:#5687D2;
+	font-size:3.5rem;
+	font-size:3.5em\9;
+	font-family:'Microsoft YaHei';
+	font-weight:bold;
+	position:fixed;
+	top:0.5%;
+	left:1%;
+	background:url("img/gistitle.png") no-repeat;
+	margin-top:0.8%;
+	margin-left:0.8%;
+	width:450px;
+	height:65px;*/
+}
+@media screen and (min-width: 1601px) { /*1920x1080分辨率及以上*/
+}
+@media screen and (max-width: 1600px) { /*1600x900分辨率*/
+}
+@media screen and (max-width: 1440px) { /*1440x900分辨率*/
+}
+@media screen and (max-width: 1366px) { /*1366x768分辨率*/
+}
+@media screen and (max-width: 1280px) { /*1280x800分辨率*/
+}
+
+#kpi{
+	border: 0/*1px solid red*/;
+	padding: 0;
+	margin: 0 auto;
+	height: 100%;	
+	z-index: 1998;
+}
+#ycxz{
+	/*border:1px red solid;*/
+	padding:0;
+	float:right;
+	margin-right:7%;
+	margin-top:2%;
+}
+#ycxz>input{
+	background:url(img/m_search_n_l.gif) center ;
+	/*border: 1px solid #809eba;*/
+	color: #ffffff;
+	font-size: 2.1rem;
+	font-size: 1.15em\9;
+	cursor:pointer;
+}
+#ycxz>input:hover{
+	background:url(img/m_search_m_l.gif) center ;
+}
+/*kpi选择按钮组 start*/
+#kpi-button{
+	border: 0 none;
+	height: 3.45%;
+	width: 49%;
+	padding-left:14.5%;
+	position: relative;
+	margin-top: -0.5%;
+	margin-left:20%;
+	z-index:2999;
+}
+#kpi-button button{
+	border:0 none;
+	margin:0 auto;
+	color:#FFF;
+	font-family:'Microsoft YaHei';
+	font-size:1.7rem;
+	font-size:1.7em\9;
+	font-weight:bold;
+	text-align:center;
+	border-radius:5px;
+	/*background-color:#307FD8;*/
+	background:url("img/unselected.png") no-repeat;
+	width:207px;/*25%;*/
+	height:61px;/*108%;*/
+}
+#kpi-button button:hover{
+	cursor:pointer;
+}
+
+.button_selected{
+	background-color:#359594;
+}
+/*kpi选择按钮组 end*/
+
+#maplayer{
+	border: 0 none;
+	position:relative;
+	z-index:2000;
+}
+/*地图头部 start*/
+#map-header{
+	position:fixed;
+	z-index:2000;
+	width:100%;
+	margin:0;
+	padding:0;
+}
+/*统计表格 start*/
+#totalAssetCnt,#totalFltime,#preFreCnt,#equIntact{
+	color:#F00;
+}
+#equipTotal{
+	float:left;
+}
+#equipTotal>table{
+	font-family:'Microsoft YaHei';
+	height:100%;
+	background:#fff;
+	background:rgba(255,255,255,0.8)\9;
+	filter:alpha(opacity=80);
+	opacity:80; 
+}
+#equipTotal>table td{
+	text-align:left;
+	font-weight:bold;
+	color:#001995;
+}
+/*统计表格 end*/
+/*kpi图层*/
+#equipKPI{
+	border:0 none;
+	padding: 0;
+	margin: 0 auto;
+	width: 100%;
+	position: fixed;
+	left: 0;
+	z-index: 1999;
+}
+#equipKPI>div {
+	border: 0 none;
+	position: absolute;
+	z-index: 999;
+	padding: 0;
+	margin: 0 auto;	
+}
+/*搜索框 start*/
+#search{
+	/*border:1px solid red;*/
+	width:40%;
+	height:100%;
+	float:right;
+	margin-top:-0.75%;
+	margin-right:-7.2%;
+	display:none;
+}
+#search>table {
+	font-family:'Microsoft YaHei';
+	background:rgba(255,255,255,0.8);
+	/* opacity:80;
+	filter:alpha(opacity=80); */
+	margin-top: 3.6%;
+	/*border: 1px red solid;*/
+}
+#search>table td{
+	font-family:'Microsoft YaHei';
+	/*border: 1px red solid;*/
+}
+#search>table td,#search>table input{
+	font-size:1.5rem;
+	font-size:1.5em\9;
+	font-weight:bold;
+	color:#001995;
+	width: 7rem;
+	width: 3em\9;
+}
+#search>table input{
+	height:19px;
+}
+#eqType{
+	width:88px;
+}
+#mapLev option{
+	font-size: 1.2rem;
+	font-size: 1.15em\9;
+}
+#showMark>input {
+	background:url(img/m_search_n_l.gif) center no-repeat;
+	border: 1px solid #809eba;
+	color: #ffffff;
+}
+#showMark>input:hover{
+	background:url(img/m_search_m_l.gif) center no-repeat;
+}
+/*搜索框 end*/
+/*地图头部 end*/
+
+/*****KPI example end****/
+/**滚动条 ****/
+#roll a{display:block;font-size:15px;line-height:18px;text-decoration:none;color:#333}
+.core{
+	height:18px;
+	overflow:hidden;
+}
+.shell{
+	display:none;
+	position:fixed;
+	background-color:#fff;
+	border:1px solid #aaa; 
+	z-index:9999
+}
