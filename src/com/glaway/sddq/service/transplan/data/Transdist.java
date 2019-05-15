@@ -52,27 +52,30 @@ public class Transdist extends Jpo {
 
 		} else {// 改造计划
 
-			String planStatus = getParent().getString("status");
-			String[] attrs = { "STATION", "PROJECTNUM", "CARNUMS",
-					"TRANSMODELS", "KINDLOC", "TRANSLOC", "TRANSCOUNT", "UNIT" };
-			setFieldFlag(attrs, GWConstant.S_READONLY, true);
+			if(getParent()!=null){
+				String planStatus = getParent().getString("status");
+				String[] attrs = { "STATION", "PROJECTNUM", "CARNUMS",
+						"TRANSMODELS", "KINDLOC", "TRANSLOC", "TRANSCOUNT", "UNIT" };
+				setFieldFlag(attrs, GWConstant.S_READONLY, true);
 
-			if ("草稿".equals(planStatus)) {
+				if ("草稿".equals(planStatus)) {
 
-				setFieldFlag(attrs, GWConstant.S_READONLY, false);
+					setFieldFlag(attrs, GWConstant.S_READONLY, false);
 
-			} else if ("执行中".equals(planStatus)) {
+				} else if ("执行中".equals(planStatus)) {
 
-				if (getString("RESPONSIBLE").equalsIgnoreCase(
-						getUserInfo().getPersonId())) {// 非办事处负责人只读
+					if (getString("RESPONSIBLE").equalsIgnoreCase(
+							getUserInfo().getPersonId())) {// 非办事处负责人只读
 
-					String[] zxzAttrs = { "CARNUMS", "KINDLOC", "TRANSLOC",
-							"TRANSCOUNT", "UNIT" };
-					setFieldFlag(zxzAttrs, GWConstant.S_READONLY, false);
+						String[] zxzAttrs = { "CARNUMS", "KINDLOC", "TRANSLOC",
+								"TRANSCOUNT", "UNIT" };
+						setFieldFlag(zxzAttrs, GWConstant.S_READONLY, false);
+
+					}
 
 				}
-
 			}
+
 
 		}
 
