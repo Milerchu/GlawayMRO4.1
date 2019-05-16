@@ -225,6 +225,10 @@ public class FailureOrdAppBean extends AppBean {
 				throw new MroException("现场处理人联系方式不可为空，请先去人员信息中维护后在录入工单！");
 			}
 
+			//设置当前任务执行人
+			getJpo().setValue("ACTTASKPERSON", getJpo().getString("SERVENGINEER.DISPLAYNAME"),
+					GWConstant.P_NOVALIDATION);
+
 			// 处理中/库管员驳回
 		} else if (SddqConstant.WO_STATUS_CLZ.equals(status)
 				|| SddqConstant.WO_STATUS_KGYBH.equals(status)) {
@@ -1144,13 +1148,13 @@ public class FailureOrdAppBean extends AppBean {
 					Bapi2017GmItemCreate tableobject = new Bapi2017GmItemCreate();
 
 					Material.setChar18(newitemnum);// 输入数据--发出物料编码
-					StgeLoc.setChar4(inlocation);// 输入数据--发出库存地点
+					StgeLoc.setChar4(outlocation);// 输入数据--发出库存地点
 					Batch.setChar10(newlotnum);// 输入数据--批次号
 					EntryQnt.setQuantum133(new BigDecimal(1.00));
 					// 输入数据--数量
 					EntryUom.setUnit3(unit);// 输入数据--计量单位
 					MoveMat.setChar18(itemnum);// 输入数据--接收物料编码
-					MoveStloc.setChar4(outlocation);// 输入数据--接收库存地点
+					MoveStloc.setChar4(inlocation);// 输入数据--接收库存地点
 					MoveBatch.setChar10(lotnum);// 输入数据--接收批次号
 
 					Plant.setChar4("1010");
@@ -1422,13 +1426,13 @@ public class FailureOrdAppBean extends AppBean {
 					Bapi2017GmItemCreate tableobject = new Bapi2017GmItemCreate();
 
 					Material.setChar18(newitemnum);// 输入数据--发出物料编码
-					StgeLoc.setChar4(inlocation);// 输入数据--发出库存地点
+					StgeLoc.setChar4(outlocation);// 输入数据--发出库存地点
 					Batch.setChar10(newlotnum);// 输入数据--批次号
 					EntryQnt.setQuantum133(new BigDecimal(1.00));
 					// 输入数据--数量
 					EntryUom.setUnit3(unit);// 输入数据--计量单位
 					MoveMat.setChar18(itemnum);// 输入数据--接收物料编码
-					MoveStloc.setChar4(outlocation);// 输入数据--接收库存地点
+					MoveStloc.setChar4(inlocation);// 输入数据--接收库存地点
 					MoveBatch.setChar10(lotnum);// 输入数据--接收批次号
 
 					Plant.setChar4("1010");

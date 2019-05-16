@@ -1,7 +1,9 @@
 package com.glaway.sddq.service.transplan.bean;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.glaway.mro.controller.DataBean;
 import com.glaway.mro.exception.MroException;
@@ -26,6 +28,7 @@ public class DistributeBean extends DataBean {
 		// 获取选择的人员list
 		List<IJpo> personList = getDataBean("1533716743069").getJpoSet()
 				.getSelections();
+		Set<String> personSet = new HashSet<String>();
 
 		// 关联的改造工单jposet
 		IJpoSet transorderSet = getDataBean("1520318024916").getJpo()
@@ -56,6 +59,8 @@ public class DistributeBean extends DataBean {
 							.getLoginUserName());
 					orderPerson.setValue("SITEID", "ELEC");
 					orderPerson.setValue("ORGID", "CRRC");
+
+					personSet.add(person.getString("DISPLAYNAME"));
 					if (StringUtil.isStrNotEmpty(dealPersons)) {
 						dealPersons = dealPersons + ","
 								+ person.getString("DISPLAYNAME");
@@ -67,12 +72,20 @@ public class DistributeBean extends DataBean {
 				if (StringUtil.isStrNotEmpty(dealPersons)) {// 处理人不为空
 
 					transorder.setValue("DEALPERSON", dealPersons);
-					// 设置计划中的处理人字段的值
-					getAppBean().getJpo().setValue("DEALPERSONS", dealPersons,
-							GWConstant.P_NOVALIDATION);
 
 				}
 			}
+
+			// 设置计划中的处理人字段的值
+			String dealPersonSetStr = StringUtil.join(personSet.toArray());
+			String planDealPersons = getAppBean().getJpo().getString("DEALPERSONS");
+			if(StringUtil.isStrNotEmpty(planDealPersons)){
+				planDealPersons += "," + dealPersonSetStr;
+			}else{
+				planDealPersons = dealPersonSetStr;
+			}
+			getAppBean().getJpo().setValue("DEALPERSONS", planDealPersons,
+					GWConstant.P_NOVALIDATION);
 		}
 
 		// 关闭对话框

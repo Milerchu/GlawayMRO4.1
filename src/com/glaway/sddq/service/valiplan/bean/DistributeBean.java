@@ -34,6 +34,7 @@ public class DistributeBean extends DataBean {
 		IJpoSet valiorderSet = getDataBean("main_tab2").getJpo().getJpoSet(
 				"VALIORDER");
 		Set<String> personSet = new HashSet<String>();// 处理人personId set
+		Set<String> personNameSet = new HashSet<String>();//处理人name set
 
 		if (valiorderSet != null && valiorderSet.count() > 0) {
 			for (int i = 0; i < valiorderSet.count(); i++) {
@@ -60,6 +61,7 @@ public class DistributeBean extends DataBean {
 					orderPerson.setValue("SITEID", "ELEC");
 					orderPerson.setValue("ORGID", "CRRC");
 					personSet.add(person.getString("PERSONID"));
+					personNameSet.add(person.getString("DISPLAYNAME"));
 					if (StringUtil.isStrNotEmpty(dealPersons)) {
 						dealPersons = dealPersons + ","
 								+ person.getString("DISPLAYNAME");
@@ -70,12 +72,22 @@ public class DistributeBean extends DataBean {
 				// orderPersonSet.save();
 				valiorder.setValue("status", "处理中");
 				if (StringUtil.isStrNotEmpty(dealPersons)) {// 处理人不为空
+
 					valiorder.setValue("DEALPERSON", dealPersons);
-					// 设置计划中的处理人字段的值
-					getAppBean().getJpo().setValue("DEALPERSONS", dealPersons,
-							GWConstant.P_NOVALIDATION);
+
 				}
 			}
+
+			// 设置计划中的处理人字段的值
+			String dealPersonSetStr = StringUtil.join(personNameSet.toArray());
+			String planDealPersons = getAppBean().getJpo().getString("DEALPERSONS");
+			if(StringUtil.isStrNotEmpty(planDealPersons)){
+				planDealPersons += "," + dealPersonSetStr;
+			}else{
+				planDealPersons = dealPersonSetStr;
+			}
+			getAppBean().getJpo().setValue("DEALPERSONS", planDealPersons,
+					GWConstant.P_NOVALIDATION);
 		}
 
 		// 关闭对话框

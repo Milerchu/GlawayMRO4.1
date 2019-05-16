@@ -74,10 +74,50 @@ public class WfTaskFormBean extends DataBean
                 processInstanceId = actAppInfo.getString("PROCINSTID");
                 WfControlUtil.updateHistoryLog(processInstanceId, taskId, getJpo().getString("MEMO"), userId);
             }
-            // 故障工单中增加下一节点任务执行人记录  修改人  杨毅 2018-09-26
+
+            /*特殊处理某些应用的逻辑*/
+            //应用名称
             String appName =this.getAppName();
             if(StringUtil.isEqualIgnoreCase(appName, "FAILUREORD")){
+                // 故障工单中增加下一节点任务执行人记录  修改人  杨毅 2018-09-26
                 setFailureActperson(processInstanceId);
+            } else if (StringUtil.isEqualIgnoreCase(appName, "TRANSPLAN")){
+                /*改造计划启动改造工单工作流*/
+                //改造计划appbean
+                IJpo transPlan = getAppBean().getJpo();
+                if(transPlan != null){
+
+                    //当前登录用户
+                    String loginId = transPlan.getUserInfo().getLoginID();
+                    //当前办事处主任负责的改造分布
+                    IJpoSet transDistSet = MroServer.getMroServer().getSysJpoSet("TRANSDIST","transplannum='"
+                            +transPlan.getString("TRANSPLANNUM")+"' and responsible='"+loginId+"' and iscreatewo=1 ");
+                    if(transDistSet!=null && transDistSet.count()>0){
+
+                        for(int i = 0; i < transDistSet.count(); i++){
+
+                            IJpo transDist = transDistSet.getJpo(i);
+                            //改造工单set
+                            IJpoSet transOrderSet = transDist.getJpoSet("TRANSORDER");
+                            for (int j = 0; j <transOrderSet.count() ; j++) {
+                                IJpo transOrder = transOrderSet.getJpo(j);
+                                //现场处理人set
+                                IJpoSet dealSet = transOrder.getJpoSet("JXTASKEXECPERSON");
+                                if(dealSet.isEmpty()){
+                                    throw new MroException("valiorder","nodealperson");//无现场处理人
+                                }
+
+                                //启动改造工单工作流
+                                WfControlUtil.startwf(transOrder,"TRANSORDER");
+
+                            }
+                        }
+
+                    }
+
+
+                }
+
             }
             
         }
