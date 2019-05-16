@@ -239,15 +239,21 @@ public class WorkorderUtil {
 
 			/* 出入库操作 */
 			if ("WORKORDER".equalsIgnoreCase(workorder.getName())) {// 服务模块工单
-				// 下车件入库
-				CommonInventory.ININVENTORY(downLotnum, actQty, underLoc,
-						downItemnum, downAssetnum,
-						workorder.getString("ordernum"));
+				//判断是否已经进行出入库操作
+				if(!isStorageAction("入库", underLoc, downItemnum, workorder.getString("ordernum"))){
+					// 下车件入库
+					CommonInventory.ININVENTORY(downLotnum, actQty, underLoc,
+							downItemnum, downAssetnum,
+							workorder.getString("ordernum"));
+				}
 
 				if (StringUtil.isStrNotEmpty(upItemnum)) {// 存在上车件
-					// 上车件出库
-					CommonInventory.OUTINVENTORY(upLotnum, actQty, upLoc,
-							upItemnum, "", workorder.getString("ordernum"));
+					//判断是否已经进行出入库操作
+					if(!isStorageAction("出库", upLoc, upItemnum, workorder.getString("ordernum"))){
+						// 上车件出库
+						CommonInventory.OUTINVENTORY(upLotnum, actQty, upLoc,
+								upItemnum, "", workorder.getString("ordernum"));
+					}
 				}
 				/*
 				 * / 下车件退料 createMPR("退料", workorder.getString("TYPE"),
