@@ -110,10 +110,10 @@ public class FldCarnum extends JpoField {
 			}
 			// 过滤其他工单已经选择过的车号
 			if (orderJpo.getParent() != null
-					&& "VAILTASK".equalsIgnoreCase(orderJpo.getParent()
+					&& "VALIPRORANGE".equalsIgnoreCase(orderJpo.getParent()
 							.getName())) {
 				IJpo range = orderJpo.getParent();
-				IJpoSet orderSet = range.getJpoSet("VAILTASKNUM");
+				IJpoSet orderSet = range.getJpoSet("VALIORDER");
 				String selectedCars = "";
 				if (!orderSet.isEmpty()) {
 					for (int index = 0; index < orderSet.count(); index++) {
