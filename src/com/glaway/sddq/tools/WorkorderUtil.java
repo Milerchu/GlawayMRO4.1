@@ -240,19 +240,23 @@ public class WorkorderUtil {
 			/* 出入库操作 */
 			if ("WORKORDER".equalsIgnoreCase(workorder.getName())) {// 服务模块工单
 				//判断是否已经进行出入库操作
-				if(!isStorageAction("入库", underLoc, downItemnum, workorder.getString("ordernum"))){
+				if(!consume.getBoolean("ISINPUT")){
 					// 下车件入库
 					CommonInventory.ININVENTORY(downLotnum, actQty, underLoc,
 							downItemnum, downAssetnum,
 							workorder.getString("ordernum"));
+					//设置入库标志
+					consume.setValue("ISINPUT", 1, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 				}
 
 				if (StringUtil.isStrNotEmpty(upItemnum)) {// 存在上车件
 					//判断是否已经进行出入库操作
-					if(!isStorageAction("出库", upLoc, upItemnum, workorder.getString("ordernum"))){
+					if(!consume.getBoolean("ISOUTPUT")){
 						// 上车件出库
 						CommonInventory.OUTINVENTORY(upLotnum, actQty, upLoc,
 								upItemnum, "", workorder.getString("ordernum"));
+						//设置出库标志
+						consume.setValue("ISOUTPUT", 1, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 					}
 				}
 				/*
@@ -269,10 +273,13 @@ public class WorkorderUtil {
 				 * consume.getInt("INVENTORY"));
 				 */
 			} else {
-				// 下车件入库
-				CommonInventory.ININVENTORY(downLotnum, actQty, underLoc,
-						downItemnum, downAssetnum,
-						workorder.getString("JXTASKNUM"));
+				if(!consume.getBoolean("ISINPUT")){
+					// 下车件入库
+					CommonInventory.ININVENTORY(downLotnum, actQty, underLoc,
+							downItemnum, downAssetnum,
+							workorder.getString("JXTASKNUM"));
+					consume.setValue("ISINPUT", 1, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				}
 			}
 			// 上车件出库
 			/*
@@ -489,10 +496,12 @@ public class WorkorderUtil {
 			// 出入库操作
 			if (StringUtil.isStrNotEmpty(newitemnum)) {// 有上车件
 				//出库重复判断
-				if(!isStorageAction("出库", newloc, newitemnum, ordernum)){
+				if(!exchange.getBoolean("ISOUTPUT")){
 					// 上车件出库
 					CommonInventory.OUTINVENTORY(newlotnum, 1, newloc, newitemnum,
 							newassetnum, ordernum);
+					//设置出库标记
+					exchange.setValue("ISOUTPUT", 1, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 					// 重置锁定标记
 					IJpoSet upAssetSet = exchange.getJpoSet("NEWASSET");
@@ -505,10 +514,12 @@ public class WorkorderUtil {
 
 			}
 			//入库重复判断
-			if(!isStorageAction("入库", location, itemnum, ordernum)){
+			if(!exchange.getBoolean("ISINPUT")){
 				// 下车件入库
 				CommonInventory.ININVENTORY(lotnum, 1, location, itemnum, assetnum,
 						ordernum);
+				//设置入库标记
+				exchange.setValue("ISINPUT", 1, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 				// 重置锁定标记
 				IJpoSet downAssetSet = exchange.getJpoSet("ASSET");
