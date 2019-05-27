@@ -56,14 +56,14 @@ public class ConvertlocCommonInventory {
 					.setDefaultSite("ELEC");
 			IJpoSet itemset = MroServer.getMroServer().getJpoSet("sys_item",
 					MroServer.getMroServer().getSystemUserServer());
-			itemset.setQueryWhere("itemnum='" + itemnum + "'");
+			itemset.setUserWhere("itemnum='" + itemnum + "'");
 			String type = ItemUtil.getItemInfo(itemnum);
 			if (ItemUtil.SQN_ITEM.equals(type)) {// --判断是周转件
 
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --入库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {
@@ -78,7 +78,7 @@ public class ConvertlocCommonInventory {
 										"locbinitem",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-						locbinitemset.setQueryWhere("itemnum='" + itemnum
+						locbinitemset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location
 								+ "' and binnum='" + binnum + "'");
 						locbinitemset.reset();
@@ -125,7 +125,7 @@ public class ConvertlocCommonInventory {
 										"locbinitem",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-						locbinitemset.setQueryWhere("itemnum='" + itemnum
+						locbinitemset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location
 								+ "' and binnum='" + binnum + "'");
 						locbinitemset.reset();
@@ -157,7 +157,7 @@ public class ConvertlocCommonInventory {
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --入库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {
@@ -172,7 +172,7 @@ public class ConvertlocCommonInventory {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --对应的周转件集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + location
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -189,7 +189,7 @@ public class ConvertlocCommonInventory {
 												"locbinitem",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-								locbinitemset.setQueryWhere("itemnum='"
+								locbinitemset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "' and binnum='" + binnum
 										+ "' and lotnum='" + lotnum + "'");
@@ -253,7 +253,7 @@ public class ConvertlocCommonInventory {
 												"locbinitem",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-								locbinitemset.setQueryWhere("itemnum='"
+								locbinitemset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "' and binnum='" + binnum
 										+ "' and lotnum='" + lotnum + "'");
@@ -315,7 +315,7 @@ public class ConvertlocCommonInventory {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --对应的批次件集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + location
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -332,7 +332,7 @@ public class ConvertlocCommonInventory {
 												"locbinitem",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-								locbinitemset.setQueryWhere("itemnum='"
+								locbinitemset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "' and binnum='" + binnum
 										+ "' and lotnum='" + lotnum + "'");
@@ -396,7 +396,7 @@ public class ConvertlocCommonInventory {
 												"locbinitem",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-								locbinitemset.setQueryWhere("itemnum='"
+								locbinitemset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "' and binnum='" + binnum
 										+ "' and lotnum='" + lotnum + "'");
@@ -459,7 +459,7 @@ public class ConvertlocCommonInventory {
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --入库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {
@@ -474,7 +474,7 @@ public class ConvertlocCommonInventory {
 										"locbinitem",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-						locbinitemset.setQueryWhere("itemnum='" + itemnum
+						locbinitemset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location
 								+ "' and binnum='" + binnum + "' and lotnum='"
 								+ lotnum + "'");
@@ -521,7 +521,7 @@ public class ConvertlocCommonInventory {
 										"locbinitem",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-						locbinitemset.setQueryWhere("itemnum='" + itemnum
+						locbinitemset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location
 								+ "' and binnum='" + binnum + "' and lotnum='"
 								+ lotnum + "'");
@@ -589,14 +589,14 @@ public class ConvertlocCommonInventory {
 					.setDefaultSite("ELEC");
 			IJpoSet itemset = MroServer.getMroServer().getJpoSet("sys_item",
 					MroServer.getMroServer().getSystemUserServer());
-			itemset.setQueryWhere("itemnum='" + itemnum + "'");
+			itemset.setUserWhere("itemnum='" + itemnum + "'");
 			String type = ItemUtil.getItemInfo(itemnum);
 			if (ItemUtil.SQN_ITEM.equals(type)) {// --判断是周转件
 
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --入库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {
@@ -612,7 +612,7 @@ public class ConvertlocCommonInventory {
 										"locbinitem",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-						locbinitemset.setQueryWhere("itemnum='" + itemnum
+						locbinitemset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location
 								+ "' and binnum='" + binnum + "'");
 						locbinitemset.reset();
@@ -683,7 +683,7 @@ public class ConvertlocCommonInventory {
 										"locbinitem",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-						locbinitemset.setQueryWhere("itemnum='" + itemnum
+						locbinitemset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location
 								+ "' and binnum='" + binnum + "'");
 						locbinitemset.reset();
@@ -715,7 +715,7 @@ public class ConvertlocCommonInventory {
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --入库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {
@@ -730,7 +730,7 @@ public class ConvertlocCommonInventory {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --对应的周转件集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + location
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -747,7 +747,7 @@ public class ConvertlocCommonInventory {
 												"locbinitem",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-								locbinitemset.setQueryWhere("itemnum='"
+								locbinitemset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "' and binnum='" + binnum
 										+ "' and lotnum='" + lotnum + "'");
@@ -811,7 +811,7 @@ public class ConvertlocCommonInventory {
 												"locbinitem",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-								locbinitemset.setQueryWhere("itemnum='"
+								locbinitemset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "' and binnum='" + binnum
 										+ "' and lotnum='" + lotnum + "'");
@@ -887,7 +887,7 @@ public class ConvertlocCommonInventory {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --对应的批次件集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + location
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -904,7 +904,7 @@ public class ConvertlocCommonInventory {
 												"locbinitem",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-								locbinitemset.setQueryWhere("itemnum='"
+								locbinitemset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "' and binnum='" + binnum
 										+ "' and lotnum='" + lotnum + "'");
@@ -968,7 +968,7 @@ public class ConvertlocCommonInventory {
 												"locbinitem",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-								locbinitemset.setQueryWhere("itemnum='"
+								locbinitemset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "' and binnum='" + binnum
 										+ "' and lotnum='" + lotnum + "'");
@@ -1041,7 +1041,7 @@ public class ConvertlocCommonInventory {
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --入库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {
@@ -1056,7 +1056,7 @@ public class ConvertlocCommonInventory {
 										"locbinitem",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-						locbinitemset.setQueryWhere("itemnum='" + itemnum
+						locbinitemset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location
 								+ "' and binnum='" + binnum + "' and lotnum='"
 								+ lotnum + "'");
@@ -1127,7 +1127,7 @@ public class ConvertlocCommonInventory {
 										"locbinitem",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-						locbinitemset.setQueryWhere("itemnum='" + itemnum
+						locbinitemset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location
 								+ "' and binnum='" + binnum + "' and lotnum='"
 								+ lotnum + "'");
@@ -1189,14 +1189,14 @@ public class ConvertlocCommonInventory {
 					.setDefaultSite("ELEC");
 			// IJpoSet itemset = MroServer.getMroServer().getJpoSet("sys_item",
 			// MroServer.getMroServer().getSystemUserServer());
-			// itemset.setQueryWhere("itemnum='" + itemnum + "'");
+			// itemset.setUserWhere("itemnum='" + itemnum + "'");
 			String type = ItemUtil.getItemInfo(itemnum);
 			if (ItemUtil.SQN_ITEM.equals(type)) {// --判断是周转件
 
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --出库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {
@@ -1212,7 +1212,7 @@ public class ConvertlocCommonInventory {
 										"locbinitem",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-						locbinitemset.setQueryWhere("itemnum='" + itemnum
+						locbinitemset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location
 								+ "' and binnum='" + binnum + "'");
 						locbinitemset.reset();
@@ -1237,7 +1237,7 @@ public class ConvertlocCommonInventory {
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --退库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {
@@ -1252,7 +1252,7 @@ public class ConvertlocCommonInventory {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --对应的批次件集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + location
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -1269,7 +1269,7 @@ public class ConvertlocCommonInventory {
 												"locbinitem",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-								locbinitemset.setQueryWhere("itemnum='"
+								locbinitemset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "' and binnum='" + binnum
 										+ "' and lotnum='" + lotnum + "'");
@@ -1301,7 +1301,7 @@ public class ConvertlocCommonInventory {
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --退库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {
@@ -1316,7 +1316,7 @@ public class ConvertlocCommonInventory {
 										"locbinitem",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-						locbinitemset.setQueryWhere("itemnum='" + itemnum
+						locbinitemset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location
 								+ "' and binnum='" + binnum + "' and lotnum='"
 								+ lotnum + "'");

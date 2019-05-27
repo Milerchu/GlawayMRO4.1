@@ -63,7 +63,7 @@ public class FldItemnum extends JpoField {
 		super.action();
 		String itemnum = this.getValue();
 		IJpoSet mrlineset = this.getJpo().getParent().getJpoSet("mrline");
-		mrlineset.setQueryWhere("itemnum='" + itemnum + "'");
+		mrlineset.setUserWhere("itemnum='" + itemnum + "'");
 		if (!mrlineset.isEmpty()) {
 			double locationqty = mrlineset.getJpo(0).getDouble("locationqty");
 			this.getJpo().setValue("locationqty", locationqty,

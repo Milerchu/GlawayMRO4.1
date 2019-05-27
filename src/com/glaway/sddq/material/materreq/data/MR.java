@@ -365,7 +365,7 @@ public class MR extends StatusJpo implements IStatusJpo, FixedLoggers {
 		String mrnum = this.getString("mrnum");
 		IJpoSet deptset = MroServer.getMroServer().getJpoSet("SYS_DEPT",
 				MroServer.getMroServer().getSystemUserServer());
-		deptset.setQueryWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
+		deptset.setUserWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
 				+ loginid + "')");
 		deptset.reset();
 		if (!deptset.isEmpty()) {
@@ -383,7 +383,7 @@ public class MR extends StatusJpo implements IStatusJpo, FixedLoggers {
 		this.setValue("mrnum", mrnum, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 		IJpoSet siteset = MroServer.getMroServer().getJpoSet("PERSONDEPTMAP",
 				MroServer.getMroServer().getSystemUserServer());
-		siteset.setQueryWhere("PERSONID='" + loginid + "'");
+		siteset.setUserWhere("PERSONID='" + loginid + "'");
 		siteset.reset();
 		if (siteset.isEmpty()) {
 			setValue("MRTYPE", "项目");

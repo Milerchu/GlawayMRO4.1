@@ -16,7 +16,7 @@ public class FldErploc extends JpoField {
 		super.action();
 		if(this.getValue().equalsIgnoreCase(ItemUtil.ERPLOC_1020)){//库房属性-1020
 //			IJpoSet locationsset =MroServer.getMroServer().getJpoSet("locations", MroServer.getMroServer().getSystemUserServer());   
-//			locationsset.setQueryWhere("erploc='"+ItemUtil.ERPLOC_1020+"'");//过滤-1020
+//			locationsset.setUserWhere("erploc='"+ItemUtil.ERPLOC_1020+"'");//过滤-1020
 //			locationsset.reset();
 //			int count=locationsset.count();
 //			String location="";
@@ -60,7 +60,7 @@ public class FldErploc extends JpoField {
 		}
 		if(this.getValue().equalsIgnoreCase(ItemUtil.ERPLOC_1030)){//库房属性-1030
 //			IJpoSet locationsset =MroServer.getMroServer().getJpoSet("locations", MroServer.getMroServer().getSystemUserServer());   
-//			locationsset.setQueryWhere("erploc='"+ItemUtil.ERPLOC_1030+"'");//过滤-1030
+//			locationsset.setUserWhere("erploc='"+ItemUtil.ERPLOC_1030+"'");//过滤-1030
 //			locationsset.reset();
 //			int count=locationsset.count();
 //			String location="";
@@ -104,7 +104,7 @@ public class FldErploc extends JpoField {
 		}
 		if(this.getValue().equalsIgnoreCase(ItemUtil.ERPLOC_QTGZ)){//库房属性-其他改造物料库
 //			IJpoSet locationsset =MroServer.getMroServer().getJpoSet("locations", MroServer.getMroServer().getSystemUserServer());   
-//			locationsset.setQueryWhere("erploc='"+ItemUtil.ERPLOC_QTGZ+"'");//过滤-其他改造物料库
+//			locationsset.setUserWhere("erploc='"+ItemUtil.ERPLOC_QTGZ+"'");//过滤-其他改造物料库
 //			locationsset.reset();
 //			int count=locationsset.count();
 //			String location="";
@@ -147,7 +147,7 @@ public class FldErploc extends JpoField {
 		}
 		if(this.getValue().equalsIgnoreCase(ItemUtil.ERPLOC_QTDCL)){//库房属性-其他待处理物资库
 //			IJpoSet locationsset =MroServer.getMroServer().getJpoSet("locations", MroServer.getMroServer().getSystemUserServer());   
-//			locationsset.setQueryWhere("erploc='"+ItemUtil.ERPLOC_QTDCL+"'");//过滤-其他待处理物资库
+//			locationsset.setUserWhere("erploc='"+ItemUtil.ERPLOC_QTDCL+"'");//过滤-其他待处理物资库
 //			locationsset.reset();
 //			int count=locationsset.count();
 //			String location="";

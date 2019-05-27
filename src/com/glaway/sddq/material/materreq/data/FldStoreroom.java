@@ -493,7 +493,7 @@ public class FldStoreroom extends JpoField {
 		IJpoSet inventoryset = MroServer.getMroServer()
 				.getJpoSet("sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());
-		inventoryset.setQueryWhere("itemnum='" + itemnum + "' and location='"
+		inventoryset.setUserWhere("itemnum='" + itemnum + "' and location='"
 				+ location + "'");
 		inventoryset.reset();
 		if (!inventoryset.isEmpty()) {
@@ -533,7 +533,7 @@ public class FldStoreroom extends JpoField {
 					"transferline",
 					MroServer.getMroServer().getSystemUserServer());
 			transferlineset
-					.setQueryWhere("itemnum='"
+					.setUserWhere("itemnum='"
 							+ itemnum
 							+ "'  and ISSUESTOREROOM='"
 							+ location

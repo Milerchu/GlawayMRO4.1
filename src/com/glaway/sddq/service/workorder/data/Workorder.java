@@ -300,7 +300,11 @@ public class Workorder extends Jpo {
 
 		} else {
 
-			if (WfControlUtil.isCurUser(this)) {// 判断当前登录人是否是工作流执行人
+			/** 判断当前登录人是否在管理员权限组 */
+			String loginId = this.getUserInfo().getLoginID();
+			boolean hasAuth = WorkorderUtil.isInAdminGroup(loginId);
+
+			if (WfControlUtil.isCurUser(this) || hasAuth) {// 判断当前登录人是否是工作流执行人
 
 				if (SddqConstant.WO_STATUS_CXPG.equals(status)) {// 重新派工
 
@@ -411,6 +415,26 @@ public class Workorder extends Jpo {
 						}
 					}
 
+					IJpo failLib = getJpoSet("failurelib").getJpo();
+					boolean exchangeFlag = false;
+					if (failLib != null) {
+						exchangeFlag = failLib.getJpoSet("EXCHANGERECORD") != null
+								&& failLib.getJpoSet("EXCHANGERECORD").count() > 0;
+					}
+					boolean consumeFlag = getJpoSet("JXTASKLOSSPART") != null
+							&& getJpoSet("JXTASKLOSSPART").count() > 0;
+					if (consumeFlag || exchangeFlag) {// 上下车记录有数据
+						setFieldFlag("WHICHSTATION", GWConstant.S_REQUIRED,
+								false);
+						setFieldFlag("WHICHSTATION", GWConstant.S_READONLY,
+								true);
+					} else {// 上下车记录无数据才可修改故障站点
+						setFieldFlag("WHICHSTATION", GWConstant.S_READONLY,
+								false);
+						setFieldFlag("WHICHSTATION", GWConstant.S_REQUIRED,
+								true);
+					}
+
 				} else if (SddqConstant.WO_STATUS_KGYBH.equals(status)) {// 库管员驳回
 
 					// 是否阅读故障管理要求只在作业开始后必填
@@ -448,6 +472,11 @@ public class Workorder extends Jpo {
 							.setFlag(GWConstant.S_READONLY, false);// 故障数据包子表
 					getJpoSet("FAULTDIAGNOSE").setFlag(GWConstant.S_READONLY,
 							false);// 故障诊断子表
+
+				} else if (SddqConstant.WO_STATUS_JSZGSH.equals(status)) {
+
+					getJpoSet("JXTASKLOSSPART").setFlag(GWConstant.S_READONLY,
+							false);// 耗损件子表
 
 				}
 

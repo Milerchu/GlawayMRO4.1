@@ -66,7 +66,7 @@ public class TkMprlineqtyDataBean extends DataBean {
 					IJpoSet mprlineset = MroServer.getMroServer().getJpoSet(
 							"mprline",
 							MroServer.getMroServer().getSystemUserServer());
-					mprlineset.setQueryWhere("mprnum='" + mprnum
+					mprlineset.setUserWhere("mprnum='" + mprnum
 							+ "' and status!='已退库' and mprlineid!='"
 							+ mprlineid + "'");
 					if (mprlineset.isEmpty()) {
@@ -162,12 +162,12 @@ public class TkMprlineqtyDataBean extends DataBean {
 				.getString("MPRSTOREROOM");
 		IJpoSet itemset = MroServer.getMroServer().getJpoSet("sys_item",
 				MroServer.getMroServer().getSystemUserServer());
-		itemset.setQueryWhere("itemnum='" + ITEMNUM + "'");
+		itemset.setUserWhere("itemnum='" + ITEMNUM + "'");
 		String type = ItemUtil.getItemInfo(ITEMNUM);
 		if (ItemUtil.SQN_ITEM.equals(type)) {
 			IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",
 					MroServer.getMroServer().getSystemUserServer());
-			assetset.setQueryWhere("itemnum='"
+			assetset.setUserWhere("itemnum='"
 					+ ITEMNUM
 					+ "' and sqn='"
 					+ SQN

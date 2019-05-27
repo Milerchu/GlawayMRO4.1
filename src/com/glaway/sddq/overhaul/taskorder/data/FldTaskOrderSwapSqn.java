@@ -29,19 +29,20 @@ public class FldTaskOrderSwapSqn extends JpoField {
 
 			String type = getJpo().getParent().getString("type");// 工单类型
 			if ("验证".equals(type)) {
-				setLookupMap(new String[] { "SQN", "ITEMNUM", "LOTNUM",
-						"ASSETNUM", "FAULTPOSITION" }, new String[] { "SQN",
-						"ITEMNUM", "LOTNUM", "ASSETNUM", "RNUM" });
+				setLookupMap(new String[] { "ASSETNUM", "SQN", "ITEMNUM",
+						"LOTNUM", "FAULTPOSITION" }, new String[] { "ASSETNUM",
+						"SQN", "ITEMNUM", "LOTNUM", "RNUM" });
 			} else {
-				setLookupMap(new String[] { "SQN", "ITEMNUM", "LOTNUM",
-						"ASSETNUM", "FAULTPOSITION", "SOFTVERSION" },
-						new String[] { "SQN", "ITEMNUM", "LOTNUM", "ASSETNUM",
+				setLookupMap(new String[] { "ASSETNUM", "SQN", "ITEMNUM",
+						"LOTNUM", "FAULTPOSITION", "SOFTVERSION" },
+						new String[] { "ASSETNUM", "SQN", "ITEMNUM", "LOTNUM",
 								"RNUM", "SOFTVERSION" });
 			}
 		} else {
-			setLookupMap(new String[] { "SQN", "ITEMNUM", "LOTNUM", "ASSETNUM",
-					"FAULTPOSITION", "SOFTVERSION" }, new String[] { "SQN",
-					"ITEMNUM", "LOTNUM", "ASSETNUM", "RNUM", "SOFTVERSION" });
+			setLookupMap(new String[] { "ASSETNUM", "SQN", "ITEMNUM", "LOTNUM",
+					"FAULTPOSITION", "SOFTVERSION" }, new String[] {
+					"ASSETNUM", "SQN", "ITEMNUM", "LOTNUM", "RNUM",
+					"SOFTVERSION" });
 		}
 
 	}

@@ -76,7 +76,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 										"transferline",
 										MroServer.getMroServer()
 												.getSystemUserServer());
-						transferlineset.setQueryWhere("transfernum='"
+						transferlineset.setUserWhere("transfernum='"
 								+ transfernum
 								+ "' and status!='已接收' and transferlineid!='"
 								+ transferlineid + "'");
@@ -213,7 +213,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 			if (!Sqn.isEmpty()) {
 				IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",
 						MroServer.getMroServer().getSystemUserServer());// --对应的周转件集合
-				assetset.setQueryWhere("assetnum='" + assetnum + "'");
+				assetset.setUserWhere("assetnum='" + assetnum + "'");
 				assetset.reset();
 				if (!assetset.isEmpty()) {// --判断对应周转件的存在
 					IJpoSet outinventoryset = MroServer.getMroServer()
@@ -221,7 +221,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 									"sys_inventory",
 									MroServer.getMroServer()
 											.getSystemUserServer());// --调拨出库库存的集合
-					outinventoryset.setQueryWhere("itemnum='" + itemnum
+					outinventoryset.setUserWhere("itemnum='" + itemnum
 							+ "' and location='" + ISSUESTOREROOM + "'");
 					outinventoryset.reset();
 					if (!outinventoryset.isEmpty()) {
@@ -247,7 +247,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet out_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨出库库存的集合
-				out_inventoryset.setQueryWhere("itemnum='" + itemnum
+				out_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + ISSUESTOREROOM + "'");
 				out_inventoryset.reset();
 				if (!out_inventoryset.isEmpty()) {
@@ -262,7 +262,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨出库批次集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + ISSUESTOREROOM
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -287,7 +287,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet out_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨出库库存的集合
-				out_inventoryset.setQueryWhere("itemnum='" + itemnum
+				out_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + ISSUESTOREROOM + "'");
 				out_inventoryset.reset();
 				if (!out_inventoryset.isEmpty()) {
@@ -308,7 +308,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 			if (!Sqn.isEmpty()) {
 				IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",
 						MroServer.getMroServer().getSystemUserServer());// --对应的周转件集合
-				assetset.setQueryWhere("assetnum='" + assetnum + "'");
+				assetset.setUserWhere("assetnum='" + assetnum + "'");
 				assetset.reset();
 				if (!assetset.isEmpty()) {// --判断对应周转件的存在
 					IJpoSet outinventoryset = MroServer.getMroServer()
@@ -316,7 +316,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 									"sys_inventory",
 									MroServer.getMroServer()
 											.getSystemUserServer());// --调拨出库库存的集合
-					outinventoryset.setQueryWhere("itemnum='" + itemnum
+					outinventoryset.setUserWhere("itemnum='" + itemnum
 							+ "' and location='" + ISSUESTOREROOM + "'");
 					outinventoryset.reset();
 					if (!outinventoryset.isEmpty()) {
@@ -342,7 +342,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet out_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨出库库存的集合
-				out_inventoryset.setQueryWhere("itemnum='" + itemnum
+				out_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + ISSUESTOREROOM + "'");
 				out_inventoryset.reset();
 				if (!out_inventoryset.isEmpty()) {
@@ -357,7 +357,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨出库批次集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + ISSUESTOREROOM
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -382,7 +382,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet out_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨出库库存的集合
-				out_inventoryset.setQueryWhere("itemnum='" + itemnum
+				out_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + ISSUESTOREROOM + "'");
 				out_inventoryset.reset();
 				if (!out_inventoryset.isEmpty()) {
@@ -405,7 +405,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 			if (!Sqn.isEmpty()) {
 				IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",
 						MroServer.getMroServer().getSystemUserServer());// --对应的周转件集合
-				assetset.setQueryWhere("assetnum='" + assetnum + "'");
+				assetset.setUserWhere("assetnum='" + assetnum + "'");
 				assetset.reset();
 				if (!assetset.isEmpty()) {// --判断对应周转件的存在
 					IJpoSet outinventoryset = MroServer.getMroServer()
@@ -413,7 +413,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 									"sys_inventory",
 									MroServer.getMroServer()
 											.getSystemUserServer());// --调拨出库库存的集合
-					outinventoryset.setQueryWhere("itemnum='" + itemnum
+					outinventoryset.setUserWhere("itemnum='" + itemnum
 							+ "' and location='" + ISSUESTOREROOM1 + "'");
 					outinventoryset.reset();
 					if (!outinventoryset.isEmpty()) {
@@ -439,7 +439,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet out_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨出库库存的集合
-				out_inventoryset.setQueryWhere("itemnum='" + itemnum
+				out_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + ISSUESTOREROOM1 + "'");
 				out_inventoryset.reset();
 				if (!out_inventoryset.isEmpty()) {
@@ -454,7 +454,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨出库批次集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + ISSUESTOREROOM1
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -479,7 +479,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet out_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨出库库存的集合
-				out_inventoryset.setQueryWhere("itemnum='" + itemnum
+				out_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + ISSUESTOREROOM1 + "'");
 				out_inventoryset.reset();
 				if (!out_inventoryset.isEmpty()) {
@@ -663,7 +663,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 					IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 							"sys_inventory",
 							MroServer.getMroServer().getSystemUserServer());// --调拨入库库存的集合
-					inventoryset.setQueryWhere("itemnum='" + itemnum
+					inventoryset.setUserWhere("itemnum='" + itemnum
 							+ "' and location='" + RECEIVESTOREROOM + "'");
 					inventoryset.reset();
 
@@ -704,7 +704,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet in_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨入库库存的集合
-				in_inventoryset.setQueryWhere("itemnum='" + itemnum
+				in_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + RECEIVESTOREROOM + "'");
 				in_inventoryset.reset();
 				if (!in_inventoryset.isEmpty()) {
@@ -719,7 +719,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨入库批次集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + RECEIVESTOREROOM
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -764,7 +764,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨入库批次集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + RECEIVESTOREROOM
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -813,7 +813,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet in_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨入库库存的集合
-				in_inventoryset.setQueryWhere("itemnum='" + itemnum
+				in_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + RECEIVESTOREROOM + "'");
 				in_inventoryset.reset();
 
@@ -852,7 +852,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 					IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 							"sys_inventory",
 							MroServer.getMroServer().getSystemUserServer());// --调拨入库库存的集合
-					inventoryset.setQueryWhere("itemnum='" + itemnum
+					inventoryset.setUserWhere("itemnum='" + itemnum
 							+ "' and location='" + RECEIVESTOREROOM + "'");
 					inventoryset.reset();
 
@@ -897,7 +897,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet in_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨入库库存的集合
-				in_inventoryset.setQueryWhere("itemnum='" + itemnum
+				in_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + RECEIVESTOREROOM + "'");
 				in_inventoryset.reset();
 				if (!in_inventoryset.isEmpty()) {
@@ -914,7 +914,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨入库批次集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + RECEIVESTOREROOM
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -961,7 +961,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨入库批次集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + RECEIVESTOREROOM
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -1012,7 +1012,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet in_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨入库库存的集合
-				in_inventoryset.setQueryWhere("itemnum='" + itemnum
+				in_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + RECEIVESTOREROOM + "'");
 				in_inventoryset.reset();
 
@@ -1059,7 +1059,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 					IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 							"sys_inventory",
 							MroServer.getMroServer().getSystemUserServer());// --调拨入库库存的集合
-					inventoryset.setQueryWhere("itemnum='" + itemnum
+					inventoryset.setUserWhere("itemnum='" + itemnum
 							+ "' and location='" + RECEIVESTOREROOM1 + "'");
 					inventoryset.reset();
 
@@ -1098,7 +1098,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet in_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨入库库存的集合
-				in_inventoryset.setQueryWhere("itemnum='" + itemnum
+				in_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + RECEIVESTOREROOM1 + "'");
 				in_inventoryset.reset();
 				if (!in_inventoryset.isEmpty()) {
@@ -1113,7 +1113,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨入库批次集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + RECEIVESTOREROOM1
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -1158,7 +1158,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨入库批次集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + RECEIVESTOREROOM1
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -1207,7 +1207,7 @@ public class JkdChangeSqnDataBean extends DataBean {
 				IJpoSet in_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨入库库存的集合
-				in_inventoryset.setQueryWhere("itemnum='" + itemnum
+				in_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + RECEIVESTOREROOM1 + "'");
 				in_inventoryset.reset();
 
@@ -1566,13 +1566,13 @@ public class JkdChangeSqnDataBean extends DataBean {
 		String RECEIVESTOREROOM = this.getParent().getJpo().getString("ISSUESTOREROOM");
 		IJpoSet itemset = MroServer.getMroServer().getJpoSet("sys_item",
 				MroServer.getMroServer().getSystemUserServer());
-		itemset.setQueryWhere("itemnum='" + ITEMNUM + "'");
+		itemset.setUserWhere("itemnum='" + ITEMNUM + "'");
 		String type = ItemUtil.getItemInfo(ITEMNUM);
 		String commomtype="入库";
 		if (ItemUtil.SQN_ITEM.equals(type)) {
 			IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",
 					MroServer.getMroServer().getSystemUserServer());
-			assetset.setQueryWhere("itemnum='"
+			assetset.setUserWhere("itemnum='"
 					+ ITEMNUM
 					+ "' and sqn='"
 					+ newSQN

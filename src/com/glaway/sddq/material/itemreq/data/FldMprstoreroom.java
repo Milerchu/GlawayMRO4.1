@@ -77,7 +77,7 @@ public class FldMprstoreroom extends JpoField {
 			IJpoSet deptset = MroServer.getMroServer().getJpoSet(
 					"SYS_DEPT",
 					MroServer.getMroServer().getSystemUserServer());
-			deptset.setQueryWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
+			deptset.setUserWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
 					+ APPLICANTBY + "')");
 			deptset.reset();
 			if (!deptset.isEmpty()) {
@@ -103,7 +103,7 @@ public class FldMprstoreroom extends JpoField {
 			IJpoSet deptset = MroServer.getMroServer().getJpoSet(
 					"SYS_DEPT",
 					MroServer.getMroServer().getSystemUserServer());
-			deptset.setQueryWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
+			deptset.setUserWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
 					+ APPLICANTBY + "')");
 			deptset.reset();
 			if (!deptset.isEmpty()) {
@@ -129,7 +129,7 @@ public class FldMprstoreroom extends JpoField {
 			IJpoSet deptset = MroServer.getMroServer().getJpoSet(
 					"SYS_DEPT",
 					MroServer.getMroServer().getSystemUserServer());
-			deptset.setQueryWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
+			deptset.setUserWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
 					+ APPLICANTBY + "')");
 			deptset.reset();
 			if (!deptset.isEmpty()) {
@@ -196,7 +196,7 @@ public class FldMprstoreroom extends JpoField {
 			IJpoSet deptset = MroServer.getMroServer().getJpoSet(
 					"SYS_DEPT",
 					MroServer.getMroServer().getSystemUserServer());
-			deptset.setQueryWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
+			deptset.setUserWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
 					+ APPLICANTBY + "')");
 			deptset.reset();
 			if (!deptset.isEmpty()) {

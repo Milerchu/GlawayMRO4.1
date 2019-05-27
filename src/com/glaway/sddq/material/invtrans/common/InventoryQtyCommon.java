@@ -118,7 +118,7 @@ public class InventoryQtyCommon {
 			if(!inventoryset.isEmpty()){
 				IJpo inventory=inventoryset.getJpo(0);
 				IJpoSet transferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
-				transferlineset.setQueryWhere("itemnum='"+itemnum+"'and status='未接收' and ISSUESTOREROOM='"+location+"'and transfernum in (select transfernum from transfer where status='在途' and type in ('SX','ZXD'))");
+				transferlineset.setUserWhere("itemnum='"+itemnum+"'and status='未接收' and ISSUESTOREROOM='"+location+"'and transfernum in (select transfernum from transfer where status='在途' and type in ('SX','ZXD'))");
 				transferlineset.reset();
 				if (transferlineset.count() > 0) {
 					double fcztqty = 0;
@@ -152,7 +152,7 @@ public class InventoryQtyCommon {
 			if(!inventoryset.isEmpty()){
 				IJpo inventory=inventoryset.getJpo(0);
 				IJpoSet transferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
-				transferlineset.setQueryWhere("itemnum='"+itemnum+"'and status='未接收' and RECEIVESTOREROOM='"+location+"'and transfernum in (select transfernum from transfer where status='在途' and type in ('SX','ZXD'))");
+				transferlineset.setUserWhere("itemnum='"+itemnum+"'and status='未接收' and RECEIVESTOREROOM='"+location+"'and transfernum in (select transfernum from transfer where status='在途' and type in ('SX','ZXD'))");
 				transferlineset.reset();
 				if (transferlineset.count() > 0) {
 					double jsztqty = 0;

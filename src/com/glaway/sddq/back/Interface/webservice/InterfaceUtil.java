@@ -96,13 +96,12 @@ public class InterfaceUtil {
 												+ newsqn);
 									}
 								}
-							}else{
-								jpo.setValue(
-										"status",
+							} else {
+								jpo.setValue("status",
 										SddqConstant.GZPZ_STATUS_CLSB,
 										GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								jpo.setValue("ERRMSG", "系统中不存在产品序列号为："
-										+ sqn + " 物料编码为："+itemnum+"的产品");
+								jpo.setValue("ERRMSG", "系统中不存在产品序列号为：" + sqn
+										+ " 物料编码为：" + itemnum + "的产品");
 							}
 						} else {
 							assetJpoSet.setQueryWhere("sqn='" + sqn + "'");
@@ -140,8 +139,7 @@ public class InterfaceUtil {
 			repairconfigSet.save();
 		}
 	}
-	
-	
+
 	/**
 	 * 
 	 * 获取ERP检修交货单
@@ -149,113 +147,142 @@ public class InterfaceUtil {
 	 * @param jxjhdnum
 	 * @throws MroException
 	 *             [参数说明]
-	 * @throws RemoteException 
+	 * @throws RemoteException
 	 * @throws Exception
 	 * 
 	 */
-	public static JSONArray getErpJxJhd(String jxjhdnum,String jxzj) throws MroException, RemoteException {
+	public static JSONArray getErpJxJhd(String jxjhdnum, String jxzj)
+			throws MroException, RemoteException {
+		String num = "";
+		try {
+			num = IFUtil.addIfHistory("MRO_ERP_JHD", "交货单号：" + jxjhdnum
+					+ ",销售组织：" + jxzj, IFUtil.TYPE_INPUT);
 
-		ComZzsErpZTFUN_WMS_LIKPStub service = new ComZzsErpZTFUN_WMS_LIKPStub();
+			ComZzsErpZTFUN_WMS_LIKPStub service = new ComZzsErpZTFUN_WMS_LIKPStub();
 
-		Authenticator auth = new Authenticator();
-		String user = IFUtil.getIfServiceInfo("erp.user");
-		String pwd = IFUtil.getIfServiceInfo("erp.pwd");
-		auth.setUsername(user);
-		auth.setPassword(pwd);
-		service._getServiceClient().getOptions()
-				.setProperty(HTTPConstants.AUTHENTICATE, auth);
+			Authenticator auth = new Authenticator();
+			String user = IFUtil.getIfServiceInfo("erp.user");
+			String pwd = IFUtil.getIfServiceInfo("erp.pwd");
+			auth.setUsername(user);
+			auth.setPassword(pwd);
+			service._getServiceClient().getOptions()
+					.setProperty(HTTPConstants.AUTHENTICATE, auth);
 
-		ZtfunWmsLikpE ztfunWmsLikp0 = new ZtfunWmsLikpE();
+			ZtfunWmsLikpE ztfunWmsLikp0 = new ZtfunWmsLikpE();
 
-		Date dathigh = new Date();
-		dathigh.setDate("0000-00-00");
-		ztfunWmsLikp0.setLDathigh(dathigh);
+			Date dathigh = new Date();
+			dathigh.setDate("0000-00-00");
+			ztfunWmsLikp0.setLDathigh(dathigh);
 
-		Date ldatlow = new Date();
-		ldatlow.setDate("0000-00-00");
-		ztfunWmsLikp0.setLDatlow(ldatlow);
+			Date ldatlow = new Date();
+			ldatlow.setDate("0000-00-00");
+			ztfunWmsLikp0.setLDatlow(ldatlow);
 
-		Char10 lvbeln = new Char10();
-		lvbeln.setChar10(jxjhdnum);
-		ztfunWmsLikp0.setLVbeln(lvbeln);
+			Char10 lvbeln = new Char10();
+			lvbeln.setChar10(jxjhdnum);
+			ztfunWmsLikp0.setLVbeln(lvbeln);
 
-		Char4 lvkorg = new Char4();
-		lvkorg.setChar4(jxzj);
-		ztfunWmsLikp0.setLVkorg(lvkorg);
+			Char4 lvkorg = new Char4();
+			lvkorg.setChar4(jxzj);
+			ztfunWmsLikp0.setLVkorg(lvkorg);
 
-		TableOfZtfunWmsLikp tablein = new TableOfZtfunWmsLikp();
-		ztfunWmsLikp0.setTOutput(tablein);
+			TableOfZtfunWmsLikp tablein = new TableOfZtfunWmsLikp();
+			ztfunWmsLikp0.setTOutput(tablein);
 
-		ZtfunWmsLikpResponse ret = service.ztfunWmsLikp(ztfunWmsLikp0);
-		if (ret != null) {
-			TableOfZtfunWmsLikp table = ret.getTOutput();
-			if (table != null) {
+			ZtfunWmsLikpResponse ret = service.ztfunWmsLikp(ztfunWmsLikp0);
+			if (ret != null) {
+				TableOfZtfunWmsLikp table = ret.getTOutput();
+				if (table != null) {
 
-				ZtfunWmsLikp[] zppz = table.getItem();
-				if (zppz != null) {
-					JSONArray jArray = new JSONArray();
-					for (ZtfunWmsLikp row : table.getItem()) {
-						JSONObject jobject = new JSONObject();
-						jobject.put("LFDAT", row.getLfdat());
-						jobject.put("VKORG", row.getVkorg().toString());// 销售组织
+					ZtfunWmsLikp[] zppz = table.getItem();
+					if (zppz != null) {
+						JSONArray jArray = new JSONArray();
+						for (ZtfunWmsLikp row : table.getItem()) {
+							JSONObject jobject = new JSONObject();
+							jobject.put("LFDAT", row.getLfdat());
+							jobject.put("VKORG", row.getVkorg().toString());// 销售组织
 
-						jobject.put("JHNUM", row.getVbeln().toString());// 交货单号
+							jobject.put("JHNUM", row.getVbeln().toString());// 交货单号
 
-						jobject.put("POSNR", row.getPosnr().toString());// 交货单行号
+							jobject.put("POSNR", row.getPosnr().toString());// 交货单行号
 
-						jobject.put("PSTYV", row.getPstyv().toString());// 交货项目类别
+							jobject.put("PSTYV", row.getPstyv().toString());// 交货项目类别
 
-						jobject.put("ERPITEMNUM", row.getMatnr().toString());// 物料编码
-						jobject.put("ITEMNUM", ItemUtil.getItemnumFor400(row.getMatnr().toString()));// 物料编码
-						
+							jobject.put("ERPITEMNUM", row.getMatnr().toString());// 物料编码
+							jobject.put("ITEMNUM",
+									ItemUtil.getItemnumFor400(row.getMatnr()
+											.toString()));// 物料编码
 
-						jobject.put("MAKTX", row.getMaktx().toString());// 物料描述
+							jobject.put("MAKTX", row.getMaktx().toString());// 物料描述
 
-						jobject.put("LFIMG", row.getLfimg());// 数量
+							jobject.put("LFIMG", row.getLfimg());// 数量
 
-						jobject.put("VRKME", row.getVrkme().toString());// 单位
+							jobject.put("VRKME", row.getVrkme().toString());// 单位
 
-						jobject.put("WERKS", row.getWerks().toString());// 工厂
+							jobject.put("WERKS", row.getWerks().toString());// 工厂
 
-						jobject.put("LGORT", row.getLgort().toString());// 库存地点
+							jobject.put("LGORT", row.getLgort().toString());// 库存地点
 
-						jobject.put("BWART", row.getBwart().toString());// 移动类型
+							jobject.put("BWART", row.getBwart().toString());// 移动类型
 
-						jobject.put("VGBEL", row.getVgbel().toString());// 销售订单号
+							jobject.put("VGBEL", row.getVgbel().toString());// 销售订单号
 
-						jobject.put("VGPOS", row.getVgpos().toString());// 销售订单行
+							jobject.put("VGPOS", row.getVgpos().toString());// 销售订单行
 
-						jobject.put("SHDW", row.getName1().toString());// 收货单位
+							jobject.put("SHDW", row.getName1().toString());// 收货单位
 
-						jobject.put("REMARK", row.getRemarkHead().toString());// 备注
+							jobject.put("REMARK", row.getRemarkHead()
+									.toString());// 备注
 
-						jobject.put("ADDRESS", row.getAddress().toString());// 地址
+							jobject.put("ADDRESS", row.getAddress().toString());// 地址
 
-						jArray.add(jobject);
+							jArray.add(jobject);
+						}
+						IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS,
+								IFUtil.FLAG_YES, jArray.toJSONString());
+						return jArray;
+					} else {
+						IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE,
+								IFUtil.FLAG_YES, "交货单返回数据为空，ERP返回提示为："+ret.getMessage().toString());
+						return null;
 					}
-					return jArray;
 				} else {
+					IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE,
+							IFUtil.FLAG_YES, "ERP接口返回为空，返回消息"+ret.getMessage().toString());
 					return null;
 				}
 			} else {
+				IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE,
+						IFUtil.FLAG_YES,"交货单ERP返回数据为空");
 				return null;
 			}
-		} else {
-			return null;
+		} catch (MroException e) {
+			// 处理失败
+			try {
+				IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE,
+						IFUtil.FLAG_YES, e.getMessage());
+			} catch (MroException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
 		}
+		return null;
 	}
-	
+
 	/**
 	 * 
 	 * 调用ERP拣配过账接口
+	 * 
 	 * @param jxjhdnum
 	 * @return
-	 * @throws MroException [参数说明]
-	 * @throws RemoteException 
-	 *
+	 * @throws MroException
+	 *             [参数说明]
+	 * @throws RemoteException
+	 * 
 	 */
-	public static JSONObject toErpJxJH(String jxjhdnum) throws MroException, RemoteException{
-		
+	public static JSONObject toErpJxJH(String jxjhdnum) throws MroException,
+			RemoteException {
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String currDate = sdf.format(MroServer.getMroServer().getDate());
 		String lognum = "";

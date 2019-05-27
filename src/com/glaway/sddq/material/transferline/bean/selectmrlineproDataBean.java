@@ -85,7 +85,7 @@ public class selectmrlineproDataBean extends DataBean {
 				IJpoSet itemset = MroServer.getMroServer().getJpoSet(
 						"sys_item",
 						MroServer.getMroServer().getSystemUserServer());
-				itemset.setQueryWhere("itemnum='" + itemnum + "'");
+				itemset.setUserWhere("itemnum='" + itemnum + "'");
 				String type = ItemUtil.getItemInfo(itemnum);
 
 				if (ItemUtil.SQN_ITEM.equals(type)

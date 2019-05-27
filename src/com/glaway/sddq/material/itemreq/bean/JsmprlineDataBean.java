@@ -36,6 +36,16 @@ public class JsmprlineDataBean extends DataBean {
 		} else {
 			throw new MroException("transferline", "endbyreceive");
 		}
+		String RKTYPE=this.page.getAppBean().getJpo().getString("RKTYPE");
+		if(RKTYPE.equalsIgnoreCase("拆借件入库")){
+			String sqn=this.getJpo().getString("sqn");
+			String assetnum=this.getJpo().getString("assetnum");
+			if(!sqn.isEmpty()){
+				if(assetnum.isEmpty()){
+					throw new MroException("拆借件入库序列号为选择，不能手动录入，请通过选择获取序列号");
+				}
+			}
+		}
 
 	}
 

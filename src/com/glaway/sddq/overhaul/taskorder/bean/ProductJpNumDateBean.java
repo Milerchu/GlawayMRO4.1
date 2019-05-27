@@ -39,9 +39,9 @@ public class ProductJpNumDateBean extends DataBean {
 			
 			//重新选择后删除原有数据
 			IJpoSet alljobtaskrecordSet = this.getJpo().getJpoSet(
-					"$All_JOBTASKRECORD", "JXTASKRECORD", "SQN='" + sqn + "'");
+					"$All_JOBTASKRECORD", "JXTASKRECORD", "autonum='" + autonum	+"'");
 			IJpoSet alljobtestrecordSet = this.getJpo().getJpoSet(
-					"$All_JOBTESTRECORD", "JXTESTRECORD", "SQN='" + sqn + "'");
+					"$All_JOBTESTRECORD", "JXTESTRECORD", "autonum='" + autonum +"'");
 			alljobtaskrecordSet.deleteAll();
 			alljobtestrecordSet.deleteAll();
 
@@ -77,5 +77,6 @@ public class ProductJpNumDateBean extends DataBean {
 				}
 			}
 		}
+		this.getAppBean().save();
 	}
 }

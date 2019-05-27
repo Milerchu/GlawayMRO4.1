@@ -162,6 +162,21 @@ public class ZxTransferlineStatusDataBean extends DataBean {
 		if (ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_1020)
 				|| ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_1030)) {
 			if (ISSUESTOREROOM_parent.equalsIgnoreCase(RECEIVESTOREROOM_parent)) {
+				String jponame = this.getParent().getJpo().getName();
+				String jpoid = this.getParent().getString("transferlineid");
+				IJpoSet erpifaceset = MroServer.getMroServer().getJpoSet("erpiface",
+						MroServer.getMroServer().getSystemUserServer());
+				erpifaceset.setUserWhere("jponame='" + jponame + "' and jpoid='"
+						+ jpoid + "'");
+				erpifaceset.reset();
+				if (erpifaceset.isEmpty()) {
+					IJpo erpiface = erpifaceset.addJpo();
+					erpiface.setValue("jponame", jponame,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					erpiface.setValue("jpoid", jpoid,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					erpifaceset.save();
+				}
 				parent.setValue("inbinnum", inbinnum,
 						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 				parent.setValue("YJSQTY", newyjsqty,
@@ -174,7 +189,7 @@ public class ZxTransferlineStatusDataBean extends DataBean {
 									"transferline",
 									MroServer.getMroServer()
 											.getSystemUserServer());
-					transferlineset.setQueryWhere("transfernum='" + transfernum
+					transferlineset.setUserWhere("transfernum='" + transfernum
 							+ "' and status!='已接收' and transferlineid!='"
 							+ transferlineid + "'");
 					if (transferlineset.isEmpty()) {
@@ -222,7 +237,7 @@ public class ZxTransferlineStatusDataBean extends DataBean {
 										"transferline",
 										MroServer.getMroServer()
 												.getSystemUserServer());
-						transferlineset.setQueryWhere("transfernum='"
+						transferlineset.setUserWhere("transfernum='"
 								+ transfernum
 								+ "' and status!='已接收' and transferlineid!='"
 								+ transferlineid + "'");
@@ -271,6 +286,21 @@ public class ZxTransferlineStatusDataBean extends DataBean {
 				}
 			}
 		} else {
+			String jponame = this.getParent().getJpo().getName();
+			String jpoid = this.getParent().getString("transferlineid");
+			IJpoSet erpifaceset = MroServer.getMroServer().getJpoSet("erpiface",
+					MroServer.getMroServer().getSystemUserServer());
+			erpifaceset.setUserWhere("jponame='" + jponame + "' and jpoid='"
+					+ jpoid + "'");
+			erpifaceset.reset();
+			if (erpifaceset.isEmpty()) {
+				IJpo erpiface = erpifaceset.addJpo();
+				erpiface.setValue("jponame", jponame,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				erpiface.setValue("jpoid", jpoid,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				erpifaceset.save();
+			}
 			parent.setValue("inbinnum", inbinnum,
 					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 			parent.setValue("YJSQTY", newyjsqty,
@@ -281,7 +311,7 @@ public class ZxTransferlineStatusDataBean extends DataBean {
 				IJpoSet transferlineset = MroServer.getMroServer().getJpoSet(
 						"transferline",
 						MroServer.getMroServer().getSystemUserServer());
-				transferlineset.setQueryWhere("transfernum='" + transfernum
+				transferlineset.setUserWhere("transfernum='" + transfernum
 						+ "' and status!='已接收' and transferlineid!='"
 						+ transferlineid + "'");
 				if (transferlineset.isEmpty()) {
@@ -847,7 +877,7 @@ public class ZxTransferlineStatusDataBean extends DataBean {
 				IJpoSet mrlineset = MroServer.getMroServer().getJpoSet(
 						"mrline",
 						MroServer.getMroServer().getSystemUserServer());
-				mrlineset.setQueryWhere("mrnum='" + mrnum + "' and itemnum='"
+				mrlineset.setUserWhere("mrnum='" + mrnum + "' and itemnum='"
 						+ itemnum + "'");
 				if (!mrlineset.isEmpty()) {
 					double endpayqty = mrlineset.getJpo(0).getDouble(
@@ -886,7 +916,7 @@ public class ZxTransferlineStatusDataBean extends DataBean {
 		IJpoSet deptset = MroServer.getMroServer().getJpoSet(
 				"SYS_DEPT",
 				MroServer.getMroServer().getSystemUserServer());
-		deptset.setQueryWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
+		deptset.setUserWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
 				+ loginid + "')");
 		deptset.reset();
 		if (!deptset.isEmpty()) {

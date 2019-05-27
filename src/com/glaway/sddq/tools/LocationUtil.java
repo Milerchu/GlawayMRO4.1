@@ -89,7 +89,7 @@ public class LocationUtil {
 						+ "' and  STOREROOMLEVEL in('"
 						+ ItemUtil.STOREROOMLEVEL_XCZDK + "','"
 						+ ItemUtil.STOREROOMLEVEL_XCK + "') and locationtype='"
-						+ ItemUtil.LOCATIONTYPE_WX + "' and jxorfw='"
+						+ ItemUtil.LOCATIONTYPE_CG + "' and jxorfw='"
 						+ ItemUtil.JXORFW_JX + "'");
 				locationsSet.reset();
 				if (locationsSet != null && locationsSet.count() > 0) {
@@ -137,7 +137,7 @@ public class LocationUtil {
 						+ "' and  STOREROOMLEVEL in('"
 						+ ItemUtil.STOREROOMLEVEL_XCZDK + "','"
 						+ ItemUtil.STOREROOMLEVEL_XCK + "') and locationtype='"
-						+ ItemUtil.LOCATIONTYPE_WX + "' and jxorfw='"
+						+ ItemUtil.LOCATIONTYPE_CG + "' and jxorfw='"
 						+ ItemUtil.JXORFW_JX + "'");
 				locationsSet.reset();
 				if (locationsSet != null && locationsSet.count() > 0) {

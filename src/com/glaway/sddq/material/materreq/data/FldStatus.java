@@ -62,7 +62,7 @@ public class FldStatus extends JpoField {
 		IJpoSet mrlinetransferkeeperset = MroServer.getMroServer().getJpoSet(
 				"MRLINETRANSFER",
 				MroServer.getMroServer().getSystemUserServer());
-		mrlinetransferkeeperset.setQueryWhere("mrnum='" + mrnum
+		mrlinetransferkeeperset.setUserWhere("mrnum='" + mrnum
 				+ "' and TRANSTYPE='退回申请人' and calltrans='否'");
 		if (!mrlinetransferkeeperset.isEmpty()) {
 			IJpoSet MSGMANAGEset = MroServer.getMroServer()
@@ -103,7 +103,7 @@ public class FldStatus extends JpoField {
 			MSGMANAGEset.save();
 			IJpoSet mrlinetransferset = mr.getJpoSet("mrlinetransfer");
 			mrlinetransferset
-					.setQueryWhere("TRANSTYPE='退回申请人' and calltrans='否'");
+					.setUserWhere("TRANSTYPE='退回申请人' and calltrans='否'");
 			mrlinetransferset.reset();
 			if (!mrlinetransferset.isEmpty()) {
 				for (int j = 0; j < mrlinetransferset.count(); j++) {
@@ -135,7 +135,7 @@ public class FldStatus extends JpoField {
 		IJpoSet mrlinetransferkeeperset = MroServer.getMroServer().getJpoSet(
 				"sys_person", MroServer.getMroServer().getSystemUserServer());
 		mrlinetransferkeeperset
-				.setQueryWhere("personid in (select keeper from mrlinetransfer where mrnum='"
+				.setUserWhere("personid in (select keeper from mrlinetransfer where mrnum='"
 						+ mrnum
 						+ "' and TRANSTYPE in ('"
 						+ ItemUtil.TRANSTYPE_XCDB
@@ -255,7 +255,7 @@ public class FldStatus extends JpoField {
 				IJpoSet deptset = MroServer.getMroServer().getJpoSet(
 						"SYS_DEPT",
 						MroServer.getMroServer().getSystemUserServer());
-				deptset.setQueryWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
+				deptset.setUserWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
 						+ personid + "')");
 				deptset.reset();
 				String deptnum = "";

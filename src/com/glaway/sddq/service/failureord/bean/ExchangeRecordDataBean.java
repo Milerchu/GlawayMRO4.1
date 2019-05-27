@@ -23,10 +23,15 @@ public class ExchangeRecordDataBean extends DataBean {
 
 	@Override
 	public int addrow() throws MroException, IOException {
+
+		String status = getAppBean().getJpo().getString("status");
+		if (SddqConstant.WO_STATUS_JSZGSH.equals(status)) {
+			throw new MroException("当前状态不可添加！");
+		}
 		int ret = super.addrow();
 		if (getJpoSet().count() < 2) {
 			// 没有上下车记录时，新增第一条记录将故障件设为主故障件
-			getJpo().setValue("ISMAINFAULT", "1");
+			getJpo().setValue("ISMAINFAULT", "1", GWConstant.P_NOVALIDATION);
 		}
 		// 根据故障后果对是否邮件通报和是否技术分析字段勾选
 		IJpo parent = this.getParent().getJpo();
@@ -34,8 +39,10 @@ public class ExchangeRecordDataBean extends DataBean {
 		String faultconseq = parent.getString("FAULTCONSEQ");
 		if (!faultconseq.isEmpty()) {
 			if (WorkorderUtil.isImpFault(faultconseq)) {// 判断是否是高级故障
-				this.getJpo().setValue("ISAPPNOTICE", "1");
-				this.getJpo().setValue("ISTECHAANALYZE", "1");
+				this.getJpo().setValue("ISAPPNOTICE", "1",
+						GWConstant.P_NOVALIDATION);
+				this.getJpo().setValue("ISTECHAANALYZE", "1",
+						GWConstant.P_NOVALIDATION);
 				this.getJpo().setFieldFlag("ISAPPNOTICE",
 						GWConstant.S_READONLY, true);
 				this.getJpo().setFieldFlag("ISTECHAANALYZE",
@@ -133,9 +140,12 @@ public class ExchangeRecordDataBean extends DataBean {
 
 	@Override
 	public synchronized void delete() throws MroException {
-		super.delete();
 
 		String status = getAppBean().getJpo().getString("status");
+		if (SddqConstant.WO_STATUS_JSZGSH.equals(status)) {
+			throw new MroException("当前状态不可删除！");
+		}
+		super.delete();
 
 		if (SddqConstant.WO_STATUS_CLZ.equals(status)
 				|| SddqConstant.WO_STATUS_KGYBH.equals(status)

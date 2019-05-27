@@ -1030,14 +1030,14 @@ public class GzMprAppBean extends AppBean {
 	// String assetnum=mustchangempr.getString("assetnum");//--资产编号
 	// IJpoSet assetset=MroServer.getMroServer().getJpoSet("asset",
 	// MroServer.getMroServer().getSystemUserServer());//--对应的周转件集合
-	// assetset.setQueryWhere("assetnum='"+assetnum+"'");
+	// assetset.setUserWhere("assetnum='"+assetnum+"'");
 	// assetset.reset();
 	// if(!assetset.isEmpty()){
 	// IJpo asset=assetset.getJpo(0);
 	// IJpoSet
 	// out_inventoryset=MroServer.getMroServer().getJpoSet("sys_inventory",
 	// MroServer.getMroServer().getSystemUserServer());//--对应的出库库存集合
-	// out_inventoryset.setQueryWhere("itemnum='"+itemnum+"' and location='"+location+"'");
+	// out_inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"'");
 	// out_inventoryset.reset();
 	// if(!out_inventoryset.isEmpty()){
 	// IJpo out_inventory=out_inventoryset.getJpo(0);
@@ -1063,7 +1063,7 @@ public class GzMprAppBean extends AppBean {
 	// IJpoSet
 	// out_inventoryset=MroServer.getMroServer().getJpoSet("sys_inventory",
 	// MroServer.getMroServer().getSystemUserServer());//--对应的出库库存集合
-	// out_inventoryset.setQueryWhere("itemnum='"+itemnum+"' and location='"+location+"'");
+	// out_inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"'");
 	// out_inventoryset.reset();
 	// if(!out_inventoryset.isEmpty()){
 	// IJpo out_inventory=out_inventoryset.getJpo(0);
@@ -1072,7 +1072,7 @@ public class GzMprAppBean extends AppBean {
 	// if(!lotnum.equalsIgnoreCase("")){
 	// IJpoSet invblanceset=MroServer.getMroServer().getJpoSet("invblance",
 	// MroServer.getMroServer().getSystemUserServer());//--对应的周转件集合
-	// invblanceset.setQueryWhere("itemnum='"+itemnum+"' and storeroom='"+location+"' and lotnum='"+lotnum+"'");
+	// invblanceset.setUserWhere("itemnum='"+itemnum+"' and storeroom='"+location+"' and lotnum='"+lotnum+"'");
 	// invblanceset.reset();
 	// if(!invblanceset.isEmpty()){
 	// IJpo invblance=invblanceset.getJpo(0);
@@ -1093,7 +1093,7 @@ public class GzMprAppBean extends AppBean {
 	// else{//--判断即不是周转件也不是批次件
 	// IJpoSet inventoryset=MroServer.getMroServer().getJpoSet("sys_inventory",
 	// MroServer.getMroServer().getSystemUserServer());//--调拨出库库存的集合
-	// inventoryset.setQueryWhere("itemnum='"+itemnum+"' and location='"+location+"'");
+	// inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"'");
 	// inventoryset.reset();
 	// if(!inventoryset.isEmpty()){
 	// IJpo inventory=inventoryset.getJpo(0);
@@ -1140,13 +1140,13 @@ public class GzMprAppBean extends AppBean {
 	// String assetnum=mustchangempr.getString("assetnum");//--资产编号
 	// IJpoSet assetset=MroServer.getMroServer().getJpoSet("asset",
 	// MroServer.getMroServer().getSystemUserServer());//--对应的周转件集合
-	// assetset.setQueryWhere("assetnum='"+assetnum+"'");
+	// assetset.setUserWhere("assetnum='"+assetnum+"'");
 	// assetset.reset();
 	// if(!assetset.isEmpty()){
 	// IJpo asset=assetset.getJpo(0);
 	// IJpoSet inventoryset=MroServer.getMroServer().getJpoSet("sys_inventory",
 	// MroServer.getMroServer().getSystemUserServer());//--入库库存的集合
-	// inventoryset.setQueryWhere("itemnum='"+itemnum+"' and location='"+location+"'");
+	// inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"'");
 	// inventoryset.reset();
 	// if(!inventoryset.isEmpty()){
 	// IJpo inventory=inventoryset.getJpo(0);
@@ -1191,7 +1191,7 @@ public class GzMprAppBean extends AppBean {
 	// String lotnum=mustchangempr.getString("lotnum");//--批次号
 	// IJpoSet inventoryset=MroServer.getMroServer().getJpoSet("sys_inventory",
 	// MroServer.getMroServer().getSystemUserServer());//--入库库存的集合
-	// inventoryset.setQueryWhere("itemnum='"+itemnum+"' and location='"+location+"'");
+	// inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"'");
 	// inventoryset.reset();
 	// if(!inventoryset.isEmpty()){
 	// IJpo inventory=inventoryset.getJpo(0);
@@ -1200,7 +1200,7 @@ public class GzMprAppBean extends AppBean {
 	// if(!lotnum.equalsIgnoreCase("")){
 	// IJpoSet invblanceset=MroServer.getMroServer().getJpoSet("invblance",
 	// MroServer.getMroServer().getSystemUserServer());//--对应的周转件集合
-	// invblanceset.setQueryWhere("itemnum='"+itemnum+"' and storeroom='"+location+"' and lotnum='"+lotnum+"'");
+	// invblanceset.setUserWhere("itemnum='"+itemnum+"' and storeroom='"+location+"' and lotnum='"+lotnum+"'");
 	// invblanceset.reset();
 	// if(!invblanceset.isEmpty()){
 	// IJpo invblance=invblanceset.getJpo(0);
@@ -1237,7 +1237,7 @@ public class GzMprAppBean extends AppBean {
 	// if(!lotnum.equalsIgnoreCase("")){
 	// IJpoSet invblanceset=MroServer.getMroServer().getJpoSet("invblance",
 	// MroServer.getMroServer().getSystemUserServer());//--对应的批次件集合
-	// invblanceset.setQueryWhere("itemnum='"+itemnum+"' and storeroom='"+location+"' and lotnum='"+lotnum+"'");
+	// invblanceset.setUserWhere("itemnum='"+itemnum+"' and storeroom='"+location+"' and lotnum='"+lotnum+"'");
 	// invblanceset.reset();
 	// if(!invblanceset.isEmpty()){
 	// IJpo invblance=invblanceset.getJpo(0);
@@ -1284,7 +1284,7 @@ public class GzMprAppBean extends AppBean {
 	// else{//--判断即不是周转件也不是批次件
 	// IJpoSet inventoryset=MroServer.getMroServer().getJpoSet("sys_inventory",
 	// MroServer.getMroServer().getSystemUserServer());//--入库库存的集合
-	// inventoryset.setQueryWhere("itemnum='"+itemnum+"' and location='"+location+"'");
+	// inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"'");
 	// inventoryset.reset();
 	// if(!inventoryset.isEmpty()){
 	// IJpo inventory=inventoryset.getJpo(0);

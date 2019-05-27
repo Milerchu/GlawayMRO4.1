@@ -33,9 +33,9 @@ public class FldTaskOrderSwapNewSqn extends JpoField {
 	 */
 	@Override
 	public void init() throws MroException {
-		this.setLookupMap(new String[] { "NEWSQN", "NEWASSETNUM", "NEWITEMNUM",
+		this.setLookupMap(new String[] { "NEWASSETNUM", "NEWSQN", "NEWITEMNUM",
 				"NEWLOC", "NEWBINNUM", "NEWLOTNUM", "NEWSOFTVERSION" },
-				new String[] { "SQN", "ASSETNUM", "ITEMNUM", "LOCATION",
+				new String[] { "ASSETNUM", "SQN", "ITEMNUM", "LOCATION",
 						"BINNUM", "LOTNUM", "SOFTVERSION" });
 	}
 
@@ -286,9 +286,8 @@ public class FldTaskOrderSwapNewSqn extends JpoField {
 	public void action() throws MroException {
 		super.action();
 		IJpo exjpo = getJpo();
-		String newsqn = getInputMroType().asString();
 		IJpoSet asset = getUserServer().getJpoSet("ASSET",
-				" SQN='" + newsqn + "'");
+				" ASSETNUM='" + exjpo.getString("NEWASSETNUM") + "'");
 		// 首先判断是检修业务还是服务业务，检修又分为检修周转件还是检修偶换件，服务业务问朱昊
 		// 如果是检修周转件，
 		String tasktype = this.getJpo().getString("TASKTYPE");

@@ -59,7 +59,7 @@ public class Wdr extends Jpo {
 			IJpoSet deptset = MroServer.getMroServer().getJpoSet(
 					"SYS_DEPT",
 					MroServer.getMroServer().getSystemUserServer());
-			deptset.setQueryWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
+			deptset.setUserWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
 					+ loginid + "')");
 			deptset.reset();
 			if (!deptset.isEmpty()) {

@@ -5,7 +5,6 @@ import com.glaway.mro.exception.MroException;
 import com.glaway.mro.jpo.IJpo;
 import com.glaway.mro.jpo.Jpo;
 import com.glaway.mro.util.GWConstant;
-import com.glaway.mro.util.StringUtil;
 import com.glaway.sddq.tools.SddqConstant;
 
 /**
@@ -64,7 +63,7 @@ public class LossPart extends Jpo {
 							}
 
 							// 已经触发接口时不可编辑
-							if (iface309 || StringUtil.isStrNotEmpty(erpStatus)) {
+							if (iface309) {
 								setFieldFlag("ISAGREESTAY",
 										GWConstant.S_REQUIRED, false);
 								setFieldFlag("ISAGREESTAY",

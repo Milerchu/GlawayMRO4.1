@@ -87,7 +87,7 @@ public class JxMPrBhDataBean extends DataBean {
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());
-				inventoryset.setQueryWhere("itemnum='"
+				inventoryset.setUserWhere("itemnum='"
 						+ mustcinfo.getString("itemnum") + "' and location='"
 						+ MPRSTOREROOM + "'");
 				if (!inventoryset.isEmpty()) {

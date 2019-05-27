@@ -64,7 +64,7 @@ public class MprlineqtyDataBean extends DataBean {
 					IJpoSet mprlineset = MroServer.getMroServer().getJpoSet(
 							"mprline",
 							MroServer.getMroServer().getSystemUserServer());
-					mprlineset.setQueryWhere("mprnum='" + mprnum
+					mprlineset.setUserWhere("mprnum='" + mprnum
 							+ "' and status!='已接收' and mprlineid!='"
 							+ mprlineid + "'");
 					if (mprlineset.isEmpty()) {
@@ -107,6 +107,7 @@ public class MprlineqtyDataBean extends DataBean {
 						sqnset.getJpo(0).setValue("parent", "",GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 						sqnset.getJpo(0).setValue("assetlevel", "ASSET",GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 						sqnset.getJpo(0).setValue("location", location,GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+						sqnset.getJpo(0).setValue("type", "1",GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 //						CommomCarItemLife.INOROURLOCATION(asset, commomtype);//调用一物一档入库计算方法
 						sqnset.save();
 					}
@@ -143,13 +144,13 @@ public class MprlineqtyDataBean extends DataBean {
 				.getString("MPRSTOREROOM");
 		IJpoSet itemset = MroServer.getMroServer().getJpoSet("sys_item",
 				MroServer.getMroServer().getSystemUserServer());
-		itemset.setQueryWhere("itemnum='" + ITEMNUM + "'");
+		itemset.setUserWhere("itemnum='" + ITEMNUM + "'");
 		String type = ItemUtil.getItemInfo(ITEMNUM);
 		String commomtype="入库";
 		if (ItemUtil.SQN_ITEM.equals(type)) {
 			IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",
 					MroServer.getMroServer().getSystemUserServer());
-			assetset.setQueryWhere("itemnum='"
+			assetset.setUserWhere("itemnum='"
 					+ ITEMNUM
 					+ "' and sqn='"
 					+ SQN

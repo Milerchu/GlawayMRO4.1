@@ -60,7 +60,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
                         MroServer.getMroServer().getSystemUserServer());
                 MroServer.getMroServer().getSystemUserServer().getUserInfo().setDefaultOrg("CRRC");
                 MroServer.getMroServer().getSystemUserServer().getUserInfo().setDefaultSite("ELEC");
-                jxtaskorderSet.setQueryWhere("productionordernum='" + taskParameter.getProductionordernum() + "'");
+                jxtaskorderSet.setUserWhere("productionordernum='" + taskParameter.getProductionordernum() + "'");
                 jxtaskorderSet.reset();
 
                 if (jxtaskorderSet == null || jxtaskorderSet.count() == 0) {
@@ -211,7 +211,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
                         jxtaskitema.deleteAll();
                         IJpoSet mustchangeinfoa = jxtaskorderSet.getJpo().getJpoSet("MUSTCHANGEINFO");
                         mustchangeinfoa.deleteAll();
-                        // jxtaskorderSet.setQueryWhere(arg0)
+                        // jxtaskorderSet.setUserWhere(arg0)
 						// 检修工单赋值
                         IJpo jxtaskorder = jxtaskorderSet.getJpo();
 						// 判断车型，车号，修程不可为空
@@ -457,7 +457,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
             IJpoSet transferset;
 			try {
 				transferset = MroServer.getMroServer().getSysJpoSet("transfer");
-				transferset.setQueryWhere("transfernum='"+data+"'");
+				transferset.setUserWhere("transfernum='"+data+"'");
 				if(!transferset.isEmpty()){
 					if (transferset.getJpo(0).getString("status")
 							.equalsIgnoreCase("在途")) {
@@ -465,7 +465,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
 								GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 						transferset.save();
 						IJpoSet invtransferset= MroServer.getMroServer().getSysJpoSet("transfer");
-						invtransferset.setQueryWhere("transfernum='"+data+"'");
+						invtransferset.setUserWhere("transfernum='"+data+"'");
 						if(!invtransferset.isEmpty()){
 							IJpoSet invtransferlineset=invtransferset.getJpo(0).getJpoSet("transferline");
 							if(!invtransferlineset.isEmpty()){
@@ -545,7 +545,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
             MroServer.getMroServer().getSystemUserServer().getUserInfo().setDefaultOrg("CRRC");
             MroServer.getMroServer().getSystemUserServer().getUserInfo().setDefaultSite("ELEC");
 
-            transferSet.setQueryWhere("TRANSFERNUM='" + data + "'");
+            transferSet.setUserWhere("TRANSFERNUM='" + data + "'");
             transferSet.reset();
             if (transferSet != null && transferSet.count() > 0) {
                 IJpo transfer = transferSet.getJpo(0);
@@ -801,7 +801,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
 //            IJpoSet transferSet;
 //            try {
 //                transferSet = (TransferSet) MroServer.getMroServer().getSysJpoSet("TRANSFER");
-//                transferSet.setQueryWhere("1=2");
+//                transferSet.setUserWhere("1=2");
 //                transferSet.reset();
 //                
 //                Transfer jpo = (Transfer) transferSet.addJpo(11L);
@@ -810,7 +810,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
 //                String type = "JKD";
 //                IJpoSet locationsset = MroServer.getMroServer().getJpoSet("TRANSFER",
 //                        MroServer.getMroServer().getSystemUserServer());
-//                locationsset.setQueryWhere("type='" + type + "'");
+//                locationsset.setUserWhere("type='" + type + "'");
 //                locationsset.reset();
 //                
 //                jpo.setValue("type", "JKD");
@@ -821,7 +821,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
 //                TRANSFERNUMS1 = jpo.getString("TRANSFERNUM");
 //            
 //                transferLineSet = MroServer.getMroServer().getSysJpoSet("TRANSFERLINE");
-//                transferLineSet.setQueryWhere("TRANSFERNUM='" + TRANSFERNUM + "' and TRANSFERLINENUM='"
+//                transferLineSet.setUserWhere("TRANSFERNUM='" + TRANSFERNUM + "' and TRANSFERLINENUM='"
 //                        + TRANSFERLINENUM + "'");
 //                transferLineSet.reset();
 //                if (!transferLineSet.isEmpty()) {
@@ -917,7 +917,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
                     String type = "JKD";
                     IJpoSet locationsset = MroServer.getMroServer().getJpoSet("TRANSFER",
                             MroServer.getMroServer().getSystemUserServer());
-                    locationsset.setQueryWhere("type='" + type + "'");
+                    locationsset.setUserWhere("type='" + type + "'");
                     locationsset.reset();
                     
                     jpo.setValue("type", "JKD");
@@ -935,7 +935,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
 //                String type = "JKD";
 //                IJpoSet locationsset = MroServer.getMroServer().getJpoSet("TRANSFER",
 //                        MroServer.getMroServer().getSystemUserServer());
-//                locationsset.setQueryWhere("type='" + type + "'");
+//                locationsset.setUserWhere("type='" + type + "'");
 //                locationsset.reset();
 //                
 //                jpo.setValue("type", "JKD");
@@ -946,7 +946,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
 //                TRANSFERNUMS1 = jpo.getString("TRANSFERNUM");
             
                 transferLineSet = MroServer.getMroServer().getSysJpoSet("TRANSFERLINE");
-                transferLineSet.setQueryWhere("TRANSFERNUM='" + TRANSFERNUM + "' and TRANSFERLINENUM='"
+                transferLineSet.setUserWhere("TRANSFERNUM='" + TRANSFERNUM + "' and TRANSFERLINENUM='"
                         + TRANSFERLINENUM + "'");
                 transferLineSet.reset();
                 if (!transferLineSet.isEmpty()) {

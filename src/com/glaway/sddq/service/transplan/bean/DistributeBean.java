@@ -78,10 +78,11 @@ public class DistributeBean extends DataBean {
 
 			// 设置计划中的处理人字段的值
 			String dealPersonSetStr = StringUtil.join(personSet.toArray());
-			String planDealPersons = getAppBean().getJpo().getString("DEALPERSONS");
-			if(StringUtil.isStrNotEmpty(planDealPersons)){
+			String planDealPersons = getAppBean().getJpo().getString(
+					"DEALPERSONS");
+			if (StringUtil.isStrNotEmpty(planDealPersons)) {
 				planDealPersons += "," + dealPersonSetStr;
-			}else{
+			} else {
 				planDealPersons = dealPersonSetStr;
 			}
 			getAppBean().getJpo().setValue("DEALPERSONS", planDealPersons,

@@ -77,6 +77,7 @@ public class JxMprOk implements ActionCustomClass {
 			if (type.equalsIgnoreCase("领料")) {
 				try {
 					// 调用可出库方法
+					pplocationqty(jpo);
 					MPROK(jpo);
 					jpo.setValue("status", "申请人接收",
 							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
@@ -114,7 +115,6 @@ public class JxMprOk implements ActionCustomClass {
 	public void MPROK(IJpo mprJpo) throws MroException, IOException {
 
 		String mprnum = mprJpo.getString("mprnum");
-
 		IJpoSet mprlineset = mprJpo.getJpoSet("mprline");
 
 		for (int index = 0; index < mprlineset.count(); index++) {
@@ -128,7 +128,6 @@ public class JxMprOk implements ActionCustomClass {
 					throw new AppException("mprline", "mustchangempr");
 				}
 			}
-
 			IJpoSet mustchangemprset = mprlineset.getJpo(index).getJpoSet(
 					"mustchangempr");
 			if (!mustchangemprset.isEmpty()) {
@@ -155,8 +154,7 @@ public class JxMprOk implements ActionCustomClass {
 				IJpoSet lot_mprlineset = MroServer.getMroServer().getJpoSet(
 						"mprline",
 						MroServer.getMroServer().getSystemUserServer());
-				lot_mprlineset
-						.setQueryWhere("mprnum='"
+				lot_mprlineset.setUserWhere("mprnum='"
 								+ mprnum
 								+ "' and itemnum not in(select itemnum from mustchangempr where mprnum='"
 								+ mprnum + "')");
@@ -1265,7 +1263,7 @@ public class JxMprOk implements ActionCustomClass {
 												"asset",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --对应的周转件集合
-								assetset.setQueryWhere("assetnum='" + assetnum
+								assetset.setUserWhere("assetnum='" + assetnum
 										+ "'");
 								assetset.reset();
 								if (!assetset.isEmpty()) {
@@ -1277,7 +1275,7 @@ public class JxMprOk implements ActionCustomClass {
 													MroServer
 															.getMroServer()
 															.getSystemUserServer());// --对应的出库库存集合
-									out_inventoryset.setQueryWhere("itemnum='"
+									out_inventoryset.setUserWhere("itemnum='"
 											+ itemnum + "' and location='"
 											+ location + "'");
 									out_inventoryset.reset();
@@ -1300,6 +1298,7 @@ public class JxMprOk implements ActionCustomClass {
 														"locqty",
 														newlocqty,
 														GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+										System.out.println("sqninventory:'"+i+"'-'"+itemnum+"':'"+newCURBAL+"'");
 										out_inventoryset.save();
 									}
 									asset.setValue(
@@ -1325,7 +1324,7 @@ public class JxMprOk implements ActionCustomClass {
 												"sys_inventory",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --对应的出库库存集合
-								out_inventoryset.setQueryWhere("itemnum='"
+								out_inventoryset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "'");
 								out_inventoryset.reset();
@@ -1346,7 +1345,7 @@ public class JxMprOk implements ActionCustomClass {
 														MroServer
 																.getMroServer()
 																.getSystemUserServer());// --对应的周转件集合
-										invblanceset.setQueryWhere("itemnum='"
+										invblanceset.setUserWhere("itemnum='"
 												+ itemnum + "' and storeroom='"
 												+ location + "' and lotnum='"
 												+ lotnum + "'");
@@ -1376,6 +1375,7 @@ public class JxMprOk implements ActionCustomClass {
 													"locqty",
 													newlocqty,
 													GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+									System.out.println("lotinventory:'"+i+"'-'"+itemnum+"':'"+newCURBAL+"'");
 									out_inventoryset.save();
 								}
 							}
@@ -1386,7 +1386,7 @@ public class JxMprOk implements ActionCustomClass {
 										"sys_inventory",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨出库库存的集合
-						inventoryset.setQueryWhere("itemnum='" + itemnum
+						inventoryset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location + "'");
 						inventoryset.reset();
 						if (!inventoryset.isEmpty()) {
@@ -1399,6 +1399,7 @@ public class JxMprOk implements ActionCustomClass {
 									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 							inventory.setValue("CURBAL", newcurbal,
 									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							System.out.println("inventory:'"+i+"'-'"+itemnum+"':'"+newcurbal+"'");
 							inventoryset.save();
 						}
 					}
@@ -1448,7 +1449,7 @@ public class JxMprOk implements ActionCustomClass {
 												"asset",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --对应的周转件集合
-								assetset.setQueryWhere("assetnum='" + assetnum
+								assetset.setUserWhere("assetnum='" + assetnum
 										+ "'");
 								assetset.reset();
 								if (!assetset.isEmpty()) {
@@ -1460,7 +1461,7 @@ public class JxMprOk implements ActionCustomClass {
 													MroServer
 															.getMroServer()
 															.getSystemUserServer());// --入库库存的集合
-									inventoryset.setQueryWhere("itemnum='"
+									inventoryset.setUserWhere("itemnum='"
 											+ itemnum + "' and location='"
 											+ location + "'");
 									inventoryset.reset();
@@ -1556,7 +1557,7 @@ public class JxMprOk implements ActionCustomClass {
 												"sys_inventory",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --入库库存的集合
-								inventoryset.setQueryWhere("itemnum='"
+								inventoryset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "'");
 								inventoryset.reset();
@@ -1576,7 +1577,7 @@ public class JxMprOk implements ActionCustomClass {
 														MroServer
 																.getMroServer()
 																.getSystemUserServer());// --对应的周转件集合
-										invblanceset.setQueryWhere("itemnum='"
+										invblanceset.setUserWhere("itemnum='"
 												+ itemnum + "' and storeroom='"
 												+ location + "' and lotnum='"
 												+ lotnum + "'");
@@ -1654,7 +1655,7 @@ public class JxMprOk implements ActionCustomClass {
 														MroServer
 																.getMroServer()
 																.getSystemUserServer());// --对应的批次件集合
-										invblanceset.setQueryWhere("itemnum='"
+										invblanceset.setUserWhere("itemnum='"
 												+ itemnum + "' and storeroom='"
 												+ location + "' and lotnum='"
 												+ lotnum + "'");
@@ -1751,7 +1752,7 @@ public class JxMprOk implements ActionCustomClass {
 										"sys_inventory",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --入库库存的集合
-						inventoryset.setQueryWhere("itemnum='" + itemnum
+						inventoryset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location + "'");
 						inventoryset.reset();
 						if (!inventoryset.isEmpty()) {
@@ -1810,6 +1811,47 @@ public class JxMprOk implements ActionCustomClass {
 					InventoryQtyCommon.KYQTY(itemnum, MPRSTOREROOM);
 				}
 			}
+		}
+	}
+	/**
+	 * 
+	 * <匹配库存数量>
+	 * 
+	 * @param mprJpo
+	 * @throws MroException
+	 * @throws IOException
+	 *             [参数说明]
+	 * 
+	 */
+	public void pplocationqty(IJpo mprJpo) throws MroException, IOException {
+		IJpoSet mprlineset=mprJpo.getJpoSet("mprline");
+		String location=mprJpo.getString("MPRSTOREROOM");
+		String noitem="";
+		String zeiroitem="";
+		String lyqitem="";
+		for (int index = 0; index < mprlineset.count(); index++) {
+			String itemnum = mprlineset.getJpo(index).getString("itemnum");
+			double qty=mprlineset.getJpo(index).getDouble("qty");
+			IJpoSet inventoryset = MroServer.getMroServer().getJpoSet("sys_inventory",MroServer.getMroServer().getSystemUserServer());
+			inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"'");
+			if(inventoryset.isEmpty()){
+				noitem=noitem+itemnum+",";
+			}else{
+				double kyqty=inventoryset.getJpo(0).getDouble("kyqty");
+				if(kyqty<=0){
+					zeiroitem=zeiroitem+itemnum+",";
+				}else{
+					double newqty=kyqty-qty;
+					if(newqty<0){
+						lyqitem=lyqitem+itemnum+",";
+					}
+				}
+			}
+		}
+		if(noitem!=""||zeiroitem!=""||lyqitem!=""){
+			throw new MroException("物料：'"+noitem+"' 在MRO库房：'"+location+"' 中不存在!请先补充库存;" +
+					"物料：'"+zeiroitem+"' 在MRO库房:'"+location+"' 中当前可用数量小于0，不能领料;" +
+							"物料:'"+lyqitem+"'领用数量大于 MRO库房'"+location+"' 中的当前可用数量，请核对数量在进行领料");
 		}
 	}
 }

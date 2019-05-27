@@ -49,7 +49,7 @@ public class SelectMrlineDataBean extends DataBean {
 					+ "and exists (select location from locations where STOREROOMLEVEL='中心库' and locations.location=mrlinetransfer.storeroom) "
 					+ "and exists(select VGBEL from CONVERTLOCLINE where status='已接收' and CONVERTLOCLINE.VGBEL=mrlinetransfer.SAPPONUM) "
 					+ "and exists(select itemnum from CONVERTLOCLINE where status='已接收'and CONVERTLOCLINE.itemnum=mrlinetransfer.itemnum)"
-					+ "and jhqty>zxqty or mrnum='"
+					+ "and transferqty>zxqty or mrnum='"
 					+ mrnum
 					+ "' and exists (select location from locations where STOREROOMLEVEL='中心库' "
 					+ "and locations.location=mrlinetransfer.storeroom) and exists(select itemnum from CONVERTLOCLINE where VGBEL='"
@@ -58,7 +58,7 @@ public class SelectMrlineDataBean extends DataBean {
 					+ "and CONVERTLOCLINE.itemnum=mrlinetransfer.itemnum) and jhqty>zxqty or  mrnum='"
 					+ mrnum
 					+ "' and exists "
-					+ "(select location from locations where STOREROOMLEVEL='中心库'  and locations.location=mrlinetransfer.storeroom) and transferqty>zxqty)";
+					+ "(select location from locations where STOREROOMLEVEL='中心库'  and locations.location=mrlinetransfer.storeroom) and transferqty>zxqty and SAPPONUM is null)";
 		} else {
 			where = "mrlinetransferid in(select mrlinetransferid from mrlinetransfer where mrnum='"
 					+ mrnum
@@ -66,7 +66,7 @@ public class SelectMrlineDataBean extends DataBean {
 					+ "and exists (select location from locations where STOREROOMLEVEL in('区域库','现场库','现场站点库') "
 					+ "and locations.location=mrlinetransfer.storeroom) and exists(select VGBEL from CONVERTLOCLINE where status='已接收' "
 					+ "and CONVERTLOCLINE.VGBEL=mrlinetransfer.SAPPONUM) and exists(select itemnum from CONVERTLOCLINE where status='已接收'"
-					+ "and CONVERTLOCLINE.itemnum=mrlinetransfer.itemnum)and jhqty>zxqty or mrnum='"
+					+ "and CONVERTLOCLINE.itemnum=mrlinetransfer.itemnum)and transferqty>zxqty or mrnum='"
 					+ mrnum
 					+ "' "
 					+ "and exists (select location from locations where STOREROOMLEVEL in('区域库','现场库','现场站点库') "
@@ -124,7 +124,7 @@ public class SelectMrlineDataBean extends DataBean {
 				IJpoSet itemset = MroServer.getMroServer().getJpoSet(
 						"sys_item",
 						MroServer.getMroServer().getSystemUserServer());
-				itemset.setQueryWhere("itemnum='" + itemnum + "'");
+				itemset.setUserWhere("itemnum='" + itemnum + "'");
 				String type = ItemUtil.getItemInfo(itemnum);
 
 				if (ItemUtil.SQN_ITEM.equals(type)

@@ -28,7 +28,7 @@ public class SelectWonumDataBean extends DataBean {
 	public void buildJpoSet() throws MroException {
 		super.buildJpoSet();
 		IJpoSet jposet = getJpoSet();
-		jposet.setQueryWhere("location is null");
+		jposet.setUserWhere("location is null");
 		jposet.reset();
 	}
 
@@ -53,7 +53,7 @@ public class SelectWonumDataBean extends DataBean {
 				IJpoSet projectinfoSet = MroServer.getMroServer().getJpoSet(
 						"PROJECTINFO",
 						MroServer.getMroServer().getSystemUserServer());
-				projectinfoSet.setQueryWhere("PROJECTNUM='" + projectnum + "'");
+				projectinfoSet.setUserWhere("PROJECTNUM='" + projectnum + "'");
 				projectinfoSet.reset();
 				projectinfoSet.getJpo().setValue("location", location,
 						GWConstant.P_NOACTION);

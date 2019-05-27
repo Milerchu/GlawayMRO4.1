@@ -54,7 +54,7 @@ public class SxTransferlineStatusDataBean extends DataBean {
 									"transferline",
 									MroServer.getMroServer()
 											.getSystemUserServer());
-					transferlineset.setQueryWhere("transfernum='" + transfernum
+					transferlineset.setUserWhere("transfernum='" + transfernum
 							+ "' and status!='已接收' and transferlineid!='"
 							+ transferlineid + "'");
 					if (transferlineset.isEmpty()) {

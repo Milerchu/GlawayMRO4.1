@@ -79,19 +79,19 @@ public class JxMprAppBean extends AppBean {
 				}
 			}
 		}
-		if(type.equalsIgnoreCase("领料")){
-			if(!mprlineset.isEmpty()){
-				for(int i=0;i<mprlineset.count();i++){
-					String itemnum=mprlineset.getJpo(i).getString("itemnum");
-					double qty=mprlineset.getJpo(i).getDouble("qty");
-					double curbal=mprlineset.getJpo(i).getDouble("curbal");
-					double kyqty=curbal-qty;
-					if(kyqty<0){
-						throw new MroException("物料编码："+itemnum+"的领用数量大于库存余量");
-					}
-				}
-			}
-		}
+//		if(type.equalsIgnoreCase("领料")){
+//			if(!mprlineset.isEmpty()){
+//				for(int i=0;i<mprlineset.count();i++){
+//					String itemnum=mprlineset.getJpo(i).getString("itemnum");
+//					double qty=mprlineset.getJpo(i).getDouble("qty");
+//					double curbal=mprlineset.getJpo(i).getDouble("curbal");
+//					double kyqty=curbal-qty;
+//					if(kyqty<0){
+//						throw new MroException("物料编码："+itemnum+"的领用数量大于库存余量");
+//					}
+//				}
+//			}
+//		}
 		return super.ROUTEWF();
 	}
 }

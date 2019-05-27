@@ -31,7 +31,7 @@ public class FldKyqty extends JpoField {
 		double qty = 0;
 		IJpoSet itemset = MroServer.getMroServer().getJpoSet("sys_item",
 				MroServer.getMroServer().getSystemUserServer());
-		itemset.setQueryWhere("itemnum='" + itemnum + "'");
+		itemset.setUserWhere("itemnum='" + itemnum + "'");
 		itemset.reset();
 		if (!itemset.isEmpty()) {
 			String type = ItemUtil.getItemInfo(itemnum);
@@ -51,7 +51,7 @@ public class FldKyqty extends JpoField {
 						"transferline",
 						MroServer.getMroServer().getSystemUserServer());
 				transferlineset
-						.setQueryWhere("lotnum='"
+						.setUserWhere("lotnum='"
 								+ lotnum
 								+ "' and itemnum='"
 								+ itemnum

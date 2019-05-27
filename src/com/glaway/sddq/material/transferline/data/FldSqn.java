@@ -87,7 +87,8 @@ public class FldSqn extends JpoField {
 					}
 				}
 				if(this.getJpo().getParent().getString("type").equalsIgnoreCase("ZXD")){
-					String assetnums=CommAssetNum.GETASSETNUM(this.getJpo().getParent().getJpoSet("transferline"));
+//					String assetnums=CommAssetNum.GETASSETNUM(this.getJpo().getParent().getJpoSet("transferline"));
+					String assetnums=null;
 			        IJpoSet transferlineset=MroServer.getMroServer().getJpoSet("transferline", MroServer.getMroServer().getSystemUserServer());
 			        transferlineset.setUserWhere("status not in ('已接收') and transfernum in (select transfernum from transfer where type='ZXD') and itemnum='"+itemnum+"'");
 			        transferlineset.reset();

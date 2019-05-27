@@ -239,24 +239,26 @@ public class WorkorderUtil {
 
 			/* 出入库操作 */
 			if ("WORKORDER".equalsIgnoreCase(workorder.getName())) {// 服务模块工单
-				//判断是否已经进行出入库操作
-				if(!consume.getBoolean("ISINPUT")){
+				// 判断是否已经进行出入库操作
+				if (!consume.getBoolean("ISINPUT")) {
 					// 下车件入库
 					CommonInventory.ININVENTORY(downLotnum, actQty, underLoc,
 							downItemnum, downAssetnum,
 							workorder.getString("ordernum"));
-					//设置入库标志
-					consume.setValue("ISINPUT", 1, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					// 设置入库标志
+					consume.setValue("ISINPUT", 1,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 				}
 
 				if (StringUtil.isStrNotEmpty(upItemnum)) {// 存在上车件
-					//判断是否已经进行出入库操作
-					if(!consume.getBoolean("ISOUTPUT")){
+					// 判断是否已经进行出入库操作
+					if (!consume.getBoolean("ISOUTPUT")) {
 						// 上车件出库
 						CommonInventory.OUTINVENTORY(upLotnum, actQty, upLoc,
 								upItemnum, "", workorder.getString("ordernum"));
-						//设置出库标志
-						consume.setValue("ISOUTPUT", 1, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+						// 设置出库标志
+						consume.setValue("ISOUTPUT", 1,
+								GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 					}
 				}
 				/*
@@ -273,12 +275,13 @@ public class WorkorderUtil {
 				 * consume.getInt("INVENTORY"));
 				 */
 			} else {
-				if(!consume.getBoolean("ISINPUT")){
+				if (!consume.getBoolean("ISINPUT")) {
 					// 下车件入库
 					CommonInventory.ININVENTORY(downLotnum, actQty, underLoc,
 							downItemnum, downAssetnum,
 							workorder.getString("JXTASKNUM"));
-					consume.setValue("ISINPUT", 1, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					consume.setValue("ISINPUT", 1,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 				}
 			}
 			// 上车件出库
@@ -495,13 +498,14 @@ public class WorkorderUtil {
 			}
 			// 出入库操作
 			if (StringUtil.isStrNotEmpty(newitemnum)) {// 有上车件
-				//出库重复判断
-				if(!exchange.getBoolean("ISOUTPUT")){
+				// 出库重复判断
+				if (!exchange.getBoolean("ISOUTPUT")) {
 					// 上车件出库
-					CommonInventory.OUTINVENTORY(newlotnum, 1, newloc, newitemnum,
-							newassetnum, ordernum);
-					//设置出库标记
-					exchange.setValue("ISOUTPUT", 1, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					CommonInventory.OUTINVENTORY(newlotnum, 1, newloc,
+							newitemnum, newassetnum, ordernum);
+					// 设置出库标记
+					exchange.setValue("ISOUTPUT", 1,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 					// 重置锁定标记
 					IJpoSet upAssetSet = exchange.getJpoSet("NEWASSET");
@@ -513,13 +517,14 @@ public class WorkorderUtil {
 				}
 
 			}
-			//入库重复判断
-			if(!exchange.getBoolean("ISINPUT")){
+			// 入库重复判断
+			if (!exchange.getBoolean("ISINPUT")) {
 				// 下车件入库
-				CommonInventory.ININVENTORY(lotnum, 1, location, itemnum, assetnum,
-						ordernum);
-				//设置入库标记
-				exchange.setValue("ISINPUT", 1, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				CommonInventory.ININVENTORY(lotnum, 1, location, itemnum,
+						assetnum, ordernum);
+				// 设置入库标记
+				exchange.setValue("ISINPUT", 1,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 				// 重置锁定标记
 				IJpoSet downAssetSet = exchange.getJpoSet("ASSET");
@@ -694,7 +699,8 @@ public class WorkorderUtil {
 	 * 
 	 * @param projectnum
 	 *            项目编号
-	 * @param role 项目角色
+	 * @param role
+	 *            项目角色
 	 * @return personid
 	 * 
 	 */
@@ -1280,7 +1286,8 @@ public class WorkorderUtil {
 	 * 
 	 * 获取人员组中人员
 	 * 
-	 * @param group 人员组id
+	 * @param group
+	 *            人员组id
 	 * @return 人员id拼接，如：'20110712','20136658'
 	 * @author zhuhao
 	 */
@@ -2987,8 +2994,9 @@ public class WorkorderUtil {
 	 * 
 	 * 根据车型获取车型代码
 	 * 
-	 * @param trainName 车型
-	 *
+	 * @param trainName
+	 *            车型
+	 * 
 	 * @return 车型代码
 	 * 
 	 */
@@ -4103,7 +4111,8 @@ public class WorkorderUtil {
 	 * 
 	 * 根据车型编号获取车型大类
 	 * 
-	 * @param models 车型编号
+	 * @param models
+	 *            车型编号
 	 * @return [参数说明]
 	 * 
 	 */
@@ -4974,22 +4983,29 @@ public class WorkorderUtil {
 
 	/**
 	 * 判断是否进行过出入库操作
-	 * @param type 出库 or 入库
-	 * @param location 库房
-	 * @param itemNum 物料编码
-	 * @param orderNum 工单编号
+	 * 
+	 * @param type
+	 *            出库 or 入库
+	 * @param location
+	 *            库房
+	 * @param itemNum
+	 *            物料编码
+	 * @param orderNum
+	 *            工单编号
 	 * @return 是否已经进行过出入库操作
 	 * @throws MroException
 	 */
-	public static boolean isStorageAction(String type, String location, String itemNum,
-										 String orderNum) throws MroException{
+	public static boolean isStorageAction(String type, String location,
+			String itemNum, String orderNum) throws MroException {
 		boolean flag = false;
-		//出入库记录
-		IJpoSet transRcdSet = MroServer.getMroServer().getSysJpoSet("INVTRANS","itemnum='" + itemNum
-				+ "' and storeroom='" + location + "' and transtype='" + type + "' and tasknum='"
-				+ orderNum + "'");
+		// 出入库记录
+		IJpoSet transRcdSet = MroServer.getMroServer().getSysJpoSet(
+				"INVTRANS",
+				"itemnum='" + itemNum + "' and storeroom='" + location
+						+ "' and transtype='" + type + "' and tasknum='"
+						+ orderNum + "'");
 
-		if(transRcdSet != null && transRcdSet.count() > 0){
+		if (transRcdSet != null && transRcdSet.count() > 0) {
 			flag = true;
 		}
 

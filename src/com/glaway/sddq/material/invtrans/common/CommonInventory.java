@@ -58,13 +58,13 @@ public class CommonInventory {
 					.setDefaultSite("ELEC");
 			IJpoSet itemset = MroServer.getMroServer().getJpoSet("sys_item",
 					MroServer.getMroServer().getSystemUserServer());
-			itemset.setQueryWhere("itemnum='" + itemnum + "'");
+			itemset.setUserWhere("itemnum='" + itemnum + "'");
 
 			String type = ItemUtil.getItemInfo(itemnum);
 			if (ItemUtil.SQN_ITEM.equals(type)) {// --判断是周转件
 				IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",
 						MroServer.getMroServer().getSystemUserServer());// --对应的周转件集合
-				assetset.setQueryWhere("assetnum='" + assetnum + "'");
+				assetset.setUserWhere("assetnum='" + assetnum + "'");
 				assetset.reset();
 				if (!assetset.isEmpty()) {
 					IJpo asset = assetset.getJpo(0);
@@ -74,7 +74,7 @@ public class CommonInventory {
 									"sys_inventory",
 									MroServer.getMroServer()
 											.getSystemUserServer());// --对应的出库库存集合
-					out_inventoryset.setQueryWhere("itemnum='" + itemnum
+					out_inventoryset.setUserWhere("itemnum='" + itemnum
 							+ "' and location='" + location + "'");
 					out_inventoryset.reset();
 					if (!out_inventoryset.isEmpty()) {
@@ -97,7 +97,7 @@ public class CommonInventory {
 				IJpoSet out_inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --对应的出库库存集合
-				out_inventoryset.setQueryWhere("itemnum='" + itemnum
+				out_inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				out_inventoryset.reset();
 				if (!out_inventoryset.isEmpty()) {
@@ -112,7 +112,7 @@ public class CommonInventory {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --对应的周转件集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + location
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -136,7 +136,7 @@ public class CommonInventory {
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --调拨出库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {
@@ -194,12 +194,12 @@ public class CommonInventory {
 					.setDefaultSite("ELEC");
 			IJpoSet itemset = MroServer.getMroServer().getJpoSet("sys_item",
 					MroServer.getMroServer().getSystemUserServer());
-			itemset.setQueryWhere("itemnum='" + itemnum + "'");
+			itemset.setUserWhere("itemnum='" + itemnum + "'");
 			String type = ItemUtil.getItemInfo(itemnum);
 			if (ItemUtil.SQN_ITEM.equals(type)) {// --判断是周转件
 				IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",
 						MroServer.getMroServer().getSystemUserServer());// --对应的周转件集合
-				assetset.setQueryWhere("assetnum='" + assetnum + "'");
+				assetset.setUserWhere("assetnum='" + assetnum + "'");
 				assetset.reset();
 				if (!assetset.isEmpty()) {
 					IJpo asset = assetset.getJpo(0);
@@ -208,7 +208,7 @@ public class CommonInventory {
 					IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 							"sys_inventory",
 							MroServer.getMroServer().getSystemUserServer());// --入库库存的集合
-					inventoryset.setQueryWhere("itemnum='" + itemnum
+					inventoryset.setUserWhere("itemnum='" + itemnum
 							+ "' and location='" + location + "'");
 					inventoryset.reset();
 					if (!inventoryset.isEmpty()) {
@@ -252,7 +252,7 @@ public class CommonInventory {
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --入库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {
@@ -268,7 +268,7 @@ public class CommonInventory {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --对应的周转件集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + location
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -309,7 +309,7 @@ public class CommonInventory {
 										"invblance",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --对应的批次件集合
-						invblanceset.setQueryWhere("itemnum='" + itemnum
+						invblanceset.setUserWhere("itemnum='" + itemnum
 								+ "' and storeroom='" + location
 								+ "' and lotnum='" + lotnum + "'");
 						invblanceset.reset();
@@ -350,7 +350,7 @@ public class CommonInventory {
 				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 						"sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());// --入库库存的集合
-				inventoryset.setQueryWhere("itemnum='" + itemnum
+				inventoryset.setUserWhere("itemnum='" + itemnum
 						+ "' and location='" + location + "'");
 				inventoryset.reset();
 				if (!inventoryset.isEmpty()) {

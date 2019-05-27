@@ -25,7 +25,7 @@ public class ZlocbinItemDataBean extends DataBean {
 	public void buildJpoSet() throws MroException {
 		super.buildJpoSet();
 		this.jpoSet = this.getParent().getJpo().getJpoSet("NOLOTORBINASSET");
-		this.jpoSet.setQueryWhere("binnum is null");
+		this.jpoSet.setUserWhere("binnum is null");
 		this.jpoSet.reset();
 	}
 /**

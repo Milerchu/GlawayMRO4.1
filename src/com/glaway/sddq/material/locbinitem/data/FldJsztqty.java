@@ -33,7 +33,7 @@ public class FldJsztqty extends JpoField {
 					"transferline",
 					MroServer.getMroServer().getSystemUserServer());
 			transferlineset
-					.setQueryWhere("lotnum='"
+					.setUserWhere("lotnum='"
 							+ lotnum
 							+ "' and inbinnum='"
 							+ binnum
@@ -54,7 +54,7 @@ public class FldJsztqty extends JpoField {
 					"transferline",
 					MroServer.getMroServer().getSystemUserServer());
 			transferlineset
-					.setQueryWhere("inbinnum='"
+					.setUserWhere("inbinnum='"
 							+ binnum
 							+ "' and itemnum='"
 							+ itemnum

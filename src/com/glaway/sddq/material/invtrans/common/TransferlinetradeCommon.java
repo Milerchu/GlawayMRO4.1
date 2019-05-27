@@ -57,45 +57,47 @@ public class TransferlinetradeCommon {
 			IJpoSet transferlinetradeset = MroServer.getMroServer().getJpoSet(
 					"transferlinetrade",
 					MroServer.getMroServer().getSystemUserServer());
-			IJpo transferlinetrade = transferlinetradeset.addJpo();
-			transferlinetrade.setValue("transferlineid", transferlineid,
-					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-			transferlinetrade.setValue("siteid", siteid,
-					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-			transferlinetrade.setValue("orgid", orgid,
-					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-			transferlinetrade.setValue("jsqty", jsqty,
-					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-			transferlinetrade.setValue("SXTYPE", SXTYPE,
-					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-			transferlinetrade.setValue("ISSUESTOREROOM", ISSUESTOREROOM,
-					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-			transferlinetrade.setValue("RECEIVESTOREROOM", RECEIVESTOREROOM,
-					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-			transferlinetrade.setValue("itemnum", itemnum,
-					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-			transferlinetrade.setValue("transfernum", transfernum,
-					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-			transferlinetrade.setValue("sqn", sqn,
-					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-			transferlinetrade.setValue("lotnum", lotnum,
-					GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-			if (!itemset.isEmpty()) {
-				itempotype = itemset.getJpo(0).getString("itempotype");
-				transferlinetrade.setValue("itempotype", itempotype,
+			transferlinetradeset.setUserWhere("transferlineid='"+transferlineid+"'");
+			if(transferlinetradeset.isEmpty()){
+				IJpo transferlinetrade = transferlinetradeset.addJpo();
+				transferlinetrade.setValue("transferlineid", transferlineid,
 						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				if (itempotype.equalsIgnoreCase("三菱插件")) {
-					String FAILURECONS = transferline.getString("FAILURECONS");
-					if (!FAILURECONS.isEmpty()) {
-						if (FAILURECONS.equalsIgnoreCase("安监")) {
-							transferlinetrade.setValue("itempotype", "三菱安监插件",
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				transferlinetrade.setValue("siteid", siteid,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				transferlinetrade.setValue("orgid", orgid,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				transferlinetrade.setValue("jsqty", jsqty,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				transferlinetrade.setValue("SXTYPE", SXTYPE,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				transferlinetrade.setValue("ISSUESTOREROOM", ISSUESTOREROOM,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				transferlinetrade.setValue("RECEIVESTOREROOM", RECEIVESTOREROOM,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				transferlinetrade.setValue("itemnum", itemnum,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				transferlinetrade.setValue("transfernum", transfernum,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				transferlinetrade.setValue("sqn", sqn,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				transferlinetrade.setValue("lotnum", lotnum,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+				if (!itemset.isEmpty()) {
+					itempotype = itemset.getJpo(0).getString("itempotype");
+					transferlinetrade.setValue("itempotype", itempotype,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					if (itempotype.equalsIgnoreCase("三菱插件")) {
+						String FAILURECONS = transferline.getString("FAILURECONS");
+						if (!FAILURECONS.isEmpty()) {
+							if (FAILURECONS.equalsIgnoreCase("安监")) {
+								transferlinetrade.setValue("itempotype", "三菱安监插件",
+										GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							}
 						}
 					}
 				}
+				transferlinetradeset.save();
 			}
-			transferlinetradeset.save();
-
 		} catch (MroException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

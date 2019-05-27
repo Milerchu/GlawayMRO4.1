@@ -225,8 +225,9 @@ public class FailureOrdAppBean extends AppBean {
 				throw new MroException("现场处理人联系方式不可为空，请先去人员信息中维护后在录入工单！");
 			}
 
-			//设置当前任务执行人
-			getJpo().setValue("ACTTASKPERSON", getJpo().getString("SERVENGINEER.DISPLAYNAME"),
+			// 设置当前任务执行人
+			getJpo().setValue("ACTTASKPERSON",
+					getJpo().getString("SERVENGINEER.DISPLAYNAME"),
 					GWConstant.P_NOVALIDATION);
 
 			// 处理中/库管员驳回

@@ -41,14 +41,14 @@ public class FldTransType extends JpoField {
 			if (jhjlqty > 0) {
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN",
 						"domainid='LINETRANSTYPE'");
-				domainSet.setQueryWhere("VALUE in ('" + ItemUtil.TRANSTYPE_NBXT
+				domainSet.setUserWhere("VALUE in ('" + ItemUtil.TRANSTYPE_NBXT
 						+ "')");// 过滤-处置方式为内部协调，计划经理协调
 				domainSet.reset();
 				return domainSet;
 			} else {
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN",
 						"domainid='LINETRANSTYPE'");
-				domainSet.setQueryWhere("VALUE in ('" + ItemUtil.TRANSTYPE_NBXT
+				domainSet.setUserWhere("VALUE in ('" + ItemUtil.TRANSTYPE_NBXT
 						+ "','" + ItemUtil.TRANSTYPE_JHJLXT + "')");// 过滤-处置方式为内部协调，计划经理协调
 				domainSet.reset();
 				return domainSet;
@@ -85,13 +85,13 @@ public class FldTransType extends JpoField {
 					domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN",
 							"domainid='LINETRANSTYPE'");
 					if (selecttype.equalsIgnoreCase("匹配")) {
-						domainSet.setQueryWhere("VALUE in ('"
+						domainSet.setUserWhere("VALUE in ('"
 								+ ItemUtil.TRANSTYPE_XCDB + "','"
 								+ ItemUtil.TRANSTYPE_ZXKDB
 								+ "','退回申请人','计划交付后发货','中心库调拨后下达计划')");// 过滤-处置方式为现场调拨，下达计划，返修后发运
 					}
 					if (selecttype.equalsIgnoreCase("新增")) {
-						domainSet.setQueryWhere("VALUE in ('"
+						domainSet.setUserWhere("VALUE in ('"
 								+ ItemUtil.TRANSTYPE_XCDB + "','"
 								+ ItemUtil.TRANSTYPE_ZXKDB
 								+ "','计划交付后发货','中心库调拨后下达计划')");// 过滤-处置方式为现场调拨，下达计划，返修后发运
@@ -102,14 +102,14 @@ public class FldTransType extends JpoField {
 					domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN",
 							"domainid='LINETRANSTYPE'");
 					if (selecttype.equalsIgnoreCase("匹配")) {
-						domainSet.setQueryWhere("VALUE in ('"
+						domainSet.setUserWhere("VALUE in ('"
 								+ ItemUtil.TRANSTYPE_XCDB + "','"
 								+ ItemUtil.TRANSTYPE_FXHFY + "','"
 								+ ItemUtil.TRANSTYPE_ZXKDB
 								+ "','退回申请人','计划交付后发货','中心库调拨后下达计划')");// 过滤-处置方式为现场调拨，下达计划，返修后发运
 					}
 					if (selecttype.equalsIgnoreCase("新增")) {
-						domainSet.setQueryWhere("VALUE in ('"
+						domainSet.setUserWhere("VALUE in ('"
 								+ ItemUtil.TRANSTYPE_XCDB + "','"
 								+ ItemUtil.TRANSTYPE_FXHFY + "','"
 								+ ItemUtil.TRANSTYPE_ZXKDB
@@ -134,14 +134,14 @@ public class FldTransType extends JpoField {
 					domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN",
 							"domainid='LINETRANSTYPE'");
 					if (selecttype.equalsIgnoreCase("匹配")) {
-						domainSet.setQueryWhere("VALUE in ('"
+						domainSet.setUserWhere("VALUE in ('"
 								+ ItemUtil.TRANSTYPE_XCDB + "','"
 								+ ItemUtil.TRANSTYPE_XDJH + "','"
 								+ ItemUtil.TRANSTYPE_ZXKDB
 								+ "','退回申请人','计划交付后发货','中心库调拨后下达计划')");// 过滤-处置方式为现场调拨，下达计划，返修后发运
 					}
 					if (selecttype.equalsIgnoreCase("新增")) {
-						domainSet.setQueryWhere("VALUE in ('"
+						domainSet.setUserWhere("VALUE in ('"
 								+ ItemUtil.TRANSTYPE_XCDB + "','"
 								+ ItemUtil.TRANSTYPE_XDJH + "','"
 								+ ItemUtil.TRANSTYPE_ZXKDB
@@ -153,7 +153,7 @@ public class FldTransType extends JpoField {
 					domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN",
 							"domainid='LINETRANSTYPE'");
 					if (selecttype.equalsIgnoreCase("匹配")) {
-						domainSet.setQueryWhere("VALUE in ('"
+						domainSet.setUserWhere("VALUE in ('"
 								+ ItemUtil.TRANSTYPE_XCDB + "','"
 								+ ItemUtil.TRANSTYPE_FXHFY + "','"
 								+ ItemUtil.TRANSTYPE_XDJH + "','"
@@ -161,7 +161,7 @@ public class FldTransType extends JpoField {
 								+ "','退回申请人','计划交付后发货','中心库调拨后下达计划')");// 过滤-处置方式为现场调拨，下达计划，返修后发运
 					}
 					if (selecttype.equalsIgnoreCase("新增")) {
-						domainSet.setQueryWhere("VALUE in ('"
+						domainSet.setUserWhere("VALUE in ('"
 								+ ItemUtil.TRANSTYPE_XCDB + "','"
 								+ ItemUtil.TRANSTYPE_FXHFY + "','"
 								+ ItemUtil.TRANSTYPE_XDJH + "','"

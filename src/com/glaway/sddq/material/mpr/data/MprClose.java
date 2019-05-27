@@ -595,7 +595,7 @@ public class MprClose implements ActionCustomClass {
 			IJpoSet locationsset = MroServer.getMroServer()
 					.getJpoSet("locations",
 							MroServer.getMroServer().getSystemUserServer());
-			locationsset.setQueryWhere("location='" + MPRSTOREROOM + "'");
+			locationsset.setUserWhere("location='" + MPRSTOREROOM + "'");
 			boolean ISLOCBIN = locationsset.getJpo(0).getBoolean("ISLOCBIN");
 			if (!mprlineset.isEmpty()) {
 				for (int i = 0; i < mprlineset.count(); i++) {
@@ -609,7 +609,7 @@ public class MprClose implements ActionCustomClass {
 					IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 							"sys_inventory",
 							MroServer.getMroServer().getSystemUserServer());// --调拨出库库存的集合
-					inventoryset.setQueryWhere("itemnum='" + itemnum
+					inventoryset.setUserWhere("itemnum='" + itemnum
 							+ "' and location='" + location + "'");
 					inventoryset.reset();
 					if (!inventoryset.isEmpty()) {
@@ -625,7 +625,7 @@ public class MprClose implements ActionCustomClass {
 												"locbinitem",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --璋冩嫧鍑哄簱浠撲綅闆嗗悎
-								locbinitemset.setQueryWhere("itemnum='"
+								locbinitemset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "' and binnum='" + binnum
 										+ "'");

@@ -129,7 +129,7 @@ public class SelectMaterDataBean extends DataBean {
 						.getJpoSet("ASSETMODELPART",
 								MroServer.getMroServer().getSystemUserServer());
 				OLDASSETMODELPARTSET
-						.setQueryWhere("itemnum='"
+						.setUserWhere("itemnum='"
 								+ itemnum
 								+ "' and assetnum in (select assetcsnum from assetcs start with assetcsnum in (select assetcsnum from assetcs where cmodel in (select CMODEL from asset where PROJECTNUM='"
 								+ PROJECT

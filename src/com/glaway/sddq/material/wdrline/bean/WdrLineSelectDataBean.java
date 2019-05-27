@@ -89,8 +89,11 @@ public class WdrLineSelectDataBean extends DataBean {
 						String type = ItemUtil.getItemInfo(itemnum);
 						if (ItemUtil.SQN_ITEM.equals(type)) {// --判断是周转件
 							IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",MroServer.getMroServer().getSystemUserServer());
-							assetset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and assetlevel='ASSET' and status!='在途' and assetnum not in " +
-									"(select assetnum from wdrlineselect where assetnum is not null and wdrnum in (select wdrnum from wdr where status!='处置完成') and itemnum='"+itemnum+"' and location='"+location+"')");
+							assetset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and assetlevel='ASSET' and status!='在途' " +
+									"and assetnum not in (select assetnum from wdrlineselect where assetnum is not null and wdrnum in " +
+									"(select wdrnum from wdr where status='草稿')and itemnum='"+itemnum+"' and location='"+location+"')" +
+									"and assetnum not in (select assetnum from WDRLINE where  wdrnum in " +
+									"(select wdrnum from wdr where status not in ('草稿','处置完成') and itemnum='"+itemnum+"' and location='"+location+"'))");
 							if(!assetset.isEmpty()){
 								for(int j=0;j<assetset.count();j++){
 									IJpo asset=assetset.getJpo(j);
@@ -118,12 +121,18 @@ public class WdrLineSelectDataBean extends DataBean {
 									String lotnum=invblance.getString("lotnum");
 									double physcntqty=invblance.getDouble("physcntqty");
 									double zyphyscntqty=0;
+									double sjzyphyscntqty=0;
 									IJpoSet wdrlineselectinvblanceset = MroServer.getMroServer().getJpoSet("wdrlineselect",MroServer.getMroServer().getSystemUserServer());
-									wdrlineselectinvblanceset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and lotnum='"+lotnum+"' and wdrnum in (select wdrnum from wdr where status!='处置完成')");
+									wdrlineselectinvblanceset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and lotnum='"+lotnum+"' and wdrnum in (select wdrnum from wdr where status='草稿')");
 									if(!wdrlineselectinvblanceset.isEmpty()){
 										zyphyscntqty=wdrlineselectinvblanceset.sum("qty");
 									}
-									double invblancekyqty=physcntqty-zyphyscntqty;
+									IJpoSet wdrlineinvblanceset = MroServer.getMroServer().getJpoSet("wdrline",MroServer.getMroServer().getSystemUserServer());
+									wdrlineinvblanceset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and lotnum='"+lotnum+"' and wdrnum in (select wdrnum from wdr where status not in ('草稿','处置完成'))");
+									if(!wdrlineinvblanceset.isEmpty()){
+										sjzyphyscntqty=wdrlineinvblanceset.sum("SCRAPQTY");
+									}
+									double invblancekyqty=physcntqty-zyphyscntqty-sjzyphyscntqty;
 									if(invblancekyqty>0){
 										IJpo wdrlineselect=wdrlineselectset.addJpo();
 										wdrlineselect.setValue("SITEID", this.page.getAppBean().getJpo().getString("SITEID"));
@@ -139,12 +148,18 @@ public class WdrLineSelectDataBean extends DataBean {
 							}
 						}else{// --判断是非批次非序列号件
 							IJpoSet wdrlineselectitemset = MroServer.getMroServer().getJpoSet("wdrlineselect",MroServer.getMroServer().getSystemUserServer());
-							wdrlineselectitemset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and wdrnum in (select wdrnum from wdr where status!='处置完成')");
+							wdrlineselectitemset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and wdrnum in (select wdrnum from wdr where status='草稿')");
 							double itemqty=0;
+							double sjitemqty=0;
 							if(!wdrlineselectitemset.isEmpty()){
 								itemqty=wdrlineselectitemset.sum("qty");
 							}
-							double itemkyqty=kyqty-itemqty;
+							IJpoSet wdrlineinvblanceset = MroServer.getMroServer().getJpoSet("wdrline",MroServer.getMroServer().getSystemUserServer());
+							wdrlineinvblanceset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and wdrnum in (select wdrnum from wdr where status not in ('草稿','处置完成'))");
+							if(!wdrlineinvblanceset.isEmpty()){
+								sjitemqty=wdrlineinvblanceset.sum("SCRAPQTY");
+							}
+							double itemkyqty=kyqty-itemqty-sjitemqty;
 							if(itemkyqty>0){
 								IJpo wdrlineselect=wdrlineselectset.addJpo();
 								wdrlineselect.setValue("SITEID", this.page.getAppBean().getJpo().getString("SITEID"));
@@ -183,8 +198,11 @@ public class WdrLineSelectDataBean extends DataBean {
 							String type = ItemUtil.getItemInfo(itemnum);
 							if (ItemUtil.SQN_ITEM.equals(type)) {// --判断是周转件
 								IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",MroServer.getMroServer().getSystemUserServer());
-								assetset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and assetlevel='ASSET' and status!='在途' and assetnum not in " +
-										"(select assetnum from wdrlineselect where assetnum is not null and wdrnum in (select wdrnum from wdr where status!='处置完成') and itemnum='"+itemnum+"' and location='"+location+"')");
+								assetset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and assetlevel='ASSET' and status!='在途' " +
+										"and assetnum not in (select assetnum from wdrlineselect where assetnum is not null and wdrnum in " +
+										"(select wdrnum from wdr where status='草稿')and itemnum='"+itemnum+"' and location='"+location+"')" +
+										"and assetnum not in (select assetnum from WDRLINE where  wdrnum in " +
+										"(select wdrnum from wdr where status not in ('草稿','处置完成') and itemnum='"+itemnum+"' and location='"+location+"'))");
 								if(!assetset.isEmpty()){
 									for(int j=0;j<assetset.count();j++){
 										IJpo asset=assetset.getJpo(j);
@@ -212,12 +230,18 @@ public class WdrLineSelectDataBean extends DataBean {
 										String lotnum=invblance.getString("lotnum");
 										double physcntqty=invblance.getDouble("physcntqty");
 										double zyphyscntqty=0;
+										double sjzyphyscntqty=0;
 										IJpoSet wdrlineselectinvblanceset = MroServer.getMroServer().getJpoSet("wdrlineselect",MroServer.getMroServer().getSystemUserServer());
-										wdrlineselectinvblanceset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and lotnum='"+lotnum+"' and wdrnum in (select wdrnum from wdr where status!='处置完成')");
+										wdrlineselectinvblanceset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and lotnum='"+lotnum+"' and wdrnum in (select wdrnum from wdr where status='草稿')");
 										if(!wdrlineselectinvblanceset.isEmpty()){
 											zyphyscntqty=wdrlineselectinvblanceset.sum("qty");
 										}
-										double invblancekyqty=physcntqty-zyphyscntqty;
+										IJpoSet wdrlineinvblanceset = MroServer.getMroServer().getJpoSet("wdrline",MroServer.getMroServer().getSystemUserServer());
+										wdrlineinvblanceset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and lotnum='"+lotnum+"' and wdrnum in (select wdrnum from wdr where status not in ('草稿','处置完成'))");
+										if(!wdrlineinvblanceset.isEmpty()){
+											sjzyphyscntqty=wdrlineinvblanceset.sum("SCRAPQTY");
+										}
+										double invblancekyqty=physcntqty-zyphyscntqty-sjzyphyscntqty;
 										if(invblancekyqty>0){
 											IJpo wdrlineselect=wdrlineselectset.addJpo();
 											wdrlineselect.setValue("SITEID", this.page.getAppBean().getJpo().getString("SITEID"));
@@ -235,10 +259,16 @@ public class WdrLineSelectDataBean extends DataBean {
 								IJpoSet wdrlineselectitemset = MroServer.getMroServer().getJpoSet("wdrlineselect",MroServer.getMroServer().getSystemUserServer());
 								wdrlineselectitemset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and wdrnum in (select wdrnum from wdr where status!='处置完成')");
 								double itemqty=0;
+								double sjitemqty=0;
 								if(!wdrlineselectitemset.isEmpty()){
 									itemqty=wdrlineselectitemset.sum("qty");
 								}
-								double itemkyqty=kyqty-itemqty;
+								IJpoSet wdrlineinvblanceset = MroServer.getMroServer().getJpoSet("wdrline",MroServer.getMroServer().getSystemUserServer());
+								wdrlineinvblanceset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and wdrnum in (select wdrnum from wdr where status not in ('草稿','处置完成'))");
+								if(!wdrlineinvblanceset.isEmpty()){
+									sjitemqty=wdrlineinvblanceset.sum("SCRAPQTY");
+								}
+								double itemkyqty=kyqty-itemqty-sjitemqty;
 								if(itemkyqty>0){
 									IJpo wdrlineselect=wdrlineselectset.addJpo();
 									wdrlineselect.setValue("SITEID", this.page.getAppBean().getJpo().getString("SITEID"));
@@ -273,8 +303,11 @@ public class WdrLineSelectDataBean extends DataBean {
 						double kyqty=curbal-fcztqty;
 						if(kyqty>0){
 								IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",MroServer.getMroServer().getSystemUserServer());
-								assetset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and assetlevel='ASSET' and isnew='1' and status!='在途' and assetnum not in " +
-										"(select assetnum from wdrlineselect where assetnum is not null and wdrnum in (select wdrnum from wdr where status!='处置完成') and itemnum='"+itemnum+"' and location='"+location+"')");
+								assetset.setUserWhere("itemnum='"+itemnum+"' and location='"+location+"' and assetlevel='ASSET' and isnew='1' and status!='在途' " +
+										"and assetnum not in (select assetnum from wdrlineselect where assetnum is not null and wdrnum in " +
+										"(select wdrnum from wdr where status='草稿')and itemnum='"+itemnum+"' and location='"+location+"')" +
+										"and assetnum not in (select assetnum from WDRLINE where  wdrnum in " +
+										"(select wdrnum from wdr where status not in ('草稿','处置完成') and itemnum='"+itemnum+"' and location='"+location+"'))");
 								if(!assetset.isEmpty()){
 									for(int j=0;j<assetset.count();j++){
 										IJpo asset=assetset.getJpo(j);

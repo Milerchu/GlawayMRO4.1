@@ -15,6 +15,18 @@ import com.glaway.sddq.tools.ItemUtil;
  */
 public class FldCourierCompany extends JpoField {
 	/**
+	 * 映射赋值
+	 * 
+	 * @throws MroException
+	 */
+	@Override
+	public void init() throws MroException {
+		super.init();
+		String[] thisAttrs = { this.getFieldName() };
+		String[] srcAttrs = { "VALUE" };
+		setLookupMap(thisAttrs, srcAttrs);
+	}
+	/**
 	 * 根据移动类型过滤发运方式内容
 	 * 
 	 * @return
@@ -30,17 +42,11 @@ public class FldCourierCompany extends JpoField {
 					|| transfermovetype
 							.equalsIgnoreCase(ItemUtil.TRANSFERMOVETYPE_XTOZ)) {
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN",
-						"domainid='COURIERCOMPANY'");
-				domainSet
-						.setUserWhere(domainSet.getUserWhere()
-								+ " and VALUE in ('顺丰','圆通','EMS','中通','德邦','景赋','超音速','金诚')");
+						"domainid='XCOURIERCOMPANY'");
 				domainSet.reset();
 			} else {
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN",
 						"domainid='COURIERCOMPANY'");
-				domainSet
-						.setUserWhere(domainSet.getUserWhere()
-								+ " and VALUE in ('恒安达','自提','顺丰','景赋','南华','飞茂','巨邦','锦海捷亚','电机修造','弘毅','中铁','超音速','金诚')");// 过滤-库房类型为常规
 				domainSet.reset();
 			}
 			return domainSet;

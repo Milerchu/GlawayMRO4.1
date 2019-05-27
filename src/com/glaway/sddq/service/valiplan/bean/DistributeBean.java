@@ -34,7 +34,7 @@ public class DistributeBean extends DataBean {
 		IJpoSet valiorderSet = getDataBean("main_tab2").getJpo().getJpoSet(
 				"VALIORDER");
 		Set<String> personSet = new HashSet<String>();// 处理人personId set
-		Set<String> personNameSet = new HashSet<String>();//处理人name set
+		Set<String> personNameSet = new HashSet<String>();// 处理人name set
 
 		if (valiorderSet != null && valiorderSet.count() > 0) {
 			for (int i = 0; i < valiorderSet.count(); i++) {
@@ -80,10 +80,11 @@ public class DistributeBean extends DataBean {
 
 			// 设置计划中的处理人字段的值
 			String dealPersonSetStr = StringUtil.join(personNameSet.toArray());
-			String planDealPersons = getAppBean().getJpo().getString("DEALPERSONS");
-			if(StringUtil.isStrNotEmpty(planDealPersons)){
+			String planDealPersons = getAppBean().getJpo().getString(
+					"DEALPERSONS");
+			if (StringUtil.isStrNotEmpty(planDealPersons)) {
 				planDealPersons += "," + dealPersonSetStr;
-			}else{
+			} else {
 				planDealPersons = dealPersonSetStr;
 			}
 			getAppBean().getJpo().setValue("DEALPERSONS", planDealPersons,

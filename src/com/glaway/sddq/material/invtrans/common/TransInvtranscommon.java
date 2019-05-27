@@ -43,7 +43,7 @@ public class TransInvtranscommon {
 					"INVTRANS", MroServer.getMroServer().getSystemUserServer());
 			if (!transferlineset.isEmpty()) {
 				IJpoSet notransferlineset = transferlineset;
-				notransferlineset.setQueryWhere("status!='已接收'");
+				notransferlineset.setUserWhere("status!='已接收'");
 				if (!notransferlineset.isEmpty()) {
 					for (int i = 0; i < notransferlineset.count(); i++) {
 						IJpo transferline = notransferlineset.getJpo(i);
@@ -65,7 +65,7 @@ public class TransInvtranscommon {
 										"transfer",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --对应的周转件集合
-						transferset.setQueryWhere("transfernum='" + transfernum
+						transferset.setUserWhere("transfernum='" + transfernum
 								+ "'");
 						if (!transferset.isEmpty()) {
 							receivestoreroom = transferset.getJpo(0).getString(

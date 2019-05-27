@@ -52,10 +52,11 @@ public class Transdist extends Jpo {
 
 		} else {// 改造计划
 
-			if( getParent() != null ){
+			if (getParent() != null) {
 				String planStatus = getParent().getString("status");
 				String[] attrs = { "STATION", "PROJECTNUM", "CARNUMS",
-						"TRANSMODELS", "KINDLOC", "TRANSLOC", "TRANSCOUNT", "UNIT" };
+						"TRANSMODELS", "KINDLOC", "TRANSLOC", "TRANSCOUNT",
+						"UNIT" };
 				setFieldFlag(attrs, GWConstant.S_READONLY, true);
 
 				if ("草稿".equals(planStatus)) {
@@ -75,7 +76,6 @@ public class Transdist extends Jpo {
 
 				}
 			}
-
 
 		}
 

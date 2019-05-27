@@ -52,7 +52,7 @@ public class FldReceivestoreroom extends JpoField {
 		IJpoSet PERSONDEPTMAPset = MroServer.getMroServer()
 				.getJpoSet("PERSONDEPTMAP",
 						MroServer.getMroServer().getSystemUserServer());
-		PERSONDEPTMAPset.setQueryWhere("personid='" + loginid + "'");
+		PERSONDEPTMAPset.setUserWhere("personid='" + loginid + "'");
 		if (!PERSONDEPTMAPset.isEmpty()) {
 			String deptnum = PERSONDEPTMAPset.getJpo(0).getString("deptnum");
 			if (!deptnum.equalsIgnoreCase("")) {

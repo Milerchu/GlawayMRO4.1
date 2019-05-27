@@ -55,8 +55,7 @@ public class MprlineDataBean extends DataBean {
 		personid = personid.toUpperCase();
 		String APPLICANTBY = this.page.getAppBean().getJpo()
 				.getString("APPLICANTBY");
-		String MPRSTOREROOM = this.page.getAppBean().getJpo()
-				.getString("MPRSTOREROOM");
+		String MPRSTOREROOM=this.page.getAppBean().getJpo().getString("MPRSTOREROOM");
 		if(MPRSTOREROOM.isEmpty()){
 			throw new MroException("请先选择领料库房");
 		}else{
@@ -67,9 +66,9 @@ public class MprlineDataBean extends DataBean {
 				if (status.equalsIgnoreCase("关闭")) {
 					throw new AppException("mprline", "noselect");
 				}
-			}
+			}	
 		}
-
+		
 	}
 
 }

@@ -23,55 +23,55 @@ public class FldLocationType extends JpoField {
 		if (ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_1020)) {//库房属性-1020
 			if(STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_ZXK)){//库房级别-中心库
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='LOCATIONTYPE'");
-				domainSet.setQueryWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"','"+ItemUtil.LOCATIONTYPE_WX+"','"+ItemUtil.LOCATIONTYPE_DCL+"')");//过滤-库房类型为常规
+				domainSet.setUserWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"','"+ItemUtil.LOCATIONTYPE_WX+"','"+ItemUtil.LOCATIONTYPE_DCL+"')");//过滤-库房类型为常规
 				domainSet.reset();
 			}
 			if(STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_XCK)||STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_QYK)||STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_XCZDK)){
 				//库房级别-现场库，区域库，现场站点库
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='LOCATIONTYPE'");
-				domainSet.setQueryWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"','"+ItemUtil.LOCATIONTYPE_WX+"')");//过滤-库房类型为常规，维修
+				domainSet.setUserWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"','"+ItemUtil.LOCATIONTYPE_WX+"')");//过滤-库房类型为常规，维修
 				domainSet.reset();
 			}
 			if(STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_DWXK)){//库房级别-待维修库
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='LOCATIONTYPE'");
-				domainSet.setQueryWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_WX+"','"+ItemUtil.LOCATIONTYPE_DCL+"')");//过滤-库房类型为维修，待处理
+				domainSet.setUserWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_WX+"','"+ItemUtil.LOCATIONTYPE_DCL+"')");//过滤-库房类型为维修，待处理
 				domainSet.reset();
 			}			
 			return domainSet;
 		} else if (ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_1030)) {//库房属性-1030
 			if(STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_ZXK)){//库房级别-中心库
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='LOCATIONTYPE'");
-				domainSet.setQueryWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"')");
+				domainSet.setUserWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"')");
 				//过滤-库房类型为机车检修，动车检修，城轨检修，新服务备品
 				domainSet.reset();
 			}
 			if(STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_XCK)){//库房级别-现场库
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='LOCATIONTYPE'");
-				domainSet.setQueryWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"'')");//过滤-库房类型为机车检修，动车检修，城轨检修
+				domainSet.setUserWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"'')");//过滤-库房类型为机车检修，动车检修，城轨检修
 				domainSet.reset();
 			}
 			return domainSet;
 		} else if (ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_QTGZ)) {//库房属性-其他改造物料库
 			if(STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_ZXK)){//库房级别-中心库
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='LOCATIONTYPE'");
-				domainSet.setQueryWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"','"+ItemUtil.LOCATIONTYPE_WX+"')");//过滤-库房类型为常规，维修
+				domainSet.setUserWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"','"+ItemUtil.LOCATIONTYPE_WX+"')");//过滤-库房类型为常规，维修
 				domainSet.reset();
 			}
 			if(STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_XCK)){//库房级别-现场库
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='LOCATIONTYPE'");
-				domainSet.setQueryWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"')");//过滤-库房类型为常规
+				domainSet.setUserWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"')");//过滤-库房类型为常规
 				domainSet.reset();
 			}
 			return domainSet;
 		} else if (ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_QTDCL)) {//库房属性-其他待处理物资库
 			if(STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_ZXK)){//库房级别-中心库
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='LOCATIONTYPE'");
-				domainSet.setQueryWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"','"+ItemUtil.LOCATIONTYPE_WX+"')");//过滤-库房类型为常规，维修
+				domainSet.setUserWhere("VALUE in ('"+ItemUtil.LOCATIONTYPE_CG+"','"+ItemUtil.LOCATIONTYPE_WX+"')");//过滤-库房类型为常规，维修
 				domainSet.reset();
 			}
 			if(STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_XCK)){//库房级别-现场库
 				domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='LOCATIONTYPE'");
-				domainSet.setQueryWhere("VALUE in (''"+ItemUtil.LOCATIONTYPE_CG+"')");//过滤-库房类型为常规
+				domainSet.setUserWhere("VALUE in (''"+ItemUtil.LOCATIONTYPE_CG+"')");//过滤-库房类型为常规
 				domainSet.reset();
 			}
 			return domainSet;
@@ -91,7 +91,7 @@ public class FldLocationType extends JpoField {
 		if(ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_1020) && STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_ZXK) && !LOCATIONTYPE.equalsIgnoreCase(ItemUtil.LOCATIONTYPE_CG)){
 			//判断库房属性为1020，级别为中心库，类型不是常规库
 			IJpoSet locationsset =MroServer.getMroServer().getJpoSet("locations", MroServer.getMroServer().getSystemUserServer()); 
-			locationsset.setQueryWhere("erploc='"+ERPLOC+"' and STOREROOMLEVEL='"+ItemUtil.STOREROOMLEVEL_DWXK+"' and STOREROOMGRADE='一级'");//过滤父级库房数据
+			locationsset.setUserWhere("erploc='"+ERPLOC+"' and STOREROOMLEVEL='"+ItemUtil.STOREROOMLEVEL_DWXK+"' and STOREROOMGRADE='一级'");//过滤父级库房数据
 			locationsset.reset();
 			if(!locationsset.isEmpty()){
 				String LOCATION=locationsset.getJpo(0).getString("LOCATION");

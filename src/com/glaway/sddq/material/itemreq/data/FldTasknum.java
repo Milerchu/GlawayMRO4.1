@@ -56,7 +56,7 @@ public class FldTasknum extends JpoField {
 			IJpoSet JXTASKORDERSET = MroServer.getMroServer().getJpoSet(
 					"JXTASKORDER",
 					MroServer.getMroServer().getSystemUserServer());
-			JXTASKORDERSET.setQueryWhere("JXTASKNUM='" + tasknum + "'");
+			JXTASKORDERSET.setUserWhere("JXTASKNUM='" + tasknum + "'");
 			String PRODUCTIONORDERNUM = JXTASKORDERSET.getJpo(0).getString(
 					"PRODUCTIONORDERNUM");
 			String PROJECTNUM = JXTASKORDERSET.getJpo(0)
@@ -67,7 +67,7 @@ public class FldTasknum extends JpoField {
 				IJpoSet PROJECTINFOSET = MroServer.getMroServer().getJpoSet(
 						"PROJECTINFO",
 						MroServer.getMroServer().getSystemUserServer());
-				PROJECTINFOSET.setQueryWhere("PROJECTNUM='" + PROJECTNUM + "'");
+				PROJECTINFOSET.setUserWhere("PROJECTNUM='" + PROJECTNUM + "'");
 				String WORKORDERNUM = PROJECTINFOSET.getJpo(0).getString(
 						"WORKORDERNUM");
 				this.getJpo().setValue("PROJECTNUM", PROJECTNUM,

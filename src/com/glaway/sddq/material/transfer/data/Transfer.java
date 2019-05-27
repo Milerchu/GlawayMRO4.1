@@ -65,7 +65,7 @@ public class Transfer extends StatusJpo implements IStatusJpo, FixedLoggers {
 					this.setFlag(7L, true);
 				}
 				IJpoSet transferlineset = getJpoSet("transferline");
-				transferlineset.setQueryWhere("status='已接收'");
+				transferlineset.setUserWhere("status='已接收'");
 				transferlineset.reset();
 				if (transferlineset.count() > 0) {
 					this.setFieldFlag("ISSUESTOREROOM", 7L, true);
@@ -722,7 +722,7 @@ public class Transfer extends StatusJpo implements IStatusJpo, FixedLoggers {
 			// setValue("ISSUESTOREROOM", ItemUtil.ISSUESTOREROOM_ZXWXK);
 			IJpoSet deptset = MroServer.getMroServer().getJpoSet("SYS_DEPT",
 					MroServer.getMroServer().getSystemUserServer());
-			deptset.setQueryWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
+			deptset.setUserWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
 					+ loginid + "')");
 			deptset.reset();
 			if (!deptset.isEmpty()) {
@@ -752,7 +752,7 @@ public class Transfer extends StatusJpo implements IStatusJpo, FixedLoggers {
 				IJpoSet deptset = MroServer.getMroServer().getJpoSet(
 						"SYS_DEPT",
 						MroServer.getMroServer().getSystemUserServer());
-				deptset.setQueryWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
+				deptset.setUserWhere("DEPTNUM in (select DEPARTMENT from sys_person where PERSONID='"
 						+ loginid + "')");
 				deptset.reset();
 				if (!deptset.isEmpty()) {

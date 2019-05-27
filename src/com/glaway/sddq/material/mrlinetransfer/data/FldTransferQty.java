@@ -79,7 +79,7 @@ public class FldTransferQty extends JpoField {
 		IJpoSet inventoryset = MroServer.getMroServer()
 				.getJpoSet("sys_inventory",
 						MroServer.getMroServer().getSystemUserServer());
-		inventoryset.setQueryWhere("itemnum='" + itemnum + "' and location='"
+		inventoryset.setUserWhere("itemnum='" + itemnum + "' and location='"
 				+ location + "'");
 		inventoryset.reset();
 		double curbal = inventoryset.getJpo(0).getDouble("curbal");// 库存总数量
@@ -113,7 +113,7 @@ public class FldTransferQty extends JpoField {
 		IJpoSet transferlineset = MroServer.getMroServer().getJpoSet(
 				"transferline", MroServer.getMroServer().getSystemUserServer());
 		transferlineset
-				.setQueryWhere("itemnum='"
+				.setUserWhere("itemnum='"
 						+ itemnum
 						+ "' and status='未接收' and ISSUESTOREROOM='"
 						+ location

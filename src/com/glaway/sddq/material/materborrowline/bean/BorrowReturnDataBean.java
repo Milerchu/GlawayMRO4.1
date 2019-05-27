@@ -171,7 +171,7 @@ public class BorrowReturnDataBean extends DataBean {
 		String ITEMNUM = this.getJpo().getString("newitemnum");
 			IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",
 					MroServer.getMroServer().getSystemUserServer());
-			assetset.setQueryWhere("itemnum='"
+			assetset.setUserWhere("itemnum='"
 					+ ITEMNUM
 					+ "' and sqn='"
 					+ SQN

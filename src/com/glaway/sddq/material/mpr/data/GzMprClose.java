@@ -1097,7 +1097,7 @@ public class GzMprClose implements ActionCustomClass {
 												"asset",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --对应的周转件集合
-								assetset.setQueryWhere("assetnum='" + assetnum
+								assetset.setUserWhere("assetnum='" + assetnum
 										+ "'");
 								assetset.reset();
 								if (!assetset.isEmpty()) {
@@ -1109,7 +1109,7 @@ public class GzMprClose implements ActionCustomClass {
 													MroServer
 															.getMroServer()
 															.getSystemUserServer());// --对应的出库库存集合
-									out_inventoryset.setQueryWhere("itemnum='"
+									out_inventoryset.setUserWhere("itemnum='"
 											+ itemnum + "' and location='"
 											+ location + "'");
 									out_inventoryset.reset();
@@ -1157,7 +1157,7 @@ public class GzMprClose implements ActionCustomClass {
 												"sys_inventory",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --对应的出库库存集合
-								out_inventoryset.setQueryWhere("itemnum='"
+								out_inventoryset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "'");
 								out_inventoryset.reset();
@@ -1178,7 +1178,7 @@ public class GzMprClose implements ActionCustomClass {
 														MroServer
 																.getMroServer()
 																.getSystemUserServer());// --对应的周转件集合
-										invblanceset.setQueryWhere("itemnum='"
+										invblanceset.setUserWhere("itemnum='"
 												+ itemnum + "' and storeroom='"
 												+ location + "' and lotnum='"
 												+ lotnum + "'");
@@ -1218,7 +1218,7 @@ public class GzMprClose implements ActionCustomClass {
 										"sys_inventory",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨出库库存的集合
-						inventoryset.setQueryWhere("itemnum='" + itemnum
+						inventoryset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location + "'");
 						inventoryset.reset();
 						if (!inventoryset.isEmpty()) {
@@ -1280,7 +1280,7 @@ public class GzMprClose implements ActionCustomClass {
 												"asset",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --对应的周转件集合
-								assetset.setQueryWhere("assetnum='" + assetnum
+								assetset.setUserWhere("assetnum='" + assetnum
 										+ "'");
 								assetset.reset();
 								if (!assetset.isEmpty()) {
@@ -1293,7 +1293,7 @@ public class GzMprClose implements ActionCustomClass {
 													MroServer
 															.getMroServer()
 															.getSystemUserServer());// --入库库存的集合
-									inventoryset.setQueryWhere("itemnum='"
+									inventoryset.setUserWhere("itemnum='"
 											+ itemnum + "' and location='"
 											+ location + "'");
 									inventoryset.reset();
@@ -1383,7 +1383,7 @@ public class GzMprClose implements ActionCustomClass {
 												"sys_inventory",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --入库库存的集合
-								inventoryset.setQueryWhere("itemnum='"
+								inventoryset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ location + "'");
 								inventoryset.reset();
@@ -1403,7 +1403,7 @@ public class GzMprClose implements ActionCustomClass {
 														MroServer
 																.getMroServer()
 																.getSystemUserServer());// --对应的周转件集合
-										invblanceset.setQueryWhere("itemnum='"
+										invblanceset.setUserWhere("itemnum='"
 												+ itemnum + "' and storeroom='"
 												+ location + "' and lotnum='"
 												+ lotnum + "'");
@@ -1481,7 +1481,7 @@ public class GzMprClose implements ActionCustomClass {
 														MroServer
 																.getMroServer()
 																.getSystemUserServer());// --对应的批次件集合
-										invblanceset.setQueryWhere("itemnum='"
+										invblanceset.setUserWhere("itemnum='"
 												+ itemnum + "' and storeroom='"
 												+ location + "' and lotnum='"
 												+ lotnum + "'");
@@ -1578,7 +1578,7 @@ public class GzMprClose implements ActionCustomClass {
 										"sys_inventory",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --入库库存的集合
-						inventoryset.setQueryWhere("itemnum='" + itemnum
+						inventoryset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + location + "'");
 						inventoryset.reset();
 						if (!inventoryset.isEmpty()) {

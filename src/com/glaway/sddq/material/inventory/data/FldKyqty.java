@@ -39,7 +39,7 @@ public class FldKyqty extends JpoField {
 						"transferline",
 						MroServer.getMroServer().getSystemUserServer());
 				transferlineset
-						.setQueryWhere("itemnum='"
+						.setUserWhere("itemnum='"
 								+ itemnum
 								+ "' and ISSUESTOREROOM='"
 								+ location

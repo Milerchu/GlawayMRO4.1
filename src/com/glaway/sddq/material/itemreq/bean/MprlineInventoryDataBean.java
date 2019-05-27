@@ -50,11 +50,11 @@ public class MprlineInventoryDataBean extends DataBean {
 				where = where
 						+ " and  location='"
 						+ MPRSTOREROOM
-						+ "' and itemnum in (select itemnum from sys_item where lottype='耗损件') and kyqty>0";
+						+ "' and itemnum in (select itemnum from sys_item where LOTTYPE='耗损件') and kyqty>0";
 			} else {
 				where = " location='"
 						+ MPRSTOREROOM
-						+ "' and itemnum in (select itemnum from sys_item where lottype='耗损件') and kyqty>0";
+						+ "' and itemnum in (select itemnum from sys_item where LOTTYPE='耗损件') and kyqty>0";
 			}
 
 		}

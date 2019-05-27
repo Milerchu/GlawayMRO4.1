@@ -6,6 +6,7 @@ import com.glaway.mro.controller.DataBean;
 import com.glaway.mro.exception.MroException;
 import com.glaway.mro.jpo.IJpo;
 import com.glaway.mro.util.GWConstant;
+import com.glaway.sddq.tools.SddqConstant;
 import com.glaway.sddq.tools.WorkorderUtil;
 
 /**
@@ -40,6 +41,10 @@ public class ConsumeDataBean extends DataBean {
 
 	@Override
 	public int addrow() throws MroException, IOException {
+		String status = getAppBean().getJpo().getString("status");
+		if (SddqConstant.WO_STATUS_JSZGSH.equals(status)) {
+			throw new MroException("当前状态不可添加！");
+		}
 		int ret = super.addrow();
 		IJpo consume = getJpo();
 
@@ -53,8 +58,10 @@ public class ConsumeDataBean extends DataBean {
 				if (!faultconseq.isEmpty()) {
 					if (WorkorderUtil.isImpFault(faultconseq)) {// 是否是高级故障
 
-						consume.setValue("ISNOTICE", "1");
-						consume.setValue("ISTECHAANALYZE", "1");
+						consume.setValue("ISNOTICE", "1",
+								GWConstant.P_NOVALIDATION);
+						consume.setValue("ISTECHAANALYZE", "1",
+								GWConstant.P_NOVALIDATION);
 						consume.setFieldFlag("ISNOTICE", GWConstant.S_READONLY,
 								true);
 						consume.setFieldFlag("ISTECHAANALYZE",
@@ -93,11 +100,13 @@ public class ConsumeDataBean extends DataBean {
 
 	@Override
 	public synchronized void delete() throws MroException {
+		String status = getAppBean().getJpo().getString("status");
+		if (SddqConstant.WO_STATUS_JSZGSH.equals(status)) {
+			throw new MroException("当前状态不可删除！");
+		}
 
 		super.delete();
-
 		if (!getJpoSet().isFlagSet(GWConstant.S_READONLY)) {// 非只读状态才能操作
-
 			int amount = getJpo().getInt("AMOUNT");// 上车数量
 			String assetpartnum = getJpo().getString("DOWNPARTNUM");
 			String itemnum = getJpo().getString("itemnum");// 上车件物料编码
@@ -121,9 +130,7 @@ public class ConsumeDataBean extends DataBean {
 	public synchronized void undelete() throws MroException {
 
 		super.undelete();
-
 		if (!getJpoSet().isFlagSet(GWConstant.S_READONLY)) {// 非只读状态才能操作
-
 			int amount = getJpo().getInt("AMOUNT");// 上车数量
 			String assetpartnum = getJpo().getString("DOWNPARTNUM");
 			String itemnum = getJpo().getString("itemnum");// 上车件物料编码

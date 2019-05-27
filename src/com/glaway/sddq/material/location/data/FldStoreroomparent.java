@@ -35,7 +35,7 @@ public class FldStoreroomparent extends JpoField {
 		super.action();
 		String STOREROOMPARENT=this.getValue();
 		IJpoSet locationsset =MroServer.getMroServer().getJpoSet("locations", MroServer.getMroServer().getSystemUserServer());   
-		locationsset.setQueryWhere("LOCATION='"+STOREROOMPARENT+"'");
+		locationsset.setUserWhere("LOCATION='"+STOREROOMPARENT+"'");
 		locationsset.reset();
 		String erploc=locationsset.getJpo(0).getString("erploc");
 		this.getJpo().setValue("erploc", erploc);

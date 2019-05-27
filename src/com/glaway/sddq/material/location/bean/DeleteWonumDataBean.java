@@ -37,7 +37,7 @@ public class DeleteWonumDataBean extends DataBean {
 		IJpo locationjpo = this.getAppBean().getJpo();
 		String location = locationjpo.getString("location");
 		IJpoSet jposet = getJpoSet();
-		jposet.setQueryWhere("location ='" + location + "'");
+		jposet.setUserWhere("location ='" + location + "'");
 		jposet.reset();
 	}
 
@@ -60,7 +60,7 @@ public class DeleteWonumDataBean extends DataBean {
 				IJpoSet projectinfoSet = MroServer.getMroServer().getJpoSet(
 						"PROJECTINFO",
 						MroServer.getMroServer().getSystemUserServer());
-				projectinfoSet.setQueryWhere("PROJECTNUM='" + projectnum + "'");
+				projectinfoSet.setUserWhere("PROJECTNUM='" + projectnum + "'");
 				projectinfoSet.reset();
 				projectinfoSet.getJpo().setValue("location", "",
 						GWConstant.P_NOACTION);

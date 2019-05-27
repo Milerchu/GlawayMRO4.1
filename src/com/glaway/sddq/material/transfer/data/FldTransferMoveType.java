@@ -30,7 +30,7 @@ public class FldTransferMoveType extends JpoField {
 		loginid = loginid.toUpperCase();
 		IJpoSet personset = MroServer.getMroServer().getJpoSet("PERSONDEPTMAP",
 				MroServer.getMroServer().getSystemUserServer());
-		personset.setQueryWhere("personid='" + loginid + "'");
+		personset.setUserWhere("personid='" + loginid + "'");
 
 		if (!personset.isEmpty()) {
 			if (type.equalsIgnoreCase("GZZXD")) {

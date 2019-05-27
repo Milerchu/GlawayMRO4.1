@@ -45,7 +45,7 @@ public class TransStoroomCommon {
 					IJpoSet transferset = MroServer.getMroServer().getJpoSet(
 							"transfer",
 							MroServer.getMroServer().getSystemUserServer());// --对应的周转件集合
-					transferset.setQueryWhere("transfernum='" + transfernum
+					transferset.setUserWhere("transfernum='" + transfernum
 							+ "'");
 					transferset.reset();
 					String sxtype = "";
@@ -70,7 +70,7 @@ public class TransStoroomCommon {
 						IJpoSet assetset = MroServer.getMroServer().getJpoSet(
 								"asset",
 								MroServer.getMroServer().getSystemUserServer());// --对应的周转件集合
-						assetset.setQueryWhere("assetnum='" + assetnum + "'");
+						assetset.setUserWhere("assetnum='" + assetnum + "'");
 						assetset.reset();
 						if (!assetset.isEmpty()) {// --判断对应周转件的存在
 							IJpoSet outinventoryset = MroServer.getMroServer()
@@ -79,7 +79,7 @@ public class TransStoroomCommon {
 											MroServer.getMroServer()
 													.getSystemUserServer());// --调拨出库库存的集合
 							outinventoryset
-									.setQueryWhere("itemnum='" + itemnum
+									.setUserWhere("itemnum='" + itemnum
 											+ "' and location='"
 											+ issuestoreroom + "'");
 							outinventoryset.reset();
@@ -99,7 +99,7 @@ public class TransStoroomCommon {
 													MroServer
 															.getMroServer()
 															.getSystemUserServer());// --调拨出库仓位集合
-									outlocbinitemset.setQueryWhere("itemnum='"
+									outlocbinitemset.setUserWhere("itemnum='"
 											+ itemnum + "' and location='"
 											+ issuestoreroom + "' and binnum='"
 											+ outbinnum + "'");
@@ -177,7 +177,7 @@ public class TransStoroomCommon {
 										"sys_inventory",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨出库库存的集合
-						out_inventoryset.setQueryWhere("itemnum='" + itemnum
+						out_inventoryset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + issuestoreroom + "'");
 						out_inventoryset.reset();
 						if (!out_inventoryset.isEmpty()) {
@@ -192,7 +192,7 @@ public class TransStoroomCommon {
 												"invblance",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --调拨出库批次集合
-								invblanceset.setQueryWhere("itemnum='"
+								invblanceset.setUserWhere("itemnum='"
 										+ itemnum + "' and storeroom='"
 										+ issuestoreroom + "' and lotnum='"
 										+ lotnum + "'");
@@ -255,7 +255,7 @@ public class TransStoroomCommon {
 										"sys_inventory",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --调拨出库库存的集合
-						out_inventoryset.setQueryWhere("itemnum='" + itemnum
+						out_inventoryset.setUserWhere("itemnum='" + itemnum
 								+ "' and location='" + issuestoreroom + "'");
 						out_inventoryset.reset();
 						if (!out_inventoryset.isEmpty()) {
@@ -324,7 +324,7 @@ public class TransStoroomCommon {
 			if (!transferlineset.isEmpty()) {// --判断调拨单行不为空
 				java.util.Date INSTOREDATE = MroServer.getMroServer().getDate();
 				IJpoSet notransferlineset = transferlineset;
-				notransferlineset.setQueryWhere("status!='已接收'");
+				notransferlineset.setUserWhere("status!='已接收'");
 				if (!notransferlineset.isEmpty()) {
 					for (int i = 0; i < notransferlineset.count(); i++) {
 						IJpo transferline = notransferlineset.getJpo(i);
@@ -338,7 +338,7 @@ public class TransStoroomCommon {
 										"transfer",
 										MroServer.getMroServer()
 												.getSystemUserServer());// --对应的周转件集合
-						transferset.setQueryWhere("transfernum='" + transfernum
+						transferset.setUserWhere("transfernum='" + transfernum
 								+ "'");
 						String sxtype = "";
 						if (!transferset.isEmpty()) {
@@ -362,7 +362,7 @@ public class TransStoroomCommon {
 											"asset",
 											MroServer.getMroServer()
 													.getSystemUserServer());// --对应的周转件集合
-							assetset.setQueryWhere("assetnum='" + assetnum
+							assetset.setUserWhere("assetnum='" + assetnum
 									+ "'");
 							assetset.reset();
 							if (!assetset.isEmpty()) {// --判断对应周转件的存在
@@ -373,7 +373,7 @@ public class TransStoroomCommon {
 												"sys_inventory",
 												MroServer.getMroServer()
 														.getSystemUserServer());// --调拨入库库存的集合
-								inventoryset.setQueryWhere("itemnum='"
+								inventoryset.setUserWhere("itemnum='"
 										+ itemnum + "' and location='"
 										+ receivestoreroom + "'");
 								inventoryset.reset();
@@ -476,7 +476,7 @@ public class TransStoroomCommon {
 											"sys_inventory",
 											MroServer.getMroServer()
 													.getSystemUserServer());// --调拨入库库存的集合
-							in_inventoryset.setQueryWhere("itemnum='" + itemnum
+							in_inventoryset.setUserWhere("itemnum='" + itemnum
 									+ "' and location='" + receivestoreroom
 									+ "'");
 							in_inventoryset.reset();
@@ -493,7 +493,7 @@ public class TransStoroomCommon {
 													MroServer
 															.getMroServer()
 															.getSystemUserServer());// --调拨入库批次集合
-									invblanceset.setQueryWhere("itemnum='"
+									invblanceset.setUserWhere("itemnum='"
 											+ itemnum + "' and storeroom='"
 											+ receivestoreroom
 											+ "' and lotnum='" + lotnum + "'");
@@ -572,7 +572,7 @@ public class TransStoroomCommon {
 													MroServer
 															.getMroServer()
 															.getSystemUserServer());// --调拨入库批次集合
-									invblanceset.setQueryWhere("itemnum='"
+									invblanceset.setUserWhere("itemnum='"
 											+ itemnum + "' and storeroom='"
 											+ receivestoreroom
 											+ "' and lotnum='" + lotnum + "'");
@@ -665,7 +665,7 @@ public class TransStoroomCommon {
 											"sys_inventory",
 											MroServer.getMroServer()
 													.getSystemUserServer());// --调拨入库库存的集合
-							in_inventoryset.setQueryWhere("itemnum='" + itemnum
+							in_inventoryset.setUserWhere("itemnum='" + itemnum
 									+ "' and location='" + receivestoreroom
 									+ "'");
 							in_inventoryset.reset();

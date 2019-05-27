@@ -66,7 +66,7 @@ public class FldItemnum extends JpoField {
 			String MPRSTOREROOM=this.getJpo().getParent().getString("MPRSTOREROOM");
 			String rkitemnum=this.getJpo().getJpoSet("RKMPRLINE").getJpo().getString("itemnum");//关联入库单的入库物料编码
 			listSql = "itemnum in (select itemnum from sys_inventory where location='"+MPRSTOREROOM+"' and curbal>0) " +
-					"and itemnum in (select ALTITEMNUM from SYS_ALTITEM where(sys_altitemid in(select s.sys_altitemid from sys_altitem s  left join (select * from sys_altitem) t on s.REPLACE = t.REPLACE and (s.parent = t.parent or (s.parent is null and t.parent is null)) where t.altitemnum ='"+rkitemnum+"')))";
+					"or itemnum in (select ALTITEMNUM from SYS_ALTITEM where(sys_altitemid in(select s.sys_altitemid from sys_altitem s  left join (select * from sys_altitem) t on s.REPLACE = t.REPLACE and (s.parent = t.parent or (s.parent is null and t.parent is null)) where t.altitemnum ='"+rkitemnum+"')))";
 			
 		}else {
 			setListObject("sys_inventory");
@@ -108,7 +108,7 @@ public class FldItemnum extends JpoField {
 		String mprtype = this.getJpo().getParent().getString("mprtype");
 		IJpoSet itemset = MroServer.getMroServer().getJpoSet("sys_item",
 				MroServer.getMroServer().getSystemUserServer());
-		itemset.setQueryWhere("itemnum='" + itemnum + "'");
+		itemset.setUserWhere("itemnum='" + itemnum + "'");
 		itemset.reset();
 		String type = ItemUtil.getItemInfo(itemnum);
 		if (ItemUtil.SQN_ITEM.equals(type)) {

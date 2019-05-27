@@ -162,7 +162,7 @@ public class ConvertloclineStatusDataBean extends DataBean {
 			String lotnum = this.getJpo().getString("lotnum");
 			String location = parent.getString("location");
 			String binnum = this.getJpo().getString("binnum");
-			String sqn = this.getJpo().getString("sqn");
+			String sqn = this.getJpo().getString("sqn").toUpperCase();
 			String ERPLOC = parent.getJpoSet("LOCATIONIX").getJpo()
 					.getString("erploc");
 			String convertlocnum = parent.getString("convertlocnum");
@@ -216,11 +216,22 @@ public class ConvertloclineStatusDataBean extends DataBean {
 																	.getSystemUserServer());
 											convertloclineset.setUserWhere("convertlocnum='"+convertlocnum+"' and itemnum='"+itemnum+"' and sqn='"+sqn+"'");
 											if(convertloclineset.isEmpty()){
-												// 调用物料接收方法
-												TOERP(parent, convertlocnum, convertloclineid,
-														ERPLOC, lotnum, location, itemnum,
-														binnum, sqn, statusjsqty, newyjsqty,
-														statuswjsqty);
+												IJpoSet otherconvertloclineset = MroServer.getMroServer()
+														.getJpoSet(
+																"convertlocline",
+																MroServer.getMroServer()
+																		.getSystemUserServer());
+												otherconvertloclineset.setUserWhere("convertlocnum!='"+convertlocnum+"' and itemnum='"+itemnum+"' and sqn='"+sqn+"'");
+												if(otherconvertloclineset.isEmpty()){
+													// 调用物料接收方法
+													TOERP(parent, convertlocnum, convertloclineid,
+															ERPLOC, lotnum, location, itemnum,
+															binnum, sqn, statusjsqty, newyjsqty,
+															statuswjsqty);
+												}else{
+													throw new MroException("该物料序列号重复，请检查！");
+												}
+												
 											}else{
 												throw new MroException("该物料序列号在本交货单重复，请检查！");
 											}
@@ -286,11 +297,22 @@ public class ConvertloclineStatusDataBean extends DataBean {
 																.getSystemUserServer());
 										convertloclineset.setUserWhere("convertlocnum='"+convertlocnum+"' and itemnum='"+itemnum+"' and sqn='"+sqn+"'");
 										if(convertloclineset.isEmpty()){
-											// 调用物料接收方法
-											TOERP(parent, convertlocnum, convertloclineid,
-													ERPLOC, lotnum, location, itemnum,
-													binnum, sqn, statusjsqty, newyjsqty,
-													statuswjsqty);
+											IJpoSet otherconvertloclineset = MroServer.getMroServer()
+													.getJpoSet(
+															"convertlocline",
+															MroServer.getMroServer()
+																	.getSystemUserServer());
+											otherconvertloclineset.setUserWhere("convertlocnum!='"+convertlocnum+"' and itemnum='"+itemnum+"' and sqn='"+sqn+"'");
+											if(otherconvertloclineset.isEmpty()){
+												// 调用物料接收方法
+												TOERP(parent, convertlocnum, convertloclineid,
+														ERPLOC, lotnum, location, itemnum,
+														binnum, sqn, statusjsqty, newyjsqty,
+														statuswjsqty);
+											}else{
+												throw new MroException("该物料序列号重复，请检查！");
+											}
+											
 										}else{
 											throw new MroException("该物料序列号在本交货单重复，请检查！");
 										}
@@ -298,8 +320,9 @@ public class ConvertloclineStatusDataBean extends DataBean {
 										throw new MroException("该物料序列号重复，请检查！");
 									}
 								}
-
+								
 							}
+
 						}
 					} else if (ItemUtil.LOT_I_ITEM.equals(type)) {
 						if (lotnum.isEmpty()) {
@@ -362,7 +385,7 @@ public class ConvertloclineStatusDataBean extends DataBean {
 									"convertlocline",
 									MroServer.getMroServer()
 											.getSystemUserServer());
-					convertloclineset.setQueryWhere("convertlocnum='"
+					convertloclineset.setUserWhere("convertlocnum='"
 							+ convertlocnum
 							+ "' and status!='已接收' and convertloclineid!='"
 							+ convertloclineid + "'");
@@ -405,7 +428,7 @@ public class ConvertloclineStatusDataBean extends DataBean {
 				IJpoSet convertloclineset = MroServer.getMroServer().getJpoSet(
 						"convertlocline",
 						MroServer.getMroServer().getSystemUserServer());
-				convertloclineset.setQueryWhere("convertlocnum='"
+				convertloclineset.setUserWhere("convertlocnum='"
 						+ convertlocnum
 						+ "' and status!='已接收' and convertloclineid!='"
 						+ convertloclineid + "'");
@@ -457,50 +480,72 @@ public class ConvertloclineStatusDataBean extends DataBean {
 		String LOCATION = this.getParent().getJpo().getString("LOCATION");
 		IJpoSet itemset = MroServer.getMroServer().getJpoSet("sys_item",
 				MroServer.getMroServer().getSystemUserServer());
-		itemset.setQueryWhere("itemnum='" + ITEMNUM + "'");
+		itemset.setUserWhere("itemnum='" + ITEMNUM + "'");
 		String type = ItemUtil.getItemInfo(ITEMNUM);
 		String commomtype ="入库";
 		if (ItemUtil.SQN_ITEM.equals(type)) {
 			IJpoSet assetset = MroServer.getMroServer().getJpoSet("asset",
 					MroServer.getMroServer().getSystemUserServer());
-			assetset.setQueryWhere("itemnum='"+ ITEMNUM+ "' and sqn='"+ SQN+ "' and assetlevel='ASSET' and type!='2' and location is null " +
-					"or itemnum='"+ ITEMNUM+ "' and sqn='"+ SQN+ "' and assetlevel='ASSET' and type!='2' and location='"+LOCATION+"'");
+			assetset.setUserWhere("itemnum='"+ ITEMNUM+ "' and sqn='"+ SQN+ "' and assetlevel='ASSET' and type!='2' and location is null");
 			if (assetset.isEmpty()) {
-				IJpo jpo = jpoSet.addJpo();
-				jpo.setValue("assetlevel", "ASSET",
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("itemnum", ITEMNUM,
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("sqn", SQN,
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("LOCATION", LOCATION,
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("binnum", binnum,
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("type", "1",
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("ancestor", jpo.getString("assetnum"),
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("status", "可用",
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("INSTOREDATE", INSTOREDATE,
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("PROJNUM", PROJNUM,
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("isnew", "1",
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("iserp", "0",
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("MSGFLAG", SddqConstant.MSG_INFO_NOSQN,
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				jpo.setValue("FROMSOURCE", SddqConstant.FROMSOURCE_XP,
-						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				this.getJpo()
-						.getParent()
-						.setValue("assetnum", jpo.getString("assetnum"),
-								GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-//				CommomCarItemLife.INOROURLOCATION(jpo, commomtype);
-				jpoSet.save();
+				IJpoSet otherassetset = MroServer.getMroServer().getJpoSet("asset",
+						MroServer.getMroServer().getSystemUserServer());
+				otherassetset.setUserWhere("itemnum='"+ ITEMNUM+ "' and sqn='"+ SQN+ "' and assetlevel='ASSET' and type='1' and location='"+LOCATION+"'" +
+						"and sqn not in (select sqn from CONVERTLOCLINE where status='已接收' and itemnum='"+ITEMNUM+"')");
+				if(otherassetset.isEmpty()){
+					IJpo jpo = jpoSet.addJpo();
+					jpo.setValue("assetlevel", "ASSET",
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("itemnum", ITEMNUM,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("sqn", SQN,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("LOCATION", LOCATION,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("binnum", binnum,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("type", "1",
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("ancestor", jpo.getString("assetnum"),
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("status", "可用",
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("INSTOREDATE", INSTOREDATE,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("PROJNUM", PROJNUM,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("isnew", "1",
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("iserp", "0",
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("MSGFLAG", SddqConstant.MSG_INFO_NOSQN,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					jpo.setValue("FROMSOURCE", SddqConstant.FROMSOURCE_XP,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					this.getJpo()
+							.getParent()
+							.setValue("assetnum", jpo.getString("assetnum"),
+									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+//					CommomCarItemLife.INOROURLOCATION(jpo, commomtype);
+					jpoSet.save();
+				}else{
+					IJpo asset = otherassetset.getJpo(0);
+					asset.setValue("LOCATION", LOCATION,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					asset.setValue("type", "1",
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					asset.setValue("status", "可用",
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					asset.setValue("INSTOREDATE", INSTOREDATE,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					this.getJpo()
+							.getParent()
+							.setValue("assetnum", asset.getString("assetnum"),
+									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+//					CommomCarItemLife.INOROURLOCATION(asset, commomtype);
+					otherassetset.save();
+				}
+				
 			} else {
 				IJpo asset = assetset.getJpo(0);
 				asset.setValue("LOCATION", LOCATION,

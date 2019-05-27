@@ -49,55 +49,54 @@ public class TransplanAppBean extends AppBean {
 			if (plan.getJpoSet("TRANSDIST").count(GWConstant.P_COUNT_AFTERSAVE) < 1) {
 				throw new AppException("transplan", "notransdist");
 			}
-			//设置计划编制人
+			// 设置计划编制人
 			this.getJpo().setValue("PLANEDITOR", loginid);
-
-			/*必填校验*/
-			//改造分布set
+			/* 必填校验 */
+			// 改造分布set
 			IJpoSet transDistSet = getJpo().getJpoSet("TRANSDIST");
-			if(transDistSet != null && transDistSet.count() > 0){
+			if (transDistSet != null && transDistSet.count() > 0) {
 				for (int i = 0; i < transDistSet.count(); i++) {
 					IJpo transDist = transDistSet.getJpo(i);
-					//机务段或改造数量未填写
-					if( StringUtil.isStrEmpty(transDist.getString("STATION")) ||
-							transDist.getFloat("TRANSCOUNT") == 0.0f){
-
+					// 机务段或改造数量未填写
+					if (StringUtil.isStrEmpty(transDist.getString("STATION"))
+							|| transDist.getFloat("TRANSCOUNT") == 0.0f) {
 						throw new MroException("改造车辆分布信息不完整，无法发送工作流！");
-
 					}
 
 				}
 			}
-
 		} else if ("挂起".equals(status)) {
 			throw new AppException("service", "cannotoperate");
 		} else if ("执行中".equals(status)) {
 			boolean isJobUndone = false;
-			IJpoSet transDistSet = MroServer.getMroServer().getSysJpoSet("TRANSDIST","transplannum='"+
-					plan.getString("TRANSPLANNUM")+"' and responsible='"+loginid+"'");
-			if(transDistSet!=null && transDistSet.count()>0){
+			IJpoSet transDistSet = MroServer.getMroServer().getSysJpoSet(
+					"TRANSDIST",
+					"transplannum='" + plan.getString("TRANSPLANNUM")
+							+ "' and responsible='" + loginid + "'");
+			if (transDistSet != null && transDistSet.count() > 0) {
 				for (int i = 0; i < transDistSet.count(); i++) {
 					IJpo transDist = transDistSet.getJpo(i);
-					if(!transDist.getBoolean("ISCREATEWO")){
+					if (!transDist.getBoolean("ISCREATEWO")) {
 						isJobUndone = true;
 						break;
 					}
-					//改造工单
+					// 改造工单
 					IJpoSet orderSet = transDist.getJpoSet("TRANSORDER");
-					if(orderSet != null && orderSet.count() > 0) {
-
+					if (orderSet != null && orderSet.count() > 0) {
 						for (int j = 0; j < orderSet.count(); j++) {
-							if(orderSet.getJpo(j).getJpoSet("JXTASKEXECPERSON").isEmpty()) {
-								//现场处理人子表为空
+
+							if (orderSet.getJpo(j)
+									.getJpoSet("JXTASKEXECPERSON").isEmpty()) {// 现场处理人子表为空
 								isJobUndone = true;
 								break;
 							}
-						}
 
+						}
 					}
 
 				}
-				if(isJobUndone) {
+
+				if (isJobUndone) {
 					throw new MroException("任务未分配完无法发送工作流！");
 				}
 			}

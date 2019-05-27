@@ -140,7 +140,10 @@ public class JxTaskOrderAppBean extends AppBean {
 			removeMboset.reset();
 
 			// 保留结构，更新Asset表的parent以及ancestor
-			if (!removeMboset.isEmpty()) {
+			if(removeMboset.isEmpty()){
+				//无法查询到部件以及子部件
+				throw new AppException("jxtaskorder", "nojxproduct");
+			}else if(!removeMboset.isEmpty()) {
 				for (int index = 0; index < removeMboset.count(); index++) {
 					if (removeMboset.getJpo(index).getString("ASSETNUM")
 							.equals(assetnum)) {
@@ -157,6 +160,9 @@ public class JxTaskOrderAppBean extends AppBean {
 					removeMboset.getJpo(index).setValue("TYPE", "3",
 							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 					removeMboset.getJpo(index).setValue("DOWNTYPE",
+							SddqConstant.DOWN_JX,
+							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+					removeMboset.getJpo(index).setValue("STATUS",
 							SddqConstant.SXC_JX,
 							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 				}

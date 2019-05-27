@@ -72,9 +72,11 @@ public class HandleLoginRequestServlet extends HttpServlet {
 									mroSession.initUserResources();
 									gotoPage = "mro";
 									queryString = "event=loadapp&value=startcntr";
-									String loginstamp = mroSession.getRequest().getParameter("loginstamp");
-									if(StringUtil.isStrNotEmpty(loginstamp)){
-										queryString += "&loginstamp=" + loginstamp;
+									String loginstamp = mroSession.getRequest()
+											.getParameter("loginstamp");
+									if (StringUtil.isStrNotEmpty(loginstamp)) {
+										queryString += "&loginstamp="
+												+ loginstamp;
 									}
 								} else {
 									// 及时清理未通过的临时会话，避免成为未被收集的垃圾内存
@@ -115,8 +117,9 @@ public class HandleLoginRequestServlet extends HttpServlet {
 						} else {
 							gotoPage = "mro";
 							queryString = "event=loadapp&value=startcntr";
-							String loginstamp = mroSession.getRequest().getParameter("loginstamp");
-							if(StringUtil.isStrNotEmpty(loginstamp)){
+							String loginstamp = mroSession.getRequest()
+									.getParameter("loginstamp");
+							if (StringUtil.isStrNotEmpty(loginstamp)) {
 								queryString += "&loginstamp=" + loginstamp;
 							}
 

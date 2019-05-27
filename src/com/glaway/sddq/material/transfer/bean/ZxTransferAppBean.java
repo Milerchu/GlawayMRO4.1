@@ -307,62 +307,85 @@ public class ZxTransferAppBean extends AppBean {
 		String SXTYPE=transferJpo.getString("SXTYPE");
 		String TRANSFERMOVETYPE = transferJpo.getString("TRANSFERMOVETYPE");
 		IJpoSet transferlineset = transferJpo.getJpoSet("transferline");
+		String receivestoreroom=transferJpo.getString("receivestoreroom");
 		if (!transferlineset.isEmpty()) {
 			for (int i = 0; i < transferlineset.count(); i++) {
 				IJpo transferline = transferlineset.getJpo(i);
 				String itemnum = transferline.getString("itemnum");
 				String issuestoreroom = transferline.getString("issuestoreroom");
-				//----------------
-				double orderqty=transferline.getDouble("orderqty");
-				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet("sys_inventory", MroServer.getMroServer().getSystemUserServer());
-				inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='"+issuestoreroom+"'");
-				String mrnum=transferJpo.getString("mrnum");
-				double kyqty =0;
-				if(mrnum.isEmpty()){
-					kyqty = inventoryset.getJpo(0).getDouble("kyqty");// 可用数量	
-				}else{
-					kyqty = inventoryset.getJpo(0).getDouble("sqzyqty");// 可用数量
-				}
-				if(kyqty==0){
-					throw new MroException("物料编码:'" + itemnum + "',库存可用数量为0");
-				}else if(kyqty>0){
-					IJpoSet jkdtransferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
-					jkdtransferlineset.setUserWhere("itemnum='"+ itemnum+ "' and receivestoreroom='"+ issuestoreroom+ "' and status='未接收' and transfernum in (select transfernum from transfer where status='未处理' and type='JKD')");
-					jkdtransferlineset.reset();
-					
-					IJpoSet zstransferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
-					zstransferlineset.setUserWhere("itemnum='"+ itemnum+ "' and ISSUESTOREROOM='"+ issuestoreroom+ "' and status='未接收' and transfernum in (select transfernum from transfer where status='未处理' and type in ('SX','ZXD'))");
-					zstransferlineset.reset();
-					if(jkdtransferlineset.isEmpty()){
-						if(zstransferlineset.isEmpty()){
-							double newqty=kyqty-orderqty;
-							if(newqty<0){
-								throw new MroException("物料编码:'" + itemnum + "',数量大于库存可用数量");
-							}
-						}else{
-							double sumtransferorderqty=zstransferlineset.sum("orderqty");
-							double newqty=kyqty-(orderqty+sumtransferorderqty);
-							if(newqty<0){
-								throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
-							}
-						}
-					}else{
-						double sumjkdtransferorderqty=jkdtransferlineset.sum("orderqty");
-						if(zstransferlineset.isEmpty()){
-							double newqty=kyqty-(orderqty+sumjkdtransferorderqty);
-							if(newqty<0){
-								throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
-							}
-						}else{
-							double sumtransferorderqty=zstransferlineset.sum("orderqty");
-							double newqty=kyqty-(orderqty+sumtransferorderqty+sumjkdtransferorderqty);
-							if(newqty<0){
-								throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
-							}
-						}
-					}
-				}
-				//-------------
+				
+//				//----------------
+//				double orderqty=transferline.getDouble("orderqty");
+//				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet("sys_inventory", MroServer.getMroServer().getSystemUserServer());
+//				inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='"+issuestoreroom+"'");
+//				String mrnum=transferJpo.getString("mrnum");
+//				double kyqty =0;
+//				double sqzyqty =0;
+//				if(mrnum.isEmpty()){
+//					kyqty = inventoryset.getJpo(0).getDouble("kyqty");// 可用数量	
+//					if(kyqty==0||kyqty<0){
+//						throw new MroException("物料编码:'" + itemnum + "',库存可用数量小于等于0");
+//					}else if(kyqty>0){
+//						IJpoSet jkdtransferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
+//						jkdtransferlineset.setUserWhere("itemnum='"+ itemnum+ "' and receivestoreroom='"+ issuestoreroom+ "' and status='未接收' and transfernum in (select transfernum from transfer where status='未处理' and type='JKD')");
+//						jkdtransferlineset.reset();
+//						
+//						IJpoSet zstransferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
+//						zstransferlineset.setUserWhere("itemnum='"+ itemnum+ "' and ISSUESTOREROOM='"+ issuestoreroom+ "' and status='未接收' and transfernum in (select transfernum from transfer where status in('未处理','申请人修改','驳回') and type in ('SX','ZXD'))");
+//						zstransferlineset.reset();
+//						if(jkdtransferlineset.isEmpty()){
+//							if(zstransferlineset.isEmpty()){
+//								double newqty=kyqty-orderqty;
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',数量大于库存可用数量");
+//								}
+//							}else{
+//								double sumtransferorderqty=zstransferlineset.sum("orderqty");
+//								double newqty=kyqty-sumtransferorderqty;
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
+//								}
+//							}
+//						}else{
+//							double sumjkdtransferorderqty=jkdtransferlineset.sum("orderqty");
+//							if(zstransferlineset.isEmpty()){
+//								double newqty=kyqty-sumjkdtransferorderqty;
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
+//								}
+//							}else{
+//								double sumtransferorderqty=zstransferlineset.sum("orderqty");
+//								double newqty=kyqty-(sumtransferorderqty+sumjkdtransferorderqty);
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
+//								}
+//							}
+//						}
+//					}
+//				}else{
+//					sqzyqty = inventoryset.getJpo(0).getDouble("sqzyqty");// 申请占用数量
+//					if(sqzyqty==0||sqzyqty<0){
+//						throw new MroException("物料编码:'" + itemnum + "',申请占用数量小于等于0");
+//					}else if(sqzyqty>0){
+//						IJpoSet zstransferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
+//						zstransferlineset.setUserWhere("itemnum='"+ itemnum+ "' and ISSUESTOREROOM='"+ issuestoreroom+ "' and status='未接收' and transfernum in (select transfernum from transfer where status in('未处理','申请人修改','驳回') and type='ZXD' and mrnum is not null)");
+//						zstransferlineset.reset();
+//							if(zstransferlineset.isEmpty()){
+//								double newqty=sqzyqty-orderqty;
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',数量大于库存申请占用数量");
+//								}
+//							}else{
+//								double sumtransferorderqty=zstransferlineset.sum("orderqty");
+//								double newqty=sqzyqty-sumtransferorderqty;
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存申请占用数量");
+//								}
+//							}
+//					}
+//				}
+//				
+//				//-------------
 				String sqn = transferline.getString("sqn");
 				String assetnum = transferline.getString("assetnum");
 				String lotnum = transferline.getString("lotnum");
@@ -406,9 +429,14 @@ public class ZxTransferAppBean extends AppBean {
 					throw new MroException("transfer", "wfissued");
 				}
 			} else {
-				if (status.equalsIgnoreCase("未处理")
-						&& issue.equalsIgnoreCase("否")) {
-					throw new MroException("transfer", "wfissued");
+				if (status.equalsIgnoreCase("未处理")&& issue.equalsIgnoreCase("否")) {
+					if(!receivestoreroom.equalsIgnoreCase("QT1083")&&!receivestoreroom.equalsIgnoreCase("Y1090")){
+						throw new MroException("transfer", "wfissued");
+					}
+				}if (status.equalsIgnoreCase("发运人审核")&& issue.equalsIgnoreCase("否")) {
+					if(receivestoreroom.equalsIgnoreCase("QT1083")||receivestoreroom.equalsIgnoreCase("Y1090")){
+						throw new MroException("transfer", "wfissued");
+					}
 				}
 			}
 		} else {
@@ -441,68 +469,90 @@ public class ZxTransferAppBean extends AppBean {
 		String transfernum = transferJpo.getString("transfernum");
 		String transfermovetype = transferJpo.getString("transfermovetype");
 		String sxtype=transferJpo.getString("sxtype");
+		String receivestoreroom = transferJpo.getString("receivestoreroom");
+		//装箱质量通报
 		//getZxTaskNum(transfernum, transfermovetype,sxtype);
 		// 有工作流
 		if (WfControlUtil.hasActiveWf(transferJpo)
 				&& !WfControlUtil.isCurUser(transferJpo)) { /* 当前登陆人不是流程审批人 */
 			throw new MroException("transferline", "noissueby");
 		} else {
-			//-----------
-			IJpoSet ttransferlineset = transferJpo.getJpoSet("transferline");
-			if (!ttransferlineset.isEmpty()) {
-				double orderqty=ttransferlineset.getJpo(0).getDouble("orderqty");
-				String issuestoreroom=ttransferlineset.getJpo(0).getString("issuestoreroom");
-				String itemnum=ttransferlineset.getJpo(0).getString("itemnum");
-				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet("sys_inventory", MroServer.getMroServer().getSystemUserServer());
-				inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='"+issuestoreroom+"'");
-				String mrnum=transferJpo.getString("mrnum");
-				double kyqty =0;
-				if(mrnum.isEmpty()){
-					kyqty = inventoryset.getJpo(0).getDouble("kyqty");// 可用数量	
-				}else{
-					kyqty = inventoryset.getJpo(0).getDouble("sqzyqty");// 可用数量
-				}
-				if(kyqty==0){
-					throw new MroException("物料编码:'" + itemnum + "',库存可用数量为0");
-				}else if(kyqty>0){
-					IJpoSet jkdtransferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
-					jkdtransferlineset.setUserWhere("itemnum='"+ itemnum+ "' and receivestoreroom='"+ issuestoreroom+ "' and status='未接收' and transfernum in (select transfernum from transfer where status='未处理' and type='JKD')");
-					jkdtransferlineset.reset();
-					
-					IJpoSet zstransferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
-					zstransferlineset.setUserWhere("itemnum='"+ itemnum+ "' and ISSUESTOREROOM='"+ issuestoreroom+ "' and status='未接收' and transfernum in (select transfernum from transfer where status='未处理' and type in ('SX','ZXD'))");
-					zstransferlineset.reset();
-					if(jkdtransferlineset.isEmpty()){
-						if(zstransferlineset.isEmpty()){
-							double newqty=kyqty-orderqty;
-							if(newqty<0){
-								throw new MroException("物料编码:'" + itemnum + "',数量大于库存可用数量");
-							}
-						}else{
-							double sumtransferorderqty=zstransferlineset.sum("orderqty");
-							double newqty=kyqty-(orderqty+sumtransferorderqty);
-							if(newqty<0){
-								throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
-							}
-						}
-					}else{
-						double sumjkdtransferorderqty=jkdtransferlineset.sum("orderqty");
-						if(zstransferlineset.isEmpty()){
-							double newqty=kyqty-(orderqty+sumjkdtransferorderqty);
-							if(newqty<0){
-								throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
-							}
-						}else{
-							double sumtransferorderqty=zstransferlineset.sum("orderqty");
-							double newqty=kyqty-(orderqty+sumtransferorderqty+sumjkdtransferorderqty);
-							if(newqty<0){
-								throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
-							}
-						}
-					}
-				}
-			}
-			//----------
+//			//-----------
+//			IJpoSet ttransferlineset = transferJpo.getJpoSet("transferline");
+//			if (!ttransferlineset.isEmpty()) {
+//				double orderqty=ttransferlineset.getJpo(0).getDouble("orderqty");
+//				String issuestoreroom=ttransferlineset.getJpo(0).getString("issuestoreroom");
+//				String itemnum=ttransferlineset.getJpo(0).getString("itemnum");
+//				IJpoSet inventoryset = MroServer.getMroServer().getJpoSet("sys_inventory", MroServer.getMroServer().getSystemUserServer());
+//				inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='"+issuestoreroom+"'");
+//				String mrnum=transferJpo.getString("mrnum");
+//				double kyqty =0;
+//				double sqzyqty =0;
+//				if(mrnum.isEmpty()){
+//					kyqty = inventoryset.getJpo(0).getDouble("kyqty");// 可用数量	
+//					if(kyqty==0||kyqty<0){
+//						throw new MroException("物料编码:'" + itemnum + "',库存可用数量小于等于0");
+//					}else if(kyqty>0){
+//						IJpoSet jkdtransferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
+//						jkdtransferlineset.setUserWhere("itemnum='"+ itemnum+ "' and receivestoreroom='"+ issuestoreroom+ "' and status='未接收' and transfernum in (select transfernum from transfer where status='未处理' and type='JKD')");
+//						jkdtransferlineset.reset();
+//						
+//						IJpoSet zstransferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
+//						zstransferlineset.setUserWhere("itemnum='"+ itemnum+ "' and ISSUESTOREROOM='"+ issuestoreroom+ "' and status='未接收' and transfernum in (select transfernum from transfer where status in('未处理','申请人修改','驳回') and type in ('SX','ZXD'))");
+//						zstransferlineset.reset();
+//						if(jkdtransferlineset.isEmpty()){
+//							if(zstransferlineset.isEmpty()){
+//								double newqty=kyqty-orderqty;
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',数量大于库存可用数量");
+//								}
+//							}else{
+//								double sumtransferorderqty=zstransferlineset.sum("orderqty");
+//								double newqty=kyqty-sumtransferorderqty;
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
+//								}
+//							}
+//						}else{
+//							double sumjkdtransferorderqty=jkdtransferlineset.sum("orderqty");
+//							if(zstransferlineset.isEmpty()){
+//								double newqty=kyqty-sumjkdtransferorderqty;
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
+//								}
+//							}else{
+//								double sumtransferorderqty=zstransferlineset.sum("orderqty");
+//								double newqty=kyqty-(sumtransferorderqty+sumjkdtransferorderqty);
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存可用数量");
+//								}
+//							}
+//						}
+//					}
+//				}else{
+//					sqzyqty = inventoryset.getJpo(0).getDouble("sqzyqty");// 申请占用数量
+//					if(sqzyqty==0||sqzyqty<0){
+//						throw new MroException("物料编码:'" + itemnum + "',申请占用数量小于等于0");
+//					}else if(sqzyqty>0){
+//						IJpoSet zstransferlineset = MroServer.getMroServer().getJpoSet("transferline",MroServer.getMroServer().getSystemUserServer());
+//						zstransferlineset.setUserWhere("itemnum='"+ itemnum+ "' and ISSUESTOREROOM='"+ issuestoreroom+ "' and status='未接收' and transfernum in (select transfernum from transfer where status in('未处理','申请人修改','驳回') and type='ZXD' and mrnum is not null)");
+//						zstransferlineset.reset();
+//							if(zstransferlineset.isEmpty()){
+//								double newqty=sqzyqty-orderqty;
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',数量大于库存申请占用数量");
+//								}
+//							}else{
+//								double sumtransferorderqty=zstransferlineset.sum("orderqty");
+//								double newqty=sqzyqty-sumtransferorderqty;
+//								if(newqty<0){
+//									throw new MroException("物料编码:'" + itemnum + "',累计发货数量大于库存申请占用数量");
+//								}
+//							}
+//					}
+//				}
+//			}
+//			//----------
 			String status = transferJpo.getString("status");
 			String issue = transferJpo.getString("issue");// 是否发出标记
 			if (issue.equalsIgnoreCase("否")) {
@@ -518,52 +568,56 @@ public class ZxTransferAppBean extends AppBean {
 					}
 					if (TRANSFERMOVETYPE
 							.equalsIgnoreCase(ItemUtil.TRANSFERMOVETYPE_ZTOZ)) {
-						IJpoSet transferlineset = transferJpo
-								.getJpoSet("transferline");
-						if (transferlineset.count() == 0) {
-							throw new MroException("transferline",
-									"statusissue");
-						} else {
-							IJpoSet sqntransferlineset = MroServer
-									.getMroServer().getJpoSet(
-											"transferline",
-											MroServer.getMroServer()
-													.getSystemUserServer());
-							sqntransferlineset
-									.setUserWhere("transfernum='"
-											+ transfernum
-											+ "' and itemnum in (select itemnum from sys_item where ISTURNOVERERP=1) and sqn is null");
-							sqntransferlineset.reset();
-
-							if (!sqntransferlineset.isEmpty()) {
-								this.getAppBean().SAVE();
-								throw new MroException("transfer", "sqn");
+						if(receivestoreroom.equalsIgnoreCase("QT1083")||receivestoreroom.equalsIgnoreCase("Y1090")){
+							throw new MroException("transferline", "sendby");
+						}else{
+							IJpoSet transferlineset = transferJpo
+									.getJpoSet("transferline");
+							if (transferlineset.count() == 0) {
+								throw new MroException("transferline",
+										"statusissue");
 							} else {
-								// 调用变更序列号状态方法
-								UPDATESQNSTATUS(transferlineset);
-								// 调用接收在途增加数据方法
-								CommonAddNewInventory
-										.addinventory(transferlineset);
-								transferJpo.setValue("status", "在途");
-								transferJpo.setValue("issue", "是");
-								java.util.Date newdate = MroServer
-										.getMroServer().getDate();
-								SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-										"yyyy/MM/dd HH:mm:ss");
-								String format = simpleDateFormat
-										.format(newdate);
+								IJpoSet sqntransferlineset = MroServer
+										.getMroServer().getJpoSet(
+												"transferline",
+												MroServer.getMroServer()
+														.getSystemUserServer());
+								sqntransferlineset
+										.setUserWhere("transfernum='"
+												+ transfernum
+												+ "' and itemnum in (select itemnum from sys_item where ISTURNOVERERP=1) and sqn is null");
+								sqntransferlineset.reset();
 
-								transferJpo
-										.setValue(
-												"SENDTIME",
-												format,
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								// 调用变更缴库单提示消息关闭方法
-								CHANGEMESSAGESTATUS();
-								
-								this.getAppBean().SAVE();
-								showMsgbox("提示", "装箱单已成功发运!");
-								return;
+								if (!sqntransferlineset.isEmpty()) {
+									this.getAppBean().SAVE();
+									throw new MroException("transfer", "sqn");
+								} else {
+									// 调用变更序列号状态方法
+									UPDATESQNSTATUS(transferlineset);
+									// 调用接收在途增加数据方法
+									CommonAddNewInventory
+											.addinventory(transferlineset);
+									transferJpo.setValue("status", "在途");
+									transferJpo.setValue("issue", "是");
+									java.util.Date newdate = MroServer
+											.getMroServer().getDate();
+									SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+											"yyyy/MM/dd HH:mm:ss");
+									String format = simpleDateFormat
+											.format(newdate);
+
+									transferJpo
+											.setValue(
+													"SENDTIME",
+													format,
+													GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+									// 调用变更缴库单提示消息关闭方法
+									CHANGEMESSAGESTATUS();
+									
+									this.getAppBean().SAVE();
+									showMsgbox("提示", "装箱单已成功发运!");
+									return;
+								}
 							}
 						}
 					}
@@ -696,7 +750,57 @@ public class ZxTransferAppBean extends AppBean {
 					}
 					if (TRANSFERMOVETYPE
 							.equalsIgnoreCase(ItemUtil.TRANSFERMOVETYPE_ZTOZ)) {
-						throw new MroException("transferline", "sendby");
+						if (personid.equalsIgnoreCase(sendby)) {
+							IJpoSet transferlineset = transferJpo
+									.getJpoSet("transferline");
+							if (transferlineset.count() == 0) {
+								throw new MroException("transferline",
+										"statusissue");
+							} else {
+								IJpoSet sqntransferlineset = MroServer
+										.getMroServer().getJpoSet(
+												"transferline",
+												MroServer.getMroServer()
+														.getSystemUserServer());
+								sqntransferlineset
+										.setUserWhere("transfernum='"
+												+ transfernum
+												+ "' and itemnum in (select itemnum from sys_item where ISTURNOVERERP=1) and sqn is null");
+								sqntransferlineset.reset();
+								if (!sqntransferlineset.isEmpty()) {
+									this.getAppBean().SAVE();
+									throw new MroException("transfer", "sqn");
+								} else {
+									// 调用变更序列号状态方法
+									UPDATESQNSTATUS(transferlineset);
+									// 调用接收在途增加数据方法
+									CommonAddNewInventory
+											.addinventory(transferlineset);
+									transferJpo.setValue("status", "在途");
+									transferJpo.setValue("issue", "是");
+									java.util.Date newdate = MroServer
+											.getMroServer().getDate();
+									SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+											"yyyy/MM/dd HH:mm:ss");
+									String format = simpleDateFormat
+											.format(newdate);
+
+									transferJpo
+											.setValue(
+													"SENDTIME",
+													format,
+													GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+									// 调用变更缴库单提示消息关闭方法
+									CHANGEMESSAGESTATUS();
+									this.getAppBean().SAVE();
+									showMsgbox("提示", "装箱单已成功发运!");
+									return;
+								}
+
+							}
+						} else {
+							throw new MroException("transferline", "sendby");
+						}
 					}
 					if (TRANSFERMOVETYPE
 							.equalsIgnoreCase(ItemUtil.TRANSFERMOVETYPE_XTOX)) {

@@ -23,7 +23,7 @@ public class FldBinnum extends JpoField {
 		// TODO Auto-generated method stub
 		super.validate();
 		IJpoSet locbinset = this.getJpo().getParent().getJpoSet("locbin");
-		locbinset.setQueryWhere("locbinid!='"
+		locbinset.setUserWhere("locbinid!='"
 				+ this.getJpo().getString("locbinid") + "'");
 		if (locbinset.count() != 0) {
 			for (int i = 0; i < locbinset.count(); i++) {

@@ -232,8 +232,7 @@ public class FldReceivestoreroom extends JpoField {
 				String erploc = this.getJpo().getJpoSet("ISSUESTOREROOM")
 						.getJpo().getString("erploc");
 				if (TRANSFERMOVETYPE.equalsIgnoreCase("中心到中心")) {
-					if (issuestoreroom.equalsIgnoreCase("Y1087")
-							|| issuestoreroom.equalsIgnoreCase("QT1080")) {
+//					if (issuestoreroom.equalsIgnoreCase("Y1087")|| issuestoreroom.equalsIgnoreCase("QT1080")) {
 						if (receivestoreroom.equalsIgnoreCase("Y1090")
 								|| receivestoreroom.equalsIgnoreCase("QT1083")) {
 							this.getJpo().setFieldFlag("SENDBY",
@@ -250,7 +249,7 @@ public class FldReceivestoreroom extends JpoField {
 							this.getJpo().setFieldFlag("SENDBY",
 									GWConstant.S_READONLY, true);
 						}
-					}
+//					}
 					if (issLOCATIONTYPE.equalsIgnoreCase("常规")) {
 						if (erploc.equalsIgnoreCase("1020")
 								&& receivestoreroom.equalsIgnoreCase("Y1087")) {

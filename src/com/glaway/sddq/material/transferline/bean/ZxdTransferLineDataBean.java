@@ -202,11 +202,20 @@ public class ZxdTransferLineDataBean extends DataBean {
 		String CREATEBY = this.page.getAppBean().getJpo().getString("CREATEBY");
 		String status = this.page.getAppBean().getJpo().getString("status");
 		String issue = this.page.getAppBean().getJpo().getString("issue");
+		String newstatus = this.getJpo().getString("status");
 		if (!personid.equalsIgnoreCase(CREATEBY)) {
 			throw new MroException("transferline", "nodelete");
 		} else {
+			// zzx add start 3.12
 			if (issue.equalsIgnoreCase("是")) {
-				throw new MroException("transferline", "statusnodelete");
+				if (status.equalsIgnoreCase("驳回")
+						&& this.getJpo().getString("status")
+								.equalsIgnoreCase("未接收")) {
+					return super.toggledeleterow();
+				} else {
+					throw new MroException("transferline", "statusnodelete");
+				}
+				// zzx add end
 			} else {
 				if (!this.getJpo().getString("status").equalsIgnoreCase("未接收")) {
 					throw new MroException("transferline", "statusnodelete");
@@ -254,7 +263,8 @@ public class ZxdTransferLineDataBean extends DataBean {
 
 		}
 		if (!status.equalsIgnoreCase("未处理")
-				&& !status.equalsIgnoreCase("申请人修改")) {
+				&& !status.equalsIgnoreCase("申请人修改")
+				&& !status.equalsIgnoreCase("驳回")) {
 			throw new MroException("transferline", "notaddrow");
 		} else {
 			if (!personid.equalsIgnoreCase(CREATEBY)) {
@@ -387,7 +397,10 @@ public class ZxdTransferLineDataBean extends DataBean {
 				.equalsIgnoreCase("未处理")) {
 			if (!this.page.getAppBean().getJpo().getString("status")
 					.equalsIgnoreCase("申请人修改")) {
-				throw new MroException("transferline", "statusselectmr");
+				if (!this.page.getAppBean().getJpo().getString("status")
+						.equalsIgnoreCase("驳回")) {
+					throw new MroException("transferline", "statusselectmr");
+				}
 			}
 
 		} else {
@@ -424,10 +437,10 @@ public class ZxdTransferLineDataBean extends DataBean {
 	public void addEditRowCallBackOk() throws IOException, MroException {
 		// TODO Auto-generated method stub
 		super.addEditRowCallBackOk();
-		if (this.getJpo().isNew()) {
-			this.page.getAppBean().SAVE();
-		}
-
+//		if (this.getJpo().isNew()) {
+//			this.page.getAppBean().SAVE();
+//		}
+		this.page.getAppBean().SAVE();
 	}
 
 	/**

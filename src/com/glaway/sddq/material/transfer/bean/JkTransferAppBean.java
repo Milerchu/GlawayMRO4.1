@@ -35,7 +35,7 @@ public class JkTransferAppBean extends AppBean {
 		if (status.equalsIgnoreCase("未处理")) {
 			String rloc = this.getAppBean().getString("ISSUESTOREROOM");// 接收库房
 			IJpoSet transferlineset = transferJpo.getJpoSet("transferline");
-			transferlineset.setQueryWhere("status!='已接收'");
+			transferlineset.setUserWhere("status!='已接收'");
 			transferlineset.reset();
 			for (int i = 0; (transferlineset.getJpo(i) != null); i++) {
 				Invtrans invtrans = new Invtrans();
@@ -88,7 +88,7 @@ public class JkTransferAppBean extends AppBean {
 		if (transferJpo.getString("KEEPER").equals(getUserInfo().getLoginID()))
 			throw new MroException("transferline", "createby");
 		IJpoSet transferlineset = transferJpo.getJpoSet("transferline");
-		transferlineset.setQueryWhere("status='已接收'");
+		transferlineset.setUserWhere("status='已接收'");
 		transferlineset.reset();
 		if (transferlineset.count() > 0) {
 			throw new MroException("transferline", "deletes");

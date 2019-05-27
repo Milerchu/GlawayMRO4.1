@@ -22,22 +22,22 @@ public class FldStoreroomlevel extends JpoField {
 		if (ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_1020)) {//1020库房显示的库房级别
 			domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='STOREROOMLEVEL'");
 			//域过滤-中心库，现场库，区域库，现场站点库，待维修库
-			domainSet.setQueryWhere("VALUE in ('"+ItemUtil.STOREROOMLEVEL_ZXK+"','"+ItemUtil.STOREROOMLEVEL_XCK+"','"+ItemUtil.STOREROOMLEVEL_QYK+"','"+ItemUtil.STOREROOMLEVEL_XCZDK+"','"+ItemUtil.STOREROOMLEVEL_DWXK+"')");
+			domainSet.setUserWhere("VALUE in ('"+ItemUtil.STOREROOMLEVEL_ZXK+"','"+ItemUtil.STOREROOMLEVEL_XCK+"','"+ItemUtil.STOREROOMLEVEL_QYK+"','"+ItemUtil.STOREROOMLEVEL_XCZDK+"','"+ItemUtil.STOREROOMLEVEL_DWXK+"')");
 			domainSet.reset();
 			return domainSet;
 		} else if (ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_1030)) {//1030库房显示的库房级别
 			domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='STOREROOMLEVEL'");
-			domainSet.setQueryWhere("VALUE in ('"+ItemUtil.STOREROOMLEVEL_ZXK+"','"+ItemUtil.STOREROOMLEVEL_XCK+"','"+ItemUtil.STOREROOMLEVEL_FWK+"')");//域过滤-中心库，现场库
+			domainSet.setUserWhere("VALUE in ('"+ItemUtil.STOREROOMLEVEL_ZXK+"','"+ItemUtil.STOREROOMLEVEL_XCK+"','"+ItemUtil.STOREROOMLEVEL_FWK+"')");//域过滤-中心库，现场库
 			domainSet.reset();
 			return domainSet;
 		} else if (ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_QTGZ)) {// 其他改造物料库库房显示的库房级别
 			domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='STOREROOMLEVEL'");
-			domainSet.setQueryWhere("VALUE in ('"+ItemUtil.STOREROOMLEVEL_ZXK+"','"+ItemUtil.STOREROOMLEVEL_XCK+"')");//域过滤-中心库，现场库
+			domainSet.setUserWhere("VALUE in ('"+ItemUtil.STOREROOMLEVEL_ZXK+"','"+ItemUtil.STOREROOMLEVEL_XCK+"')");//域过滤-中心库，现场库
 			domainSet.reset();
 			return domainSet;
 		} else if (ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_QTDCL)) {// 其他待处理物资库库房显示的库房级别
 			domainSet = getUserServer().getJpoSet("SYS_ALNDOMAIN","domainid='STOREROOMLEVEL'");
-			domainSet.setQueryWhere("VALUE in ('"+ItemUtil.STOREROOMLEVEL_ZXK+"','"+ItemUtil.STOREROOMLEVEL_XCK+"')");//域过滤-中心库，现场库
+			domainSet.setUserWhere("VALUE in ('"+ItemUtil.STOREROOMLEVEL_ZXK+"','"+ItemUtil.STOREROOMLEVEL_XCK+"')");//域过滤-中心库，现场库
 			domainSet.reset();
 			return domainSet;
 		} else {
@@ -68,9 +68,9 @@ public class FldStoreroomlevel extends JpoField {
 			}
 			IJpoSet locationsset =MroServer.getMroServer().getJpoSet("locations", MroServer.getMroServer().getSystemUserServer()); 
 			if(STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_ZXK)||STOREROOMLEVEL.equalsIgnoreCase(ItemUtil.STOREROOMLEVEL_DWXK)){
-				locationsset.setQueryWhere("erploc='"+ERPLOC+"' and STOREROOMLEVEL='"+STOREROOMLEVEL+"' and STOREROOMGRADE='一级'");//过滤父级库房数据
+				locationsset.setUserWhere("erploc='"+ERPLOC+"' and STOREROOMLEVEL='"+STOREROOMLEVEL+"' and STOREROOMGRADE='一级'");//过滤父级库房数据
 			}else{
-				locationsset.setQueryWhere("erploc='"+ERPLOC+"' and STOREROOMLEVEL='"+ItemUtil.STOREROOMLEVEL_XCK+"' and STOREROOMGRADE='一级'");//过滤父级库房数据
+				locationsset.setUserWhere("erploc='"+ERPLOC+"' and STOREROOMLEVEL='"+ItemUtil.STOREROOMLEVEL_XCK+"' and STOREROOMGRADE='一级'");//过滤父级库房数据
 			}
 			locationsset.reset();
 			if(!locationsset.isEmpty()){
@@ -92,7 +92,7 @@ public class FldStoreroomlevel extends JpoField {
 		if(ERPLOC.equalsIgnoreCase(ItemUtil.ERPLOC_1030)){//库房属性-1030
 			this.getJpo().setValue("LOCATIONTYPE", ItemUtil.LOCATIONTYPE_CG,GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 			IJpoSet locationsset =MroServer.getMroServer().getJpoSet("locations", MroServer.getMroServer().getSystemUserServer());   
-			locationsset.setQueryWhere("erploc='"+ERPLOC+"' and STOREROOMLEVEL='"+STOREROOMLEVEL+"' and STOREROOMGRADE='一级'");//过滤父级库房数据
+			locationsset.setUserWhere("erploc='"+ERPLOC+"' and STOREROOMLEVEL='"+STOREROOMLEVEL+"' and STOREROOMGRADE='一级'");//过滤父级库房数据
 			locationsset.reset();
 			if(!locationsset.isEmpty()){
 				String LOCATION=locationsset.getJpo(0).getString("LOCATION");

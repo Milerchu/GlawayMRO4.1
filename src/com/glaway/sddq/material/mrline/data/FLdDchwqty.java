@@ -24,7 +24,7 @@ public class FLdDchwqty extends JpoField {
 			if(appname!=null){
 				String itemnum=this.getJpo().getString("itemnum");
 				IJpoSet inventoryset=MroServer.getMroServer().getJpoSet("sys_inventory", MroServer.getMroServer().getSystemUserServer());
-				inventoryset.setQueryWhere("itemnum='"+itemnum+"' and location='Y1714'");//动车服务库
+				inventoryset.setUserWhere("itemnum='"+itemnum+"' and location='Y1714'");//动车服务库
 				if(!inventoryset.isEmpty()){
 					total = inventoryset.sum("CURBAL");
 				}	

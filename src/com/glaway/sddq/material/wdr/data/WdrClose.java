@@ -610,7 +610,7 @@ public class WdrClose implements ActionCustomClass {
 					IJpoSet inventoryset = MroServer.getMroServer().getJpoSet(
 							"sys_inventory",
 							MroServer.getMroServer().getSystemUserServer());// --调拨出库库存的集合
-					inventoryset.setQueryWhere("itemnum='" + itemnum
+					inventoryset.setUserWhere("itemnum='" + itemnum
 							+ "' and location='" + location + "'");
 					inventoryset.reset();
 					if (!inventoryset.isEmpty()) {

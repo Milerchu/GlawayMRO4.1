@@ -21,7 +21,7 @@ public class XlocbinItemDataBean extends DataBean {
 	public void buildJpoSet() throws MroException {
 		super.buildJpoSet();
 		this.jpoSet = this.getParent().getJpo().getJpoSet("NOBINASSET");
-		this.jpoSet.setQueryWhere("binnum is null");
+		this.jpoSet.setUserWhere("binnum is null");
 		this.jpoSet.reset();
 	}
 
