@@ -54,7 +54,7 @@ public class MobileUtil {
 	 * 
 	 * <功能描述> 根据安全组返回其对应的appid
 	 * 
-	 * @param groupname
+	 * @param personid
 	 * @return
 	 * @throws MroException
 	 *             [参数说明]

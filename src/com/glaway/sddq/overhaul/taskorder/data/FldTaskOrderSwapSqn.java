@@ -157,8 +157,8 @@ public class FldTaskOrderSwapSqn extends JpoField {
 
 					String sqljx = "assetnum in  (select assetnum  from asset start with assetnum='"
 							+ assetnum
-							+ "' connect by parent = PRIOR assetnum)  and type in(2,3) and sqn !='"
-							+ sqn + "'";
+							+ "' connect by parent = PRIOR assetnum)  and type in(2,3) and assetnum !='"
+							+ assetnum + "'";
 
 					/*
 					 * this.setListWhere(
@@ -227,8 +227,8 @@ public class FldTaskOrderSwapSqn extends JpoField {
 				}
 				String sqljc = "assetnum in  (select assetnum  from asset start with assetnum='"
 						+ assetnum
-						+ "' connect by parent = PRIOR assetnum)  and type in ('2','3') and sqn !='"
-						+ sqn + "'";
+						+ "' connect by parent = PRIOR assetnum)  and type in ('2','3') and assetnum !='"
+						+ assetnum + "'";
 				if (StringUtil.isStrNotEmpty(assetnumone)) {
 					sqljc += " and assetnum not in(" + assetnumone + ")";
 				}

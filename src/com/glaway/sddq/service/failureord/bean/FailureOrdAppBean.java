@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.glaway.sddq.service.workorder.data.Workorder;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.axis2.transport.http.impl.httpclient3.HttpTransportPropertiesImpl.Authenticator;
 
@@ -520,7 +521,10 @@ public class FailureOrdAppBean extends AppBean {
 			throw new MroException("servorder", "statusnoaction");
 		}
 		if (!WfControlUtil.isCurUser(this.getJpo())) {
-			throw new MroException("非工作流执行人无法操作！");
+			//非管理员组
+			if(!WorkorderUtil.isInAdminGroup(getJpo().getUserInfo().getLoginID())){
+				throw new MroException("非工作流执行人无法操作！");
+			}
 		}
 		IJpo jpo = this.getJpo();
 		IJpoSet losspartSet = getJpo().getJpoSet("JXTASKLOSSPART");

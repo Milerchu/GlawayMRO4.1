@@ -28,12 +28,13 @@ public class FoSBSuccess implements ActionCustomClass {
 				String sbStatus = jpo.getString("ERPSTATUS");// 三包订单状态
 				if ((!"成功".equals(sbStatus)) || StringUtil.isStrEmpty(sbStatus)) {
 
-					/**
-					 * 判断是否有非客户料
-					 */
+					// 判断是否有非客户料
 					boolean flag = false;
 					// 是否存在返回本部维修
 					boolean flag2 = false;
+					// 是否调用309接口
+					boolean flag3 = false;
+
 					IJpoSet exSet = jpo.getJpoSet("FAILURELIB").getJpo()
 							.getJpoSet("EXCHANGERECORD");
 					IJpoSet lossSet = jpo.getJpoSet("JXTASKLOSSPART");
@@ -45,6 +46,13 @@ public class FoSBSuccess implements ActionCustomClass {
 								.getJpo(idx).getString("dealmode"))) {
 							flag2 = true;
 						}
+						//不返修并且技术主管同意
+						if(SddqConstant.FAIL_DEALMODE_RETENTION.equals(exSet
+								.getJpo(idx).getString("dealmode")) && ( "同意".equals(exSet
+								.getJpo(idx).getString("ISAGREESTAY")) )){
+							flag3 = true;
+						}
+
 					}
 					for (int j = 0; j < lossSet.count(); j++) {
 						if (!lossSet.getJpo(j).getBoolean("ISCUSTITEM")) {
@@ -54,6 +62,17 @@ public class FoSBSuccess implements ActionCustomClass {
 								.equals(lossSet.getJpo(j).getString("dealmode"))) {
 							flag2 = true;
 						}
+
+						//不返修并且技术主管同意
+						if(SddqConstant.FAIL_DEALMODE_RETENTION.equals(lossSet.getJpo(j).getString("dealmode"))
+								&& ( "同意".equals(lossSet.getJpo(j).getString("ISAGREESTAY")) )){
+							flag3 = true;
+						}
+
+					}
+					if(flag3 && (!jpo.getBoolean("IFACE309"))){//未触发309接口
+
+						throw new MroException("请先触发309接口再发送工作流！");
 
 					}
 					if (!SddqConstant.WO_STATUS_ZZKGYSH.equals(jpo
