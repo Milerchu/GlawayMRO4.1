@@ -1720,9 +1720,21 @@ public class FailureOrdAppBean extends AppBean {
 				num = IFUtil.addIfHistory(IFUtil.MRO_ERP_JKD,
 						returnjArray.toString(), IFUtil.TYPE_INPUT);// 增加输出记录
 
-				IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS,
-						IFUtil.FLAG_YES, "故障工单号：" + order.getString("ordernum")
-								+ ";接收ERP回传:" + returnjArray.toString() + "。");
+				if("S".equals(res.getReturn().toString())){//回传成功
+
+					IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS,
+							IFUtil.FLAG_YES, "故障工单号：" + order.getString("ordernum")
+									+ ";接收ERP回传:" + returnjArray.toString() + "。");
+
+				}else{//回传失败
+
+					IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE,
+							IFUtil.FLAG_NO, "故障工单号：" + order.getString("ordernum")
+									+ ";接收ERP回传失败，错误信息:" + message + "。");
+
+				}
+
+
 			}
 
 		} catch (Exception e) {
