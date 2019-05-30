@@ -46,10 +46,11 @@ public class FoSBSuccess implements ActionCustomClass {
 								.getJpo(idx).getString("dealmode"))) {
 							flag2 = true;
 						}
-						//不返修并且技术主管同意
-						if(SddqConstant.FAIL_DEALMODE_RETENTION.equals(exSet
-								.getJpo(idx).getString("dealmode")) && ( "同意".equals(exSet
-								.getJpo(idx).getString("ISAGREESTAY")) )){
+						// 不返修并且技术主管同意
+						if (SddqConstant.FAIL_DEALMODE_RETENTION.equals(exSet
+								.getJpo(idx).getString("dealmode"))
+								&& ("同意".equals(exSet.getJpo(idx).getString(
+										"ISAGREESTAY")))) {
 							flag3 = true;
 						}
 
@@ -63,14 +64,16 @@ public class FoSBSuccess implements ActionCustomClass {
 							flag2 = true;
 						}
 
-						//不返修并且技术主管同意
-						if(SddqConstant.FAIL_DEALMODE_RETENTION.equals(lossSet.getJpo(j).getString("dealmode"))
-								&& ( "同意".equals(lossSet.getJpo(j).getString("ISAGREESTAY")) )){
+						// 不返修并且技术主管同意
+						if (SddqConstant.FAIL_DEALMODE_RETENTION.equals(lossSet
+								.getJpo(j).getString("dealmode"))
+								&& ("同意".equals(lossSet.getJpo(j).getString(
+										"ISAGREESTAY")))) {
 							flag3 = true;
 						}
 
 					}
-					if(flag3 && (!jpo.getBoolean("IFACE309"))){//未触发309接口
+					if (flag3 && (!jpo.getBoolean("IFACE309"))) {// 未触发309接口
 
 						throw new MroException("请先触发309接口再发送工作流！");
 

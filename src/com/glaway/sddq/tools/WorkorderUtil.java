@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.axis2.transport.http.impl.httpclient3.HttpTransportPropertiesImpl.Authenticator;
@@ -78,9 +76,9 @@ public class WorkorderUtil {
 
 	public static void main(String[] args) {
 		String str = "11ff100%jlkj";
-		System.out.println("原字符串："+str);
+		System.out.println("原字符串：" + str);
 		str = getSafeXmlString(str);
-		System.out.println("新字符串："+str);
+		System.out.println("新字符串：" + str);
 	}
 
 	/**
@@ -1533,8 +1531,8 @@ public class WorkorderUtil {
 		// 现场处理人
 		String servengineer = workorder.getString("SERVENGINEER.DISPLAYNAME");
 		String servengineerId = workorder.getString("SERVENGINEER");
-		root.addElement("xcclr").addText(getSafeXmlString(
-				servengineer + "(" + servengineerId + ")"));
+		root.addElement("xcclr").addText(
+				getSafeXmlString(servengineer + "(" + servengineerId + ")"));
 
 		// 装车车型
 		String models = workorder.getString("MODELS.MODELCODE");
@@ -1655,20 +1653,24 @@ public class WorkorderUtil {
 				}
 
 				// 故障品图号/物资编码
-				root.element("gzpthwzbm").setText(getSafeXmlString(exJpo.getString("ITEMNUM")));
+				root.element("gzpthwzbm").setText(
+						getSafeXmlString(exJpo.getString("ITEMNUM")));
 
 				// 故障品名称
 				String gzpmc = exJpo.getString("ITEM.DESCRIPTION");
 				root.element("gzpmc").setText(getSafeXmlString(gzpmc));
 
 				// 故障品序号
-				root.element("gzpxh").setText(getSafeXmlString(exJpo.getString("SQN")));
+				root.element("gzpxh").setText(
+						getSafeXmlString(exJpo.getString("SQN")));
 
 				// 更换品序号
-				root.element("ghpxh").setText(getSafeXmlString(exJpo.getString("NEWSQN")));
+				root.element("ghpxh").setText(
+						getSafeXmlString(exJpo.getString("NEWSQN")));
 
 				// 更换品图号/物资编码
-				root.element("ghpth").setText(getSafeXmlString(exJpo.getString("NEWITEMNUM")));
+				root.element("ghpth").setText(
+						getSafeXmlString(exJpo.getString("NEWITEMNUM")));
 
 				// 更换品名称
 				String ghpmc = exJpo.getString("NEWITEM.DESCRIPTION");
@@ -1683,7 +1685,8 @@ public class WorkorderUtil {
 						getSafeXmlString(exJpo.getString("ASSET.SOFTVERSION")));
 
 				// 故障品处置方式
-				root.element("gzpczfs").setText(getSafeXmlString(exJpo.getString("DEALMODE")));
+				root.element("gzpczfs").setText(
+						getSafeXmlString(exJpo.getString("DEALMODE")));
 
 				// 生产单位 add by ZH,2018/09/27
 				String producter = exJpo.getString("ITEM.ITEMPOTYPE");
@@ -1711,9 +1714,12 @@ public class WorkorderUtil {
 						&& superiorSet.count(GWConstant.P_COUNT_AFTERSAVE) > 0) {
 					for (int idx = 0; idx < superiorSet.count(); idx++) {
 						IJpo superior = superiorSet.getJpo(idx);
-						String itemnum = getSafeXmlString(superior.getString("ITEMNUM"));// 物料编码
-						String sqnorbatch = getSafeXmlString(superior.getString("SQNORBATCHNUM"));// 序列号
-						String faultName = getSafeXmlString(superior.getString("SYS_ITEM.DESCRIPTION"));// 物料描述
+						String itemnum = getSafeXmlString(superior
+								.getString("ITEMNUM"));// 物料编码
+						String sqnorbatch = getSafeXmlString(superior
+								.getString("SQNORBATCHNUM"));// 序列号
+						String faultName = getSafeXmlString(superior
+								.getString("SYS_ITEM.DESCRIPTION"));// 物料描述
 
 						int level = superior.getInt("partlevel");// 级别
 
@@ -1916,7 +1922,8 @@ public class WorkorderUtil {
 				root.element("ghpxh").setText(getSafeXmlString(newbatchnum));
 
 				// 更换品图号/物资编码
-				root.element("ghpth").setText(getSafeXmlString(consume.getString("ITEMNUM")));
+				root.element("ghpth").setText(
+						getSafeXmlString(consume.getString("ITEMNUM")));
 
 				// 更换品名称
 				String ghpmc = consume.getString("ITEM.DESCRIPTION");
@@ -1939,8 +1946,8 @@ public class WorkorderUtil {
 				}
 
 				// 故障品位置(故障品父级位置号)
-				root.element("gzpwz").setText(getSafeXmlString(
-						StringUtil.isStrEmpty(consume
+				root.element("gzpwz").setText(
+						getSafeXmlString(StringUtil.isStrEmpty(consume
 								.getString("DOWNASSET.RNUM")) ? "NA" : consume
 								.getString("DOWNASSET.RNUM")));
 
@@ -1951,7 +1958,8 @@ public class WorkorderUtil {
 				 */
 
 				// 故障品处置方式
-				root.element("gzpczfs").setText(getSafeXmlString(consume.getString("DEALMODE")));
+				root.element("gzpczfs").setText(
+						getSafeXmlString(consume.getString("DEALMODE")));
 
 				// QMS_ID——使用 故障工单编号-上下车唯一id
 				root.element("QMS_ID").setText(
@@ -1964,9 +1972,12 @@ public class WorkorderUtil {
 						&& superiorSet.count(GWConstant.P_COUNT_AFTERSAVE) > 0) {
 					for (int idx = 0; idx < superiorSet.count(); idx++) {
 						IJpo superior = superiorSet.getJpo(idx);
-						String itemnum = getSafeXmlString(superior.getString("ITEMNUM"));// 物料编码
-						String sqnorbatch = getSafeXmlString(superior.getString("SQNORBATCHNUM"));// 序列号
-						String faultName = getSafeXmlString(superior.getString("SYS_ITEM.DESCRIPTION"));// 物料描述
+						String itemnum = getSafeXmlString(superior
+								.getString("ITEMNUM"));// 物料编码
+						String sqnorbatch = getSafeXmlString(superior
+								.getString("SQNORBATCHNUM"));// 序列号
+						String faultName = getSafeXmlString(superior
+								.getString("SYS_ITEM.DESCRIPTION"));// 物料描述
 
 						int level = superior.getInt("partlevel");// 级别
 
@@ -2128,8 +2139,9 @@ public class WorkorderUtil {
 		} else {// 无故障件工单
 			if (StringUtil.isStrEmpty(workorder.getString("QMS_NUM"))) {
 				// 故障品图号/物资编码
-				root.element("gzpthwzbm").setText(getSafeXmlString(
-						workorder.getString("FAULTCOMPITEMNUM")));
+				root.element("gzpthwzbm").setText(
+						getSafeXmlString(workorder
+								.getString("FAULTCOMPITEMNUM")));
 
 				// 故障品名称
 				String gzpmc = workorder
@@ -2161,14 +2173,15 @@ public class WorkorderUtil {
 				}
 
 				// 故障品位置(故障品位置号)
-				root.element("gzpwz").setText(getSafeXmlString(
-						StringUtil.isStrEmpty(workorder
+				root.element("gzpwz").setText(
+						getSafeXmlString(StringUtil.isStrEmpty(workorder
 								.getString("FAULTCOMPASSET.RNUM")) ? "NA"
 								: workorder.getString("FAULTCOMPASSET.RNUM")));
 
 				// 故障品处置方式
-				root.element("gzpczfs").setText(getSafeXmlString(
-						workorder.getString("FAULTCOMPDEALMODE")));
+				root.element("gzpczfs").setText(
+						getSafeXmlString(workorder
+								.getString("FAULTCOMPDEALMODE")));
 
 				// QMS_ID——使用 故障工单编号
 				root.element("QMS_ID").setText(failureordernum);
@@ -2179,9 +2192,12 @@ public class WorkorderUtil {
 						&& superiorSet.count(GWConstant.P_COUNT_AFTERSAVE) > 0) {
 					for (int idx = 0; idx < superiorSet.count(); idx++) {
 						IJpo superior = superiorSet.getJpo(idx);
-						String itemnum = getSafeXmlString(superior.getString("ITEMNUM"));// 物料编码
-						String sqnorbatchnum = getSafeXmlString(superior.getString("SQNORBATCHNUM"));// 序列号
-						String faultName = getSafeXmlString(superior.getString("SYS_ITEM.DESCRIPTION"));// 物料描述
+						String itemnum = getSafeXmlString(superior
+								.getString("ITEMNUM"));// 物料编码
+						String sqnorbatchnum = getSafeXmlString(superior
+								.getString("SQNORBATCHNUM"));// 序列号
+						String faultName = getSafeXmlString(superior
+								.getString("SYS_ITEM.DESCRIPTION"));// 物料描述
 						int level = superior.getInt("partlevel");// 级别
 
 						switch (level) {

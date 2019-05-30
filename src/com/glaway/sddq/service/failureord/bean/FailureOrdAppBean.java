@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.glaway.sddq.service.workorder.data.Workorder;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.axis2.transport.http.impl.httpclient3.HttpTransportPropertiesImpl.Authenticator;
 
@@ -521,8 +520,8 @@ public class FailureOrdAppBean extends AppBean {
 			throw new MroException("servorder", "statusnoaction");
 		}
 		if (!WfControlUtil.isCurUser(this.getJpo())) {
-			//非管理员组
-			if(!WorkorderUtil.isInAdminGroup(getJpo().getUserInfo().getLoginID())){
+			if (!WorkorderUtil.isInAdminGroup(getJpo().getUserInfo()
+					.getLoginID())) {// 非管理员组
 				throw new MroException("非工作流执行人无法操作！");
 			}
 		}
@@ -1720,21 +1719,19 @@ public class FailureOrdAppBean extends AppBean {
 				num = IFUtil.addIfHistory(IFUtil.MRO_ERP_JKD,
 						returnjArray.toString(), IFUtil.TYPE_INPUT);// 增加输出记录
 
-				if("S".equals(res.getReturn().toString())){//回传成功
-
+				if ("S".equals(res.getReturn().toString())) {// 回传成功
 					IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS,
-							IFUtil.FLAG_YES, "故障工单号：" + order.getString("ordernum")
-									+ ";接收ERP回传:" + returnjArray.toString() + "。");
-
-				}else{//回传失败
-
+							IFUtil.FLAG_YES,
+							"故障工单号：" + order.getString("ordernum")
+									+ ";接收ERP回传:" + returnjArray.toString()
+									+ "。");
+				} else {// 回传失败
 					IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE,
-							IFUtil.FLAG_NO, "故障工单号：" + order.getString("ordernum")
-									+ ";接收ERP回传失败，错误信息:" + message + "。");
+							IFUtil.FLAG_NO,
+							"故障工单号：" + order.getString("ordernum")
+									+ ";接收ERP回传失败，错误信息：" + message + "。");
 
 				}
-
-
 			}
 
 		} catch (Exception e) {

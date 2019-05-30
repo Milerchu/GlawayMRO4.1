@@ -1,12 +1,12 @@
 package com.glaway.sddq.service.failureord.workflow.listener;
 
-import com.glaway.mro.jpo.IJpoSet;
-import com.glaway.mro.system.MroServer;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.ExecutionListener;
 
 import com.glaway.mro.app.system.workflow.util.WfControlUtil;
 import com.glaway.mro.jpo.IJpo;
+import com.glaway.mro.jpo.IJpoSet;
+import com.glaway.mro.system.MroServer;
 import com.glaway.sddq.tools.WorkorderUtil;
 
 /**
@@ -38,8 +38,9 @@ public class FailureActionListener implements ExecutionListener {
 		}
 		if (curJpo != null) {
 			// 根据故障后果判断是否进行审计审核
-			IJpoSet failureSet = MroServer.getMroServer().getSysJpoSet("failurelib",
-					"failureordernum='"+curJpo.getString("ordernum")+"'");
+			IJpoSet failureSet = MroServer.getMroServer().getSysJpoSet(
+					"failurelib",
+					"failureordernum='" + curJpo.getString("ordernum") + "'");
 			String faultconseq = failureSet.getJpo(0).getString("FAULTCONSEQ");
 			if ("1".equals(execution.getVariable("approved"))) {
 				if (!WorkorderUtil.isImpFault(faultconseq)) {

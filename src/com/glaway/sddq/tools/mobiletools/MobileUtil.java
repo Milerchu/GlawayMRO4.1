@@ -54,7 +54,7 @@ public class MobileUtil {
 	 * 
 	 * <功能描述> 根据安全组返回其对应的appid
 	 * 
-	 * @param personid
+	 * @param groupname
 	 * @return
 	 * @throws MroException
 	 *             [参数说明]
@@ -2982,13 +2982,13 @@ public class MobileUtil {
 					orderRet.put("backTel", failureOrder.getString("backTel"));
 				}
 				// 所属站点
-				if (data.containsKey("whichStation")) {
-					failureOrder.setValue("whichStation",
-							data.getString("whichStation"),
-							GWConstant.P_NOVALIDATION);
-					orderRet.put("whichStation",
-							failureOrder.getString("whichStation"));
-				}
+				// if (data.containsKey("whichStation")) {
+				// failureOrder.setValue("whichStation",
+				// data.getString("whichStation"),
+				// GWConstant.P_NOVALIDATION);
+				// orderRet.put("whichStation",
+				// failureOrder.getString("whichStation"));
+				// }
 				// 现场处理人
 				if (data.containsKey("servEngineer")) {
 					failureOrder.setValue("servEngineer",
@@ -3038,12 +3038,22 @@ public class MobileUtil {
 							GWConstant.P_NOVALIDATION);
 					failureOrder.setValue("models", data.getString("cmodel"),
 							GWConstant.P_NOVALIDATION);
+					failureOrder.setValue("WHICHSTATION",
+							data.getString("whichStation"),
+							GWConstant.P_NOVALIDATION);
+					String assetNum = MroServer
+							.getMroServer()
+							.getSysJpoSet(
+									"ASSET",
+									"carno='" + data.getString("carNum")
+											+ "' and cmodel='"
+											+ data.getString("cmodel") + "'")
+							.getJpo().getString("ASSETNUM");
 
 					orderRet.put("carNum", failureOrder.getString("carnum"));
 					orderRet.put("cmodel", failureOrder.getString("models"));
 
-					failureOrder.setValue("assetnum",
-							failureOrder.getString("ASSET.ASSETNUM"),
+					failureOrder.setValue("assetnum", assetNum,
 							GWConstant.P_NOVALIDATION);
 					failureOrder.setValue("repairprocess",
 							failureOrder.getString("ASSET.REPAIRPROCESS"),
@@ -3073,6 +3083,8 @@ public class MobileUtil {
 							failureOrder.getString("repairAfterKilometer"));
 					orderRet.put("ownerCustomer",
 							failureOrder.getString("ownerCustomer"));
+					orderRet.put("whichStation",
+							failureOrder.getString("whichStation"));
 				}
 
 				// add start by Zhuhao-20190103
@@ -3129,6 +3141,12 @@ public class MobileUtil {
 				} else {
 					throw new MroException("已经获取三包信息无法修改上下车记录！");
 				}
+
+				if (failureOrder.getString("whichStation") == null
+						|| StringUtil.isStrEmpty(failureOrder
+								.getString("whichStation"))) {
+					throw new MroException("故障工单必填字段:所属站点 为空，请检查！");
+				}
 			} else if (SddqConstant.WO_STATUS_JSZGBH.equals(status)) {// 技术主管驳回
 				if (obj.containsKey("failureLib")) {
 					JSONObject failureLibObj = MODIFYFAILURELIB(failureOrder,
@@ -3161,11 +3179,7 @@ public class MobileUtil {
 							.getString("servcompany"))) {
 				throw new MroException("故障工单必填字段:服务单位 为空，请检查！");
 			}
-			if (failureOrder.getString("whichStation") == null
-					|| StringUtil.isStrEmpty(failureOrder
-							.getString("whichStation"))) {
-				throw new MroException("故障工单必填字段:所属站点 为空，请检查！");
-			}
+
 			if (failureOrder.getString("servengineer") == null
 					|| StringUtil.isStrEmpty(failureOrder
 							.getString("servengineer"))) {
@@ -3710,6 +3724,30 @@ public class MobileUtil {
 		String scanCol = data.getString("scanCol");
 		String scanVal = data.getString("scanVal");
 		if ("DOWN".equals(scanCol)) {
+			// 故障处理站点
+			String whichStation = data.getString("whichStation");
+			// 入库库房
+			String location = "";
+			// 使用客户料时不修改入库库房
+			if ("0".equals(data.getString("isCustItem"))) {
+				// 设置入库库房
+				String where = "erploc='" + ItemUtil.ERPLOC_1020
+						+ "' and  STOREROOMLEVEL in('"
+						+ ItemUtil.STOREROOMLEVEL_XCZDK + "','"
+						+ ItemUtil.STOREROOMLEVEL_XCK + "') and locationtype='"
+						+ ItemUtil.LOCATIONTYPE_WX + "' and jxorfw='"
+						+ ItemUtil.JXORFW_FW + "' and locsite ='"
+						+ whichStation + "'";
+				IJpoSet locationSet = MroServer.getMroServer().getSysJpoSet(
+						"LOCATIONS", where);
+
+				if (!locationSet.isEmpty()) {
+					IJpo loc = locationSet.getJpo(0);
+					location = loc.getString("LOCATION");
+				} else {
+					throw new MroException("设置库房失败，请检查！");
+				}
+			}
 			// 下车件的getlist
 			String assetnumnew = WorkorderUtil.serversxitemnum(exchangeSet,
 					currJpo);
@@ -3739,6 +3777,7 @@ public class MobileUtil {
 						assetSet.getJpo(i).getString("SOFTVERSION"));
 				subobj.put("itemDesc",
 						assetSet.getJpo(i).getString("ITEM.DESCRIPTION"));
+				subobj.put("location", location);
 				arr.add(subobj);
 			}
 			result.setData(arr);

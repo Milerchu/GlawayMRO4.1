@@ -315,6 +315,14 @@ public class MobileField {
 			transfer.setValue(attr.getKey(), attr.getValue().toString(),
 					GWConstant.P_NOVALIDATION);
 		}
+		// add by ZHUHAO ,190530 start
+		transferSet.save();
+
+		transferSet.setQueryWhere("transferNum='" + transferNum + "'");
+		transferSet.reset();
+		transfer = (Transfer) transferSet.getJpo();
+		// end
+
 		setTransferLookUp(transfer);
 		// oneAttr是装箱单一个字段，要使用驼峰命名，与前端保持一致
 		for (String oneAttr : transferMap.keySet()) {
@@ -399,13 +407,13 @@ public class MobileField {
 				isCreateLine = false;
 			}
 		} else {
-			if (SXTYPE.isEmpty()) {
+			// if (SXTYPE.isEmpty()) {
+			// isCreateLine = false;
+			// } else {
+			if (RECEIVESTOREROOM.isEmpty()) {
 				isCreateLine = false;
-			} else {
-				if (RECEIVESTOREROOM.isEmpty()) {
-					isCreateLine = false;
-				}
 			}
+			// }
 		}
 		if (!TRANSFERMOVETYPE.equalsIgnoreCase(ItemUtil.TRANSFERMOVETYPE_ZTOX)) {
 			if (ISSUESTOREROOM.isEmpty()) {
