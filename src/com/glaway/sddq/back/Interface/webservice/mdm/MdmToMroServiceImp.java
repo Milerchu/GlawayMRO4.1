@@ -37,19 +37,23 @@ public class MdmToMroServiceImp implements MdmToMroService {
 	@Override
 	public String toMroMdmPersonData(String mdmXml) {
 		String num = "";
+		IJpoSet personset = null;
+		IJpoSet personupdateset = null;
+		IJpoSet sysphoneset = null;
+		IJpoSet sysemailset = null;
 		try {
 			num = IFUtil.addIfHistory("MDM_MRO_PERSONIF", mdmXml,
 					IFUtil.TYPE_INPUT);
 
-			IJpoSet personset = MroServer.getMroServer().getSysJpoSet(
-					"SYS_PERSON");
-			IJpoSet personupdateset = MroServer.getMroServer().getSysJpoSet(
-					"SYS_PERSON");
+			 personset = MroServer.getMroServer().getSysJpoSet(
+				"SYS_PERSON");
+			 personupdateset = MroServer.getMroServer().getSysJpoSet(
+				"SYS_PERSON");
 
-			IJpoSet sysphoneset = MroServer.getMroServer().getSysJpoSet(
-					"SYS_PHONE");
+			 sysphoneset = MroServer.getMroServer().getSysJpoSet(
+				"SYS_PHONE");
 
-			IJpoSet sysemailset = MroServer.getMroServer().getSysJpoSet(
+			 sysemailset = MroServer.getMroServer().getSysJpoSet(
 					"SYS_EMAIL");
 
 			Document doc = DocumentHelper.parseText(mdmXml);
@@ -386,6 +390,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					}
 					personset.save();
 
+
 				} else {
 					/**
 					 * 2.取personOrgInfo节点下面的所属部门和岗位代码的值
@@ -480,6 +485,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 									+ "人员不存在");
 						}
 						personupdateset.save();
+
 					}
 
 				}
@@ -487,6 +493,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			}
 
 			personset.save();
+
 
 			/**
 			 * 处理成功
@@ -507,6 +514,19 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			}
 			e.printStackTrace();
 			return returntf;
+		} finally {
+			if(personset != null){
+				personset.destroy();
+			}
+			if(personupdateset != null){
+				personupdateset.destroy();
+			}
+			if(sysphoneset != null){
+				sysphoneset.destroy();
+			}
+			if(sysemailset != null){
+				sysemailset.destroy();
+			}
 		}
 
 	}
@@ -519,14 +539,16 @@ public class MdmToMroServiceImp implements MdmToMroService {
 	 */
 	@Override
 	public String toMroMdmDeptData(String mdmXml) {
-		// TODO Auto-generated method stub
+
 		String num = "";
+		IJpoSet deptset = null;
+		IJpoSet deptupdateset = null;
 		try {
 			num = IFUtil.addIfHistory("MDM_MRO_ORGIF", mdmXml,
 					IFUtil.TYPE_INPUT);
 
-			IJpoSet deptset = MroServer.getMroServer().getSysJpoSet("SYS_DEPT");
-			IJpoSet deptupdateset = MroServer.getMroServer().getSysJpoSet(
+			deptset = MroServer.getMroServer().getSysJpoSet("SYS_DEPT");
+			deptupdateset = MroServer.getMroServer().getSysJpoSet(
 					"SYS_DEPT");
 
 			Document doc = DocumentHelper.parseText(mdmXml);
@@ -654,11 +676,18 @@ public class MdmToMroServiceImp implements MdmToMroService {
 				IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE,
 						IFUtil.FLAG_YES, e.getMessage());
 			} catch (MroException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
 			return returntf;
+		} finally {
+
+			if(deptset != null){
+				deptset.destroy();
+			}
+			if(deptupdateset != null){
+				deptupdateset.destroy();
+			}
 		}
 
 	}
@@ -671,14 +700,15 @@ public class MdmToMroServiceImp implements MdmToMroService {
 	 */
 	@Override
 	public String toMroMdmPostData(String mdmXml) {
-		// TODO Auto-generated method stub
 		String num = "";
+		IJpoSet postset = null;
+		IJpoSet postupdateset = null;
 		try {
 			num = IFUtil.addIfHistory("MDM_MRO_POSTIF", mdmXml,
 					IFUtil.TYPE_INPUT);
 
-			IJpoSet postset = MroServer.getMroServer().getSysJpoSet("POST");
-			IJpoSet postupdateset = MroServer.getMroServer().getSysJpoSet(
+			postset = MroServer.getMroServer().getSysJpoSet("POST");
+			postupdateset = MroServer.getMroServer().getSysJpoSet(
 					"POST");
 
 			Document doc = DocumentHelper.parseText(mdmXml);
@@ -803,6 +833,13 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			}
 			e.printStackTrace();
 			return returntf;
+		} finally {
+			if(postupdateset != null){
+				postupdateset.destroy();
+			}
+			if(postset != null){
+				postset.destroy();
+			}
 		}
 
 	}
@@ -816,13 +853,15 @@ public class MdmToMroServiceImp implements MdmToMroService {
 	@Override
 	public String toMroMdmCustinfoData(String mdmXml) {
 		String num = "";
+		IJpoSet custinfoset = null;
+		IJpoSet custinfoupdateset = null;
 		try {
 
 			num = IFUtil.addIfHistory("MDM_MRO_CUSTIF", mdmXml,
 					IFUtil.TYPE_INPUT);
-			IJpoSet custinfoset = MroServer.getMroServer().getSysJpoSet(
-					"CUSTINFO");
-			IJpoSet custinfoupdateset = MroServer.getMroServer().getSysJpoSet(
+			custinfoset = MroServer.getMroServer().getSysJpoSet(
+			"CUSTINFO");
+			custinfoupdateset = MroServer.getMroServer().getSysJpoSet(
 					"CUSTINFO");
 			MroServer.getMroServer().getSystemUserServer().getUserInfo()
 					.setDefaultOrg("CRRC");
@@ -996,6 +1035,13 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			}
 			e.printStackTrace();
 			return returntf;
+		} finally {
+			if(custinfoupdateset != null){
+				custinfoupdateset.destroy();
+			}
+			if(custinfoset != null){
+				custinfoset.destroy();
+			}
 		}
 
 	}
@@ -1009,14 +1055,16 @@ public class MdmToMroServiceImp implements MdmToMroService {
 	@Override
 	public String toMroMdmCompanyData(String mdmXml) {
 		String num = "";
+		IJpoSet companyset = null;
+		IJpoSet companyupdateset = null;
 		try {
 			num = IFUtil.addIfHistory("MDM_MRO_COMPANIESIF", mdmXml,
 					IFUtil.TYPE_INPUT);
 
-			IJpoSet companyset = MroServer.getMroServer().getSysJpoSet(
-					"SYS_COMPANIES");
+			companyset = MroServer.getMroServer().getSysJpoSet(
+			"SYS_COMPANIES");
 
-			IJpoSet companyupdateset = MroServer.getMroServer().getSysJpoSet(
+			companyupdateset = MroServer.getMroServer().getSysJpoSet(
 					"SYS_COMPANIES");
 
 			Document doc = DocumentHelper.parseText(mdmXml);
@@ -1088,6 +1136,13 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			e.printStackTrace();
 
 			return returntf;
+		} finally {
+			if(companyupdateset != null){
+				companyupdateset.destroy();
+			}
+			if(companyset != null){
+				companyset.destroy();
+			}
 		}
 
 	}
@@ -1100,14 +1155,15 @@ public class MdmToMroServiceImp implements MdmToMroService {
 	 */
 	@Override
 	public String toMroMdmItemData(String mdmXml) {
-		// TODO Auto-generated method stub
 		String num = "";
+		IJpoSet itemset = null;
+		IJpoSet itemset_OLD = null;
 		try {
 			num = IFUtil.addIfHistory("MDM_MRO_ITEMIF", mdmXml,
 					IFUtil.TYPE_INPUT);
 
-			IJpoSet itemset = MroServer.getMroServer().getSysJpoSet("SYS_ITEM");
-			IJpoSet itemset_OLD = MroServer.getMroServer().getSysJpoSet(
+			itemset = MroServer.getMroServer().getSysJpoSet("SYS_ITEM");
+			itemset_OLD = MroServer.getMroServer().getSysJpoSet(
 					"SYS_ITEM");
 
 			Document doc = DocumentHelper.parseText(mdmXml);
@@ -1181,6 +1237,13 @@ public class MdmToMroServiceImp implements MdmToMroService {
 
 			e.printStackTrace();
 			return returntf;
+		} finally {
+			if(itemset_OLD != null){
+				itemset_OLD.destroy();
+			}
+			if(itemset != null){
+				itemset.destroy();
+			}
 		}
 
 	}
