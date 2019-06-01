@@ -51,7 +51,10 @@ public class FoSBSuccess implements ActionCustomClass {
 								.getJpo(idx).getString("dealmode"))
 								&& ("同意".equals(exSet.getJpo(idx).getString(
 										"ISAGREESTAY")))) {
-							flag3 = true;
+							if(!exSet.getJpo(idx).getString("itemnum").equalsIgnoreCase(exSet
+											.getJpo(idx).getString("newitemnum"))){
+								flag3 = true;
+							}
 						}
 
 					}
@@ -69,7 +72,10 @@ public class FoSBSuccess implements ActionCustomClass {
 								.getJpo(j).getString("dealmode"))
 								&& ("同意".equals(lossSet.getJpo(j).getString(
 										"ISAGREESTAY")))) {
-							flag3 = true;
+							if(!lossSet.getJpo(j).getString("downitemnum").equalsIgnoreCase(lossSet
+									.getJpo(j).getString("itemnum"))){
+								flag3 = true;
+							}
 						}
 
 					}
