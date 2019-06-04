@@ -345,7 +345,7 @@ public class Asset extends HierarchicalJpo implements IStatusJpo {
 	}
 
 	/**
-	 * @param 删除判断
+	 * 删除判断
 	 * @throws MroException
 	 */
 	@Override
@@ -360,6 +360,9 @@ public class Asset extends HierarchicalJpo implements IStatusJpo {
 		// throw new MroException("assetcs", "hasChildren",
 		// new String[] {getString("MODEL"), getString("DESCRIPTION")});
 		// }
+		if(getBoolean("ISLOCKED")){
+			throw new MroException("已锁定，无法删除！");
+		}
 		super.delete(flag);
 	}
 
@@ -401,7 +404,6 @@ public class Asset extends HierarchicalJpo implements IStatusJpo {
 	 * 
 	 * @param newLocation
 	 * @param memo
-	 * @param changeDate
 	 * @throws MroException
 	 *             [参数说明]
 	 */
@@ -426,7 +428,7 @@ public class Asset extends HierarchicalJpo implements IStatusJpo {
 	/**
 	 * 删除ASSETCSTREE表的结构关系
 	 * 
-	 * @param assetCs
+	 * @param asset
 	 * @throws MroException
 	 *             [参数说明]
 	 */
