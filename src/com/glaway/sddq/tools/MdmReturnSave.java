@@ -10,14 +10,14 @@ public class MdmReturnSave {
 	 public static String getTrueMsg(){
 		 
 		 String t = strReturnMsg+trueMsg;
-		 System.out.println(t.replace("'", "\""));
+		 //System.out.println(t.replace("'", "\""));
 		 return t.replace("'", "\"");
 	 }
 	 
 	 //处理返回失败信息
 	 public static String getFalseMsg(String errorMsg){
 		 String f = strReturnMsg+errorMsg+falseMsg;
-		 System.out.println(f.replace("'", "\""));
+		 //System.out.println(f.replace("'", "\""));
 		 return f.replace("'", "\"");
 	 }
 	 
