@@ -1,29 +1,5 @@
 package com.glaway.sddq.tools.mobiletools;
 
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeSet;
-
-import org.activiti.engine.FormService;
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
-import org.apache.axis.utils.StringUtils;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
@@ -40,6 +16,15 @@ import com.glaway.sddq.material.transfer.data.TransferSet;
 import com.glaway.sddq.tools.ItemUtil;
 import com.glaway.sddq.tools.SddqConstant;
 import com.glaway.sddq.tools.WorkorderUtil;
+import org.activiti.engine.*;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.apache.axis.utils.StringUtils;
+
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 
@@ -52,9 +37,9 @@ import com.glaway.sddq.tools.WorkorderUtil;
 public class MobileUtil {
 	/**
 	 * 
-	 * <功能描述> 根据安全组返回其对应的appid
+	 * <功能描述> 根据人员id返回其对应的appid
 	 * 
-	 * @param groupname
+	 * @param personid
 	 * @return
 	 * @throws MroException
 	 *             [参数说明]
@@ -1767,7 +1752,7 @@ public class MobileUtil {
 				requiredAttrs.put("issueAddress", "发出地址");
 			}
 		} else if ("在途".equals(status)) {
-			if (isLoc(issueStoreRoom, "ISLOCBIN")) {
+			if (isLoc(receiveStoreRoom, "ISLOCBIN")) {
 				attrList.add("inBinNum");
 				requiredAttrs.put("inBinNum", "入库仓位");
 			}
@@ -1796,7 +1781,7 @@ public class MobileUtil {
 				}
 			}
 
-			if (isLoc(receiveStoreRoom, "ISLOCBIN")) {
+			if (isLoc(issueStoreRoom, "ISLOCBIN")) {
 				attrList.add("outBinNum");
 				requiredAttrs.put("outBinNum", "出库仓位");
 			}

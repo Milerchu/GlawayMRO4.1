@@ -1,17 +1,5 @@
 package com.glaway.sddq.back.Interface.webservice.erp;
 
-import io.netty.util.internal.StringUtil;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -21,17 +9,8 @@ import com.glaway.mro.jpo.IJpo;
 import com.glaway.mro.jpo.IJpoSet;
 import com.glaway.mro.system.MroServer;
 import com.glaway.mro.util.GWConstant;
-import com.glaway.sddq.back.Interface.webservice.erp.jxtask.InfoBack;
-import com.glaway.sddq.back.Interface.webservice.erp.jxtask.JxTaskItem;
-import com.glaway.sddq.back.Interface.webservice.erp.jxtask.Mustchangeinfo;
-import com.glaway.sddq.back.Interface.webservice.erp.jxtask.SqnInfo;
-import com.glaway.sddq.back.Interface.webservice.erp.jxtask.SqnInfoSet;
-import com.glaway.sddq.back.Interface.webservice.erp.jxtask.TaskParameter;
-import com.glaway.sddq.back.Interface.webservice.erp.sxtransfer.ZfunErptoMroDbzkLineSet;
-import com.glaway.sddq.back.Interface.webservice.erp.sxtransfer.ZfunErptoMroDbzkResponses;
-import com.glaway.sddq.back.Interface.webservice.erp.sxtransfer.ZfunErptoMroJkLineSet;
-import com.glaway.sddq.back.Interface.webservice.erp.sxtransfer.ZfunErptoMroResponse;
-import com.glaway.sddq.back.Interface.webservice.erp.sxtransfer.ZfunErptoMroResponses;
+import com.glaway.sddq.back.Interface.webservice.erp.jxtask.*;
+import com.glaway.sddq.back.Interface.webservice.erp.sxtransfer.*;
 import com.glaway.sddq.material.invtrans.common.InventoryQtyCommon;
 import com.glaway.sddq.material.invtrans.common.TransInvtranscommon;
 import com.glaway.sddq.material.invtrans.common.TransStoroomCommon;
@@ -41,6 +20,16 @@ import com.glaway.sddq.tools.IFUtil;
 import com.glaway.sddq.tools.ItemUtil;
 import com.glaway.sddq.tools.MsgUtil;
 import com.glaway.sddq.tools.SddqConstant;
+import io.netty.util.internal.StringUtil;
+
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 @WebService(endpointInterface = "com.glaway.sddq.back.Interface.webservice.erp.ZfunErpToMroService")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
@@ -887,6 +876,7 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
         InterfaceReponse interfacereponse = new InterfaceReponse();
         ZfunErptoMroJkLineSet objSet = zfunerptomrojklineset;
         List<ZfunErptoMroResponses> ls = objSet.getLINE();
+
         for (int i = 0; i < ls.size(); i++) {
             ZfunErptoMroResponses obj = ls.get(i);
             Double PASSQTY = obj.getPASSQTY();
@@ -1020,13 +1010,13 @@ public class ZfunErpToMroServiceImp implements ZfunErpToMroService {
                     nums = IFUtil.addIfHistory("ERP_MRO_WXXXIF", JSON.toJSONString(interfacereponse),
                             IFUtil.TYPE_OUTPUT);
 
-                    IFUtil.updateIfHistory(nums, IFUtil.STATUS_FAILURE, IFUtil.FLAG_YES,
-                            JSON.toJSONString(interfacereponse));
-                    return interfacereponse;
+                IFUtil.updateIfHistory(nums, IFUtil.STATUS_FAILURE, IFUtil.FLAG_YES,
+                        JSON.toJSONString(interfacereponse));
+                return interfacereponse;
 
-                }
-                transferSet.save();
-                transferLineSet.save();
+            }
+            transferSet.save();
+            transferLineSet.save();
                 interfacereponse.setRETURN("S");
                 nums = IFUtil.addIfHistory("ERP_MRO_WXXXIF", JSON.toJSONString(interfacereponse), IFUtil.TYPE_OUTPUT);
                 IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS, IFUtil.FLAG_YES, "");

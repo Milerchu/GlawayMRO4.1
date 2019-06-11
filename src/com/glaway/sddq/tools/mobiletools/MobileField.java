@@ -1,10 +1,5 @@
 package com.glaway.sddq.tools.mobiletools;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Map.Entry;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
@@ -21,6 +16,11 @@ import com.glaway.sddq.tools.IFUtil;
 import com.glaway.sddq.tools.ItemUtil;
 import com.glaway.sddq.tools.mobiletools.mobileModel.MobileColumn;
 import com.glaway.sddq.tools.mobiletools.mobileModel.MobileColumn.fieldType;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Map.Entry;
 
 /**
  * 
@@ -315,13 +315,6 @@ public class MobileField {
 			transfer.setValue(attr.getKey(), attr.getValue().toString(),
 					GWConstant.P_NOVALIDATION);
 		}
-		// add by ZHUHAO ,190530 start
-		transferSet.save();
-
-		transferSet.setQueryWhere("transferNum='" + transferNum + "'");
-		transferSet.reset();
-		transfer = (Transfer) transferSet.getJpo();
-		// end
 
 		setTransferLookUp(transfer);
 		// oneAttr是装箱单一个字段，要使用驼峰命名，与前端保持一致

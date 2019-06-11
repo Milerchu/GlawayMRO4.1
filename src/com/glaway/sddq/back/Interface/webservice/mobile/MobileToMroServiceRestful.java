@@ -1,15 +1,5 @@
 package com.glaway.sddq.back.Interface.webservice.mobile;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import com.alibaba.fastjson.JSONObject;
 import com.glaway.mro.exception.MroException;
 import com.glaway.mro.jpo.IJpo;
@@ -20,6 +10,15 @@ import com.glaway.sddq.tools.WorkorderUtil;
 import com.glaway.sddq.tools.mobiletools.MobileResult;
 import com.glaway.sddq.tools.mobiletools.MobileUploadFile;
 import com.glaway.sddq.tools.mobiletools.MobileUtil;
+
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 @Path("/app")
 public class MobileToMroServiceRestful {
@@ -357,7 +356,7 @@ public class MobileToMroServiceRestful {
 	 * 
 	 * 根据人员id获取移动端权限列表
 	 * 
-	 * @param personid
+	 * @param parameter
 	 * @return [参数说明]
 	 * 
 	 */
@@ -453,6 +452,8 @@ public class MobileToMroServiceRestful {
 
 	public MobileResult moblieField(String mobileJson) {
 		JSONObject data = JSONObject.parseObject(mobileJson);
+		System.out.println("==============data:"+data.toJSONString());
+		System.out.println("============appId:"+data.getString("appId"));
 		String appId = data.getString("appId").toUpperCase();
 		String userId = data.getString("userId");
 		MobileResult result = invokeField(appId, mobileJson, userId);
@@ -464,7 +465,7 @@ public class MobileToMroServiceRestful {
 	 * 调用MobileUtil类中对应方法
 	 * 
 	 * @param action
-	 * @param tableName
+	 * @param appName
 	 * @param data
 	 * @return [参数说明]
 	 * 
@@ -519,7 +520,7 @@ public class MobileToMroServiceRestful {
 	/**
 	 * 反射抛出的异常 <功能描述>
 	 * 
-	 * @param func
+	 * @param action
 	 * @param data
 	 * @param loginid
 	 * @return [参数说明]
