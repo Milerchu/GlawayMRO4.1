@@ -555,7 +555,7 @@ public class MobileUtil {
 	 * 
 	 */
 	public static MobileResult startWF(IJpo jpo, String appName,
-			String loginId, String actionId, String memo) {
+		String loginId, String actionId, String memo, String data) {
 
 		MobileResult rslt = new MobileResult();
 		try {
@@ -565,7 +565,7 @@ public class MobileUtil {
 			} else if ("FAILUREORD".equals(appName)) {
 				failureOrdWf(jpo, loginId);
 			} else if ("MATERREQ".equals(appName)) {
-				materReqWf(jpo, loginId);
+				materReqWf(jpo, loginId, data);
 			} else if ("ZXTRANSFER".equals(appName)) {
 				zxTransferWf(jpo, loginId);
 			}
@@ -654,11 +654,38 @@ public class MobileUtil {
 	 *             [参数说明]
 	 * 
 	 */
-	private static void materReqWf(IJpo mr, String loginId) throws MroException {
+	private static void materReqWf(IJpo mr, String loginId, String dataJson) throws MroException {
 		if (mr != null) {
+			JSONObject data = JSONObject.parseObject(dataJson);
 			IJpoSet Mrlineset = mr.getJpoSet("mrline");
 			if (Mrlineset.isEmpty()) {
 				throw new MroException("mr", "nomrline");
+			}
+			IJpoSet mrSet = MroServer.getMroServer().getSysJpoSet("MR","mrnum='" + mr.getString("mrnum") + "'");
+			if(mrSet != null && mrSet.count() > 0){
+
+				IJpo mrJpo = mrSet.getJpo(0);
+				if("配件专员执行".equals(mrJpo.getString("status"))){
+
+					String sapPoNum = data.getString("sapPoNum");
+					String electronNum = data.getString("electronNum");
+					if(StringUtil.isStrNotEmpty(sapPoNum)){
+						mrJpo.setValue("sapPoNum", sapPoNum, GWConstant.P_NOVALIDATION_AND_NOACTION);
+					}
+					if(StringUtil.isStrNotEmpty(electronNum)){
+						mrJpo.setValue("electronNum", electronNum, GWConstant.P_NOVALIDATION_AND_NOACTION);
+					}
+
+				}else if("产品线经理审批".equals(mrJpo.getString("status"))){
+
+					String totalCost = data.getString("totalCost");
+					if(StringUtil.isStrNotEmpty(totalCost)){
+						mrJpo.setValue("totalCost", totalCost, GWConstant.P_NOVALIDATION_AND_NOACTION);
+					}
+
+				}
+
+				mrSet.save();
 			}
 		}
 	}

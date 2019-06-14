@@ -171,6 +171,7 @@ public class MobileToMroServiceRestful {
 		String appid = obj.getString("appId");
 		String userId = obj.getString("userId").toUpperCase();
 		String action = obj.getString("action");
+		String data = obj.getString("data");
 		IJpo jpo = null;
 		String ifnum = "";
 		try {
@@ -226,7 +227,7 @@ public class MobileToMroServiceRestful {
 				return result;
 			}
 			// 启动工作流
-			result = MobileUtil.startWF(jpo, appid, userId, action, "移动端工作流备忘");
+			result = MobileUtil.startWF(jpo, appid, userId, action, "移动端工作流备忘", data);
 
 			if ("200".equals(result.getCode())) {// 操作成功
 				IFUtil.updateIfHistory(ifnum, IFUtil.STATUS_SUCCESS,
