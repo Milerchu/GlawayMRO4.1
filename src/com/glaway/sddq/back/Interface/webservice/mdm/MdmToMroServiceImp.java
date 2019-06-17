@@ -1,17 +1,5 @@
 package com.glaway.sddq.back.Interface.webservice.mdm;
 
-import io.netty.util.internal.StringUtil;
-
-import java.util.List;
-
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
-import org.apache.commons.lang.StringUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-
 import com.glaway.mro.exception.MroException;
 import com.glaway.mro.jpo.IJpo;
 import com.glaway.mro.jpo.IJpoSet;
@@ -21,6 +9,14 @@ import com.glaway.sddq.base.custinfo.data.CustInfo;
 import com.glaway.sddq.tools.IFUtil;
 import com.glaway.sddq.tools.MdmReturnSave;
 import com.glaway.sddq.tools.MsgUtil;
+import com.glaway.mro.util.StringUtil;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.List;
 
 @WebService(endpointInterface = "com.glaway.sddq.back.Interface.webservice.mdm.MdmToMroService")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
@@ -41,20 +37,16 @@ public class MdmToMroServiceImp implements MdmToMroService {
 		IJpoSet personupdateset = null;
 		IJpoSet sysphoneset = null;
 		IJpoSet sysemailset = null;
+
 		try {
-			num = IFUtil.addIfHistory("MDM_MRO_PERSONIF", mdmXml,
-					IFUtil.TYPE_INPUT);
+			num = IFUtil.addIfHistory("MDM_MRO_PERSONIF", mdmXml, IFUtil.TYPE_INPUT);
 
-			 personset = MroServer.getMroServer().getSysJpoSet(
-				"SYS_PERSON");
-			 personupdateset = MroServer.getMroServer().getSysJpoSet(
-				"SYS_PERSON");
+			 personset = MroServer.getMroServer().getSysJpoSet("SYS_PERSON");
+			 personupdateset = MroServer.getMroServer().getSysJpoSet("SYS_PERSON");
 
-			 sysphoneset = MroServer.getMroServer().getSysJpoSet(
-				"SYS_PHONE");
+			 sysphoneset = MroServer.getMroServer().getSysJpoSet("SYS_PHONE");
 
-			 sysemailset = MroServer.getMroServer().getSysJpoSet(
-					"SYS_EMAIL");
+			 sysemailset = MroServer.getMroServer().getSysJpoSet("SYS_EMAIL");
 
 			Document doc = DocumentHelper.parseText(mdmXml);
 			Element root = doc.getRootElement();
@@ -92,11 +84,9 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					}
 					// zzx end
 					String calzzmc = "";
-					List<Element> personComputerList = object
-							.elements("personComputerList");
+					List<Element> personComputerList = object.elements("personComputerList");
 					for (Element personComputer : personComputerList) {
-						Element personCo = personComputer
-								.element("personComputerInfo");
+						Element personCo = personComputer.element("personComputerInfo");
 						calzzmc = personCo.valueOf("cal_zzmc");// 计算机水平
 						// personsetJpo1.setValue("COMPUTERLV",
 						// calzzmc,GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
@@ -105,128 +95,77 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					personupdateset.reset();
 
 					if (personupdateset.count() > 0) {
-						if (StringUtil.isNullOrEmpty(delcode)) {
+						if (StringUtil.isStrEmpty(delcode)) {
 
-							sysphoneset.setUserWhere("PERSONID='" + empcode
-									+ "'");
+							sysphoneset.setUserWhere("PERSONID='" + empcode + "'");
 							sysphoneset.reset();
 
-							sysemailset.setUserWhere("PERSONID='" + empcode
-									+ "'");
+							sysemailset.setUserWhere("PERSONID='" + empcode + "'");
 							sysemailset.reset();
 
 							IJpo personupdatesetJpo = null;
 							personupdatesetJpo = personupdateset.getJpo();
 							personupdatesetJpo.setValue("DISPLAYNAME", empname);
-							personupdatesetJpo.setValue("GENDER", gender,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personupdatesetJpo.setValue("NATION", nation,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personupdatesetJpo.setValue("STATUS", status,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personupdatesetJpo.setValue("GENDER", gender, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personupdatesetJpo.setValue("NATION", nation, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personupdatesetJpo.setValue("STATUS", status, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
-							personupdatesetJpo.setValue("LANGCODE", "ZH",
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personupdatesetJpo.setValue("LOCALE", "zh_CN",
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personupdatesetJpo.setValue("LANGCODE", "ZH", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personupdatesetJpo.setValue("LOCALE", "zh_CN", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 							personupdatesetJpo.setValue("COMPUTERLV", calzzmc,
 									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 							personupdatesetJpo.setValue("PERSONCLASSIFICATION",
-									emp_type2,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);// 人员分类
+									emp_type2, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);// 人员分类
 							// 删除标识
-							personupdatesetJpo.setValue("DELREMARK", delcode,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personupdatesetJpo.setValue("DELREMARK", delcode, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 							// 性别值
-							String genderupdate = personupdatesetJpo
-									.getString("GENDER");
+							String genderupdate = personupdatesetJpo .getString("GENDER");
 
 							if (genderupdate != null) {
 								if (genderupdate.equals("1")) {
-
-									personupdatesetJpo
-											.setValue(
-													"GENDER",
-													"男",
-													GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+									personupdatesetJpo.setValue("GENDER", "男",	GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								} else {
-									personupdatesetJpo
-											.setValue(
-													"GENDER",
-													"女",
-													GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+									personupdatesetJpo.setValue("GENDER", "女", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								}
 							}
 
 							/**
 							 * 人员状态
 							 */
-							String empstatus = personupdatesetJpo
-									.getString("STATUS");
+							String empstatus = personupdatesetJpo.getString("STATUS");
+							String[] statusArray1 = {"0","3","4","5","6","7","13","14","15","16","17",};
+							String[] statusArray2 = {"1","2","9","10","11","12"};
 
-							if (empstatus.equals("0") || empstatus.equals("3")
-									|| empstatus.equals("4")
-									|| empstatus.equals("5")
-									|| empstatus.equals("6")
-									|| empstatus.equals("7")
-									|| empstatus.equals("13")
-									|| empstatus.equals("14")
-									|| empstatus.equals("15")
-									|| empstatus.equals("16")
-									|| empstatus.equals("17")) {
+							if(StringUtil.isHaveStr(statusArray1,empstatus)){
 
-								personupdatesetJpo
-										.setValue(
-												"STATUS",
-												"不活动",
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+								personupdatesetJpo.setValue("STATUS", "不活动", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
-							} else if (empstatus.equals("2")
-									|| empstatus.equals("9")
-									|| empstatus.equals("10")
-									|| empstatus.equals("11")
-									|| empstatus.equals("12")
-									|| empstatus.equals("1")) {
-								personupdatesetJpo
-										.setValue(
-												"STATUS",
-												"活动",
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							} else if(StringUtil.isHaveStr(statusArray2, empstatus)){
+
+								personupdatesetJpo.setValue("STATUS", "活动", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+
 							}
 
-							if (!StringUtil.isNullOrEmpty(mobile)) {
+							if (!StringUtil.isStrEmpty(mobile)) {
 								IJpo sysphonesetJpo = null;
 								sysphonesetJpo = sysphoneset.getJpo();
-								sysphonesetJpo
-										.setValue(
-												"PHONENUM",
-												mobile,
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+								sysphonesetJpo.setValue("PHONENUM", mobile, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								sysphoneset.save();
-								personupdatesetJpo
-										.setValue(
-												"PRIMARYPHONE",
-												mobile,
+								personupdatesetJpo.setValue("PRIMARYPHONE", mobile,
 												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 							}
 
-							if (!StringUtil.isNullOrEmpty(empmail)) {
+							if (!StringUtil.isStrEmpty(empmail)) {
 								/**
 								 * 邮件
 								 */
 								IJpo sysemailsetJpo = null;
 								sysemailsetJpo = sysemailset.getJpo();
-								sysemailsetJpo
-										.setValue(
-												"EMAILADDRESS",
-												empmail,
+								sysemailsetJpo.setValue("EMAILADDRESS", empmail,
 												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								sysemailset.save();
-								personupdatesetJpo
-										.setValue(
-												"PRIMARYEMAIL",
-												empmail,
+								personupdatesetJpo.setValue("PRIMARYEMAIL", empmail,
 												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 							}
@@ -236,41 +175,31 @@ public class MdmToMroServiceImp implements MdmToMroService {
 									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 							personupdateset.getJpo().delete(0);
 
-							personupdateset.getJpo().getUserInfo()
-									.getUserName();
+							personupdateset.getJpo().getUserInfo().getUserName();
 
 						}
 						personupdateset.save();
 
 					} else {
 						IJpo personsetJpo = null;
-						if (StringUtil.isNullOrEmpty(delcode)) {
+						if (StringUtil.isStrEmpty(delcode)) {
 
 							personsetJpo = personset.addJpo();
 							personsetJpo.setValue("PERSONID", empcode);
 							personsetJpo.setValue("DISPLAYNAME", empname);
-							personsetJpo.setValue("GENDER", gender,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("NATION", nation,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personsetJpo.setValue("GENDER", gender, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personsetJpo.setValue("NATION", nation, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 							// personsetJpo.setValue("NATION.DESCRIPTION",
 							// nation,GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("STATUS", status,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("PRIMARYEMAIL", empmail,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("LANGCODE", "ZH",
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("LOCALE", "zh_CN",
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("COMPUTERLV", calzzmc,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("PERSONCLASSIFICATION",
-									emp_type2,
+							personsetJpo.setValue("STATUS", status, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personsetJpo.setValue("PRIMARYEMAIL", empmail, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personsetJpo.setValue("LANGCODE", "ZH", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personsetJpo.setValue("LOCALE", "zh_CN", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personsetJpo.setValue("COMPUTERLV", calzzmc, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personsetJpo.setValue("PERSONCLASSIFICATION", emp_type2,
 									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 							// 删除标识
-							personsetJpo.setValue("DELREMARK", delcode,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personsetJpo.setValue("DELREMARK", delcode, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 
 							/**
@@ -281,17 +210,9 @@ public class MdmToMroServiceImp implements MdmToMroService {
 							if (genderadd != null) {
 								if (genderadd.equals("1")) {
 
-									personsetJpo
-											.setValue(
-													"GENDER",
-													"男",
-													GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+									personsetJpo.setValue( "GENDER", "男", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								} else {
-									personsetJpo
-											.setValue(
-													"GENDER",
-													"女",
-													GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+									personsetJpo.setValue("GENDER", "女", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								}
 							}
 
@@ -311,11 +232,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 									|| empstatus.equals("16")
 									|| empstatus.equals("17")) {
 
-								personsetJpo
-										.setValue(
-												"STATUS",
-												"不活动",
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+								personsetJpo.setValue("STATUS", "不活动", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 							} else if (empstatus.equals("2")
 									|| empstatus.equals("9")
@@ -323,68 +240,35 @@ public class MdmToMroServiceImp implements MdmToMroService {
 									|| empstatus.equals("11")
 									|| empstatus.equals("12")
 									|| empstatus.equals("1")) {
-								personsetJpo
-										.setValue(
-												"STATUS",
-												"活动",
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+								personsetJpo.setValue("STATUS", "活动", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 							}
 
-							if (!StringUtil.isNullOrEmpty(mobile)) {
+							if (!StringUtil.isStrEmpty(mobile)) {
 								IJpo sysphonesetJpo = null;
 								sysphonesetJpo = sysphoneset.addJpo();
 								sysphonesetJpo.setValue("PERSONID", empcode);
-								sysphonesetJpo
-										.setValue(
-												"PHONENUM",
-												mobile,
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								sysphonesetJpo
-										.setValue(
-												"ISPRIMARY",
-												"1",
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+								sysphonesetJpo.setValue("PHONENUM", mobile, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+								sysphonesetJpo.setValue("ISPRIMARY", "1", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								sysphoneset.save();
-								// String phonenum
-								// =personsetJpo.getString("PHONE.PHONENUM");
-								personsetJpo
-										.setValue(
-												"PRIMARYPHONE",
-												mobile,
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+								personsetJpo.setValue("PRIMARYPHONE", mobile, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 							}
 
-							if (!StringUtil.isNullOrEmpty(empmail)) {
+							if (!StringUtil.isStrEmpty(empmail)) {
 								IJpo sysemailsetJpo = null;
 								sysemailsetJpo = sysemailset.addJpo();
 								sysemailsetJpo.setValue("PERSONID", empcode);
-								sysemailsetJpo
-										.setValue(
-												"EMAILADDRESS",
-												empmail,
+								sysemailsetJpo.setValue("EMAILADDRESS", empmail,
 												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								sysemailsetJpo
-										.setValue(
-												"ISPRIMARY",
-												"1",
+								sysemailsetJpo.setValue("ISPRIMARY", "1",
 												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								sysemailset.save();
-								personsetJpo
-										.setValue(
-												"PRIMARYEMAIL",
-												empmail,
+								personsetJpo.setValue("PRIMARYEMAIL", empmail,
 												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								// zzx end
 
 							}
-							MsgUtil.addMsg(
-									"PERSONINFO",
-									personsetJpo.getLong("SYS_PERSONID"),
-									MsgUtil.PERSONADD,
-									"MDM新推人员编号为:"
-											+ personsetJpo
-													.getString("PERSONID"),
-									MsgUtil.GWADMINPERSON);
+							MsgUtil.addMsg("PERSONINFO", personsetJpo.getLong("SYS_PERSONID"), MsgUtil.PERSONADD,
+									"MDM新推人员编号为:" + personsetJpo.getString("PERSONID"), MsgUtil.GWADMINPERSON);
 
 						}
 					}
@@ -397,8 +281,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					 */
 
 					Element jobcodetag = null;
-					List<Element> personOrgList = object
-							.elements("personOrgList");
+					List<Element> personOrgList = object.elements("personOrgList");
 					for (Element personOrg : personOrgList) {
 						String jobcodeOne = "";
 						String depacode = "";
@@ -416,39 +299,25 @@ public class MdmToMroServiceImp implements MdmToMroService {
 
 						// 3.判断新增还是修改
 
-						personupdateset.setUserWhere("PERSONID='" + empcodeone
-								+ "'");
+						personupdateset.setUserWhere("PERSONID='" + empcodeone + "'");
 						personupdateset.reset();
 
 						if (personupdateset.count() > 0) {
 							IJpo personupdateorgsetJpo = null;
 							personupdateorgsetJpo = personupdateset.getJpo();
-							String personid = personupdateorgsetJpo
-									.getString("PERSONID");
+							String personid = personupdateorgsetJpo.getString("PERSONID");
 
 							/**
 							 * A 类人员更新岗位
 							 */
-							if (personid.startsWith("9")
-									|| personid.startsWith("P")) {
-								personupdateorgsetJpo
-										.setValue(
-												"DEPARTMENT",
-												depacode,
+							if (personid.startsWith("9") || personid.startsWith("P")) {
+								personupdateorgsetJpo.setValue("DEPARTMENT", depacode,
 												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 							} else {
-								if (jobcodetag != null
-										&& !StringUtil
-												.isNullOrEmpty(jobcodeOne)) {
-									personupdateorgsetJpo
-											.setValue(
-													"JOBCODE",
-													jobcodeOne,
+								if (jobcodetag != null && !StringUtil.isStrEmpty(jobcodeOne)) {
+									personupdateorgsetJpo .setValue("JOBCODE", jobcodeOne,
 													GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-									personupdateorgsetJpo
-											.setValue(
-													"DEPARTMENT",
-													depacode,
+									personupdateorgsetJpo .setValue("DEPARTMENT", depacode,
 													GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								}
 
@@ -457,23 +326,16 @@ public class MdmToMroServiceImp implements MdmToMroService {
 							/**
 							 * 判断是否是主要岗位,设置部门主要负责人
 							 */
-							IJpoSet postset = personupdateset.getJpo()
-									.getJpoSet("POST");
+							IJpoSet postset = personupdateset.getJpo().getJpoSet("POST");
 							IJpo postsetJpo = postset.getJpo();
 
 							if (postsetJpo != null) {
-								IJpoSet deptset = postsetJpo
-										.getJpoSet("SYS_DEPT");
-								String director = postsetJpo
-										.getString("DIRECTOR");
+								IJpoSet deptset = postsetJpo.getJpoSet("SYS_DEPT");
+								String director = postsetJpo.getString("DIRECTOR");
 								if (deptset != null && deptset.count() > 0) {
-									if (director.equals("是")
-											&& !deptset.isEmpty()) {
+									if (director.equals("是") && !deptset.isEmpty()) {
 										IJpo deptsetpo = deptset.getJpo();
-										deptsetpo
-												.setValue(
-														"OWNER",
-														personid,
+										deptsetpo.setValue("OWNER", personid,
 														GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 									}
 								}
@@ -481,8 +343,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 
 						} else {
 
-							returntf = MdmReturnSave.getFalseMsg(empcodeone
-									+ "人员不存在");
+							returntf = MdmReturnSave.getFalseMsg(empcodeone + "人员不存在");
 						}
 						personupdateset.save();
 
@@ -494,12 +355,10 @@ public class MdmToMroServiceImp implements MdmToMroService {
 
 			personset.save();
 
-
 			/**
 			 * 处理成功
 			 */
-			IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS, IFUtil.FLAG_YES,
-					"");
+			IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS, IFUtil.FLAG_YES, "");
 			returntf = MdmReturnSave.getTrueMsg();
 			return returntf;
 		} catch (Exception e) {
@@ -507,8 +366,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			String errorMsg = e.getMessage();
 			returntf = MdmReturnSave.getFalseMsg(errorMsg);
 			try {
-				IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE,
-						IFUtil.FLAG_YES, e.getMessage());
+				IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE, IFUtil.FLAG_YES, e.getMessage());
 			} catch (MroException e1) {
 				e1.printStackTrace();
 			}
@@ -605,7 +463,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 					String delremark = deptupdatesetJpo.getString("DELREMARK");
-					if (!StringUtil.isNullOrEmpty(delremark)) {
+					if (!StringUtil.isStrEmpty(delremark)) {
 						if (delremark.equals("X")) {
 							deptupdatesetJpo.delete();
 						}
@@ -649,7 +507,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 					String delremark = deptsetJpo.getString("DELREMARK");
-					if (!StringUtil.isNullOrEmpty(delremark)) {
+					if (!StringUtil.isStrEmpty(delremark)) {
 						if (delremark.equals("X")) {
 							deptsetJpo.delete();
 						}
@@ -765,7 +623,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					}
 
 					String delremark = postupdatesetJpo.getString("DELREMARK");
-					if (!StringUtil.isNullOrEmpty(delremark)) {
+					if (!StringUtil.isStrEmpty(delremark)) {
 						if (delremark.equals("X")) {
 							postupdatesetJpo.delete();
 						}
@@ -805,7 +663,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					}
 
 					String delremark = postsetJpo.getString("DELREMARK");
-					if (!StringUtil.isNullOrEmpty(delremark)) {
+					if (!StringUtil.isStrEmpty(delremark)) {
 						if (delremark.equals("X")) {
 							postsetJpo.delete();
 						}
@@ -927,7 +785,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					 * 给客户表字段赋值
 					 */
 					custinfosetJpo = (CustInfo) custinfoset.addJpo();
-					if (StringUtils.isNotEmpty(cuscode)) {
+					if (StringUtil.isStrNotEmpty(cuscode)) {
 						custinfosetJpo.setValue("CUSTNUM", cuscode,
 								GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 					}
@@ -1157,14 +1015,10 @@ public class MdmToMroServiceImp implements MdmToMroService {
 	public String toMroMdmItemData(String mdmXml) {
 		String num = "";
 		IJpoSet itemset = null;
-		IJpoSet itemset_OLD = null;
 		try {
-			num = IFUtil.addIfHistory("MDM_MRO_ITEMIF", mdmXml,
-					IFUtil.TYPE_INPUT);
+			num = IFUtil.addIfHistory("MDM_MRO_ITEMIF", mdmXml, IFUtil.TYPE_INPUT);
 
 			itemset = MroServer.getMroServer().getSysJpoSet("SYS_ITEM");
-			itemset_OLD = MroServer.getMroServer().getSysJpoSet(
-					"SYS_ITEM");
 
 			Document doc = DocumentHelper.parseText(mdmXml);
 			Element root = doc.getRootElement();
@@ -1179,11 +1033,11 @@ public class MdmToMroServiceImp implements MdmToMroService {
 				String matltype = partBaseInfo.valueOf("matl_type");// 物料类型
 				String brands = partBaseInfo.valueOf("brands");// 品牌
 				// 可更换类别，是否序列号管理，是否追溯件，是否批次号管理，在MDM中找不到相对应的字段
-				itemset_OLD.setUserWhere("ITEMNUM='" + matlcode + "'");
-				itemset_OLD.reset();
-				if (itemset_OLD.count() > 0) {
+				itemset.setUserWhere("ITEMNUM='" + matlcode + "'");
+				itemset.reset();
+				if (itemset.count() > 0) {
 					IJpo itemset_Jpo_temp = null;
-					itemset_Jpo_temp = itemset_OLD.getJpo();
+					itemset_Jpo_temp = itemset.getJpo();
 					itemset_Jpo_temp.setValue("DESCRIPTION", matldesb,
 							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 					itemset_Jpo_temp.setValue("SPECIFICATION", typespec,
@@ -1196,7 +1050,6 @@ public class MdmToMroServiceImp implements MdmToMroService {
 							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 					itemset_Jpo_temp.setValue("PRODUCTER", brands,
 							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-					itemset_OLD.save();
 
 				} else {
 					IJpo itemsetJpo = itemset.addJpo();
@@ -1218,8 +1071,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 
 			}
 			itemset.save();
-			IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS, IFUtil.FLAG_YES,
-					"");
+			IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS, IFUtil.FLAG_YES, "");
 			returntf = MdmReturnSave.getTrueMsg();
 			return returntf;
 		} catch (Exception e) {
@@ -1228,8 +1080,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			returntf = MdmReturnSave.getFalseMsg(errorMsg);
 
 			try {
-				IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE,
-						IFUtil.FLAG_YES, e.getMessage());
+				IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE, IFUtil.FLAG_YES, e.getMessage());
 			} catch (MroException e1) {
 
 				e1.printStackTrace();
@@ -1238,9 +1089,6 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			e.printStackTrace();
 			return returntf;
 		} finally {
-			if(itemset_OLD != null){
-				itemset_OLD.destroy();
-			}
 			if(itemset != null){
 				itemset.destroy();
 			}
