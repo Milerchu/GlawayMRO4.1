@@ -48,18 +48,26 @@ public class JDBCUtil {
         try {
             conn = getOrclConn();
             pstm = conn.prepareStatement(sql);
-            pstm.setString(1, "A");
-            pstm.setString(2, "C罗");
-            pstm.setString(3, "cc");
-            pstm.setString(4, "dd");
-            pstm.setString(5, "ff");
-            pstm.setString(6, "zz");
-            pstm.setString(7, "A");
+            for(int idx = 0; idx < 2; idx++){
 
+                pstm.setString(1, "b"+idx);
+                pstm.setString(2, "C罗");
+                pstm.setString(3, "cs");
+                pstm.setString(4, "dd");
+                pstm.setString(5, "ff");
+                pstm.setString(6, "zz");
+                pstm.setString(7, "A");
+                pstm.addBatch();
+            }
+            int[] results = pstm.executeBatch();
+            for(int i : results){
+                if(i < 0 && i != PreparedStatement.SUCCESS_NO_INFO){
 
-            int rs = pstm.executeUpdate();
+                }
+            }
+            //int rs = pstm.executeUpdate();
 
-            System.out.println(rs);
+            System.out.println(results.toString());
 
 
         }catch(Exception e){
