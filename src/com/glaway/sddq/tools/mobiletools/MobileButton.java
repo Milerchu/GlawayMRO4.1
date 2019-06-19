@@ -1,8 +1,5 @@
 package com.glaway.sddq.tools.mobiletools;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.alibaba.fastjson.JSONObject;
 import com.glaway.mro.app.system.workflow.util.WfControlUtil;
 import com.glaway.mro.exception.MroException;
@@ -11,15 +8,14 @@ import com.glaway.mro.jpo.IJpoSet;
 import com.glaway.mro.system.MroServer;
 import com.glaway.mro.util.GWConstant;
 import com.glaway.mro.util.StringUtil;
-import com.glaway.sddq.material.invtrans.common.CommonAddNewInventory;
-import com.glaway.sddq.material.invtrans.common.Commondeleteotherqty;
-import com.glaway.sddq.material.invtrans.common.TransLineInvtranscommon;
-import com.glaway.sddq.material.invtrans.common.TransLineStoroomCommon;
-import com.glaway.sddq.material.invtrans.common.TransferlinetradeCommon;
+import com.glaway.sddq.material.invtrans.common.*;
 import com.glaway.sddq.tools.ItemUtil;
 import com.glaway.sddq.tools.WorkorderUtil;
 import com.glaway.sddq.tools.mobiletools.mobileInterface.IfConvertLoc;
 import com.glaway.sddq.tools.mobiletools.mobileInterface.IfZxTransfer;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 
@@ -430,8 +426,7 @@ public class MobileButton {
 					}
 					if (TRANSFERMOVETYPE
 							.equalsIgnoreCase(ItemUtil.TRANSFERMOVETYPE_ZTOZ)) {
-						IJpoSet transferlineset = transferJpo
-								.getJpoSet("transferline");
+						IJpoSet transferlineset = transferJpo.getJpoSet("transferline");
 						if (transferlineset.count() == 0) {
 							throw new MroException("transferline",
 									"statusissue");
@@ -449,24 +444,16 @@ public class MobileButton {
 								// TransInvtranscommon.out_invtrans(transferlineset);//
 								// 调用公共方法物料出库库存交易记录
 								IfZxTransfer.UPDATESQNSTATUS(transferlineset);
-								transferJpo.setValue("status", "在途",
-										GWConstant.P_NOVALIDATION);
-								transferJpo.setValue("issue", "是",
-										GWConstant.P_NOVALIDATION);
+								transferJpo.setValue("status", "在途", GWConstant.P_NOVALIDATION);
+								transferJpo.setValue("issue", "是", GWConstant.P_NOVALIDATION);
 								transferRet.put("status", "在途");
 								transferRet.put("issue", "是");
-								java.util.Date newdate = MroServer
-										.getMroServer().getDate();
+								java.util.Date newdate = MroServer.getMroServer().getDate();
 								SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 										"yyyy/MM/dd HH:mm:ss");
-								String format = simpleDateFormat
-										.format(newdate);
+								String format = simpleDateFormat.format(newdate);
 
-								transferJpo
-										.setValue(
-												"SENDTIME",
-												format,
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+								transferJpo.setValue("SENDTIME", format, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								transferRet.put("sendTime", format);
 								IfZxTransfer.ADDMRQTY(transferJpo);
 								transferSet.save();
@@ -665,13 +652,11 @@ public class MobileButton {
 			// 装箱单行编号
 			String transferlinenum = data.getString("transferLineNum");
 			// 接收数量
-			Double receiveCount = Double.parseDouble(data
-					.getString("receiveCount"));
+			Double receiveCount = Double.parseDouble(data.getString("receiveCount"));
 			if (!(receiveCount > 0)) {
 				throw new MroException("请设置正确的接收数量！");
 			}
-			boolean islocbin = transferJpo.getJpoSet("RECEIVESTOREROOM")
-					.getJpo().getBoolean("islocbin");
+			boolean islocbin = transferJpo.getJpoSet("RECEIVESTOREROOM").getJpo().getBoolean("islocbin");
 
 			// 入库仓位--库房管理时
 			String inbinnum = "";
@@ -1004,9 +989,7 @@ public class MobileButton {
 
 		if ("RECEIVELINE".equals(data.getString("action"))) {
 			String convertLocLineId = data.getString("convertLocLineId");
-			// 接收数量
-			Double receiveCount = Double.parseDouble(data
-					.getString("receiveCount"));
+
 			IJpoSet convertLineSet = convertJpo.getJpoSet("CONVERTLOCNUMIX");
 			convertLineSet.setQueryWhere("convertLocLineId='"
 					+ convertLocLineId + "'");
@@ -1016,6 +999,8 @@ public class MobileButton {
 						+ "获取调拨转库单:" + convertLocNum + "的单行数据");
 			}
 			IJpo convertLine = convertLineSet.getJpo();
+			// 接收数量
+			Double receiveCount = Double.parseDouble(convertLine.getString("qty"));
 
 			String itemnum = convertLine.getString("itemnum");
 			String status = convertLine.getString("status");

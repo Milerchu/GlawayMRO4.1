@@ -113,7 +113,7 @@ public class MobileField {
 	 * 
 	 * 库房4个虚拟字段
 	 * 
-	 * @param json
+	 * @param inventoryJpo
 	 * @return
 	 * @throws MroException
 	 *             [参数说明]
@@ -380,6 +380,11 @@ public class MobileField {
 			transferLineData.put("wjsQty", transferLine.getString("wjsQty"));
 			transferLineData.put("receiveStoreRoom",
 					transferLine.getString("receiveStoreRoom"));
+			String itemnum = transferLine.getString("itemnum");
+			//序列号件
+			if(ItemUtil.SQN_ITEM.equals(ItemUtil.getItemInfo(itemnum))){
+				transferLineData.put("isTurnover", 1);
+			}
 			ret.put("transferLineData", transferLineData);
 		}
 

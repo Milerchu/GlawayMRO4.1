@@ -453,8 +453,6 @@ public class MobileToMroServiceRestful {
 
 	public MobileResult moblieField(String mobileJson) {
 		JSONObject data = JSONObject.parseObject(mobileJson);
-		System.out.println("==============data:"+data.toJSONString());
-		System.out.println("============appId:"+data.getString("appId"));
 		String appId = data.getString("appId").toUpperCase();
 		String userId = data.getString("userId");
 		MobileResult result = invokeField(appId, mobileJson, userId);
