@@ -48,10 +48,10 @@ public class JDBCUtil {
         try {
             conn = getOrclConn();
             pstm = conn.prepareStatement(sql);
-            for(int idx = 0; idx < 2; idx++){
+            for(int idx = 1; idx < 3; idx++){
 
                 pstm.setString(1, "b"+idx);
-                pstm.setString(2, "C罗");
+                pstm.setString(2, "C罗1");
                 pstm.setString(3, "cs");
                 pstm.setString(4, "dd");
                 pstm.setString(5, "ff");
@@ -59,6 +59,7 @@ public class JDBCUtil {
                 pstm.setString(7, "A");
                 pstm.addBatch();
             }
+            pstm.addBatch("delete from sys_item where itemnum='b0'");
             int[] results = pstm.executeBatch();
             for(int i : results){
                 if(i < 0 && i != PreparedStatement.SUCCESS_NO_INFO){
@@ -179,6 +180,23 @@ public class JDBCUtil {
 
     public static void close(Statement st, Connection conn) {
         close(null, st, conn);
+    }
+
+    /**
+     * 判断批处理sql是否执行成功
+     * @param results 执行结果数组
+     * @return true 执行成功，false 执行失败
+     */
+    public static boolean isBatchSuccess(int[] results) {
+
+        boolean isSuccess = true;
+        for(int i : results){
+            if(i < 0 && i != Statement.SUCCESS_NO_INFO){
+                isSuccess = false;
+                break;
+            }
+        }
+        return isSuccess;
     }
 
 }

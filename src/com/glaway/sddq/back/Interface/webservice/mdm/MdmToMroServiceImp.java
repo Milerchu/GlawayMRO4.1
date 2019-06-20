@@ -50,7 +50,10 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			//获取连接
 			conn = JDBCUtil.getOrclConn();
 
-			String personSql = "";
+			String personSql1 = "";
+			String phoneSql = "";
+			String emailSql = "";
+
 
 			personset = MroServer.getMroServer().getSysJpoSet("SYS_PERSON");
 
@@ -65,10 +68,8 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			for (Element object : objectlist) {
 
 				Element personBaseInfo = object.element("personBaseInfo");
-				/**
-				 * 判断personBaseInfo节点是否存在
-				 * 
-				 */
+
+				//判断personBaseInfo节点是否存在
 				if (personBaseInfo != null) {
 					String empcode = personBaseInfo.valueOf("emp_code");// 人员ID属性的值
 					String empname = personBaseInfo.valueOf("empname");// 人员姓名属性的值
@@ -96,13 +97,9 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					String[] activeStatus = {"1","2","9","10","11","12"};
 					String[] unactiveStatus = {"0","3","4","5","6","7","13","14","15","16","17"};
 					if(StringUtil.isHaveStr(unactiveStatus,status)){
-
 						status = "不活动";
-
 					}else if(StringUtil.isHaveStr(activeStatus, status)){
-
 						status = "活动";
-
 					}
 					// zzx end
 					String calzzmc = "";
@@ -111,6 +108,77 @@ public class MdmToMroServiceImp implements MdmToMroService {
 						Element personCo = personComputer.element("personComputerInfo");
 						calzzmc = personCo.valueOf("cal_zzmc");// 计算机水平
 					}
+
+					//更新or新增
+					if(StringUtil.isStrEmpty(delcode)){
+
+						/*对人员表操作*/
+						personSql1 = "merge into sys_person p using (select ? personid,? displayname,? GENDER," +
+								"               ? PERSONCLASSIFICATION,? NATION,? COMPUTERLV,? STATUS from dual) dat " +
+								"                   on (dat.personid=p.personid)\n" +
+								"when matched then\n" +
+								"    update set p.displayname=dat.displayname,p.GENDER=dat.GENDER," +
+								"               p.PERSONCLASSIFICATION=dat.PERSONCLASSIFICATION,p.NATION=dat.NATION," +
+								"               p.COMPUTERLV=dat.COMPUTERLV,p.status=dat.STATUS\n" +
+								"when not matched then\n" +
+								"    insert (PERSONID,DISPLAYNAME,GENDER,PERSONCLASSIFICATION,NATION,COMPUTERLV,\n" +
+								"            STATUS,SYS_PERSONID,ACCEPTINGWFMAIL,locale,LANGCODE,LOCTOSERVREQ," +
+								"            statusdate,WFMAILELECTION,TRANSEMAILELECTION)\n" +
+								"    values (dat.personid,dat.displayname,dat.GENDER,dat.PERSONCLASSIFICATION," +
+								"            dat.NATION,dat.COMPUTERLV,dat.STATUS,sys_personseq.nextval,1,'zh_CN'," +
+								"            'ZH',1,sysdate,'过程','从不')";
+
+						ps1 = conn.prepareStatement(personSql1);
+
+						ps1.setString(1, empcode);
+						ps1.setString(2, empname);
+						ps1.setString(3, gender);
+						ps1.setString(4, emp_type2);
+						ps1.setString(5, nation);
+						ps1.setString(6, calzzmc);
+						ps1.setString(7, status);
+
+						ps1.addBatch();
+
+						/*对电话表操作*/
+						phoneSql = "merge into sys_phone ph using (select personid from sys_person where personid=?) p" +
+								" on ( p.personid=ph.personid )\n" +
+								" when matched then\n" +
+								"   update set phonenum=?";
+						ps2 = conn.prepareStatement(phoneSql);
+
+						ps2.setString(1, empcode);//人员id
+						ps2.setString(2, mobile);//电话号码
+
+						ps2.addBatch();
+
+						/*对邮箱表操作*/
+
+					}else{
+					//删除
+
+						/*操作人员表*/
+						personSql1 = "merge into sys_person p using (select ? personid from dual) dat " +
+								" on (dat.personid=p.personid)\n" +
+								" when matched then\n" +
+								"    update set p.displayname=p.displayname\n" +
+								"    delete  where p.personid=dat.personid";
+
+						ps1 = conn.prepareStatement(personSql1);
+
+						ps1.setString(1, empcode);
+
+						ps1.addBatch();
+
+						/*操作电话表*/
+
+						/*操作邮箱表*/
+
+
+
+					}
+
+					//----------------------------------------------------
 					personset.setUserWhere("PERSONID='" + empcode + "'");
 					personset.reset();
 
@@ -123,16 +191,16 @@ public class MdmToMroServiceImp implements MdmToMroService {
 							sysemailset.setUserWhere("PERSONID='" + empcode + "'");
 							sysemailset.reset();
 
-							IJpo personupdatesetJpo = null;
-							personupdatesetJpo = personset.getJpo();
-							personupdatesetJpo.setValue("DISPLAYNAME", empname);
-							personupdatesetJpo.setValue("GENDER", gender, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personupdatesetJpo.setValue("NATION", nation, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personupdatesetJpo.setValue("STATUS", status, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							IJpo personJpo = null;
+							personJpo = personset.getJpo();
+							personJpo.setValue("DISPLAYNAME", empname);
+							personJpo.setValue("GENDER", gender, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personJpo.setValue("NATION", nation, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+							personJpo.setValue("STATUS", status, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
-							personupdatesetJpo.setValue("COMPUTERLV", calzzmc,
+							personJpo.setValue("COMPUTERLV", calzzmc,
 									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personupdatesetJpo.setValue("PERSONCLASSIFICATION",
+							personJpo.setValue("PERSONCLASSIFICATION",
 									emp_type2, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);// 人员分类
 
 
@@ -141,7 +209,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 								sysphonesetJpo = sysphoneset.getJpo();
 								sysphonesetJpo.setValue("PHONENUM", mobile, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								sysphoneset.save();
-								personupdatesetJpo.setValue("PRIMARYPHONE", mobile,
+								personJpo.setValue("PRIMARYPHONE", mobile,
 												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 							}
@@ -155,7 +223,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 								sysemailsetJpo.setValue("EMAILADDRESS", empmail,
 												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 								sysemailset.save();
-								personupdatesetJpo.setValue("PRIMARYEMAIL", empmail,
+								personJpo.setValue("PRIMARYEMAIL", empmail,
 												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 							}
@@ -182,23 +250,6 @@ public class MdmToMroServiceImp implements MdmToMroService {
 							personsetJpo.setValue("COMPUTERLV", calzzmc, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 							personsetJpo.setValue("PERSONCLASSIFICATION", emp_type2,
 									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							// 删除标识
-							personsetJpo.setValue("DELREMARK", delcode, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-
-							/**
-							 * 人员状态
-							 */
-							String empstatus = personsetJpo.getString("STATUS");
-
-							if (StringUtil.isHaveStr(unactiveStatus,empstatus)) {
-
-								personsetJpo.setValue("STATUS", "不活动", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-
-							} else if (StringUtil.isHaveStr(activeStatus, empstatus)) {
-
-								personsetJpo.setValue("STATUS", "活动", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-
-							}
 
 							if (!StringUtil.isStrEmpty(mobile)) {
 								IJpo sysphonesetJpo = null;
@@ -1018,14 +1069,8 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			}
 			//执行sql
 			int[] results = pstm.executeBatch();
-			boolean isSuccess = true;
-			for(int i : results){
-				if(i < 0 && i != PreparedStatement.SUCCESS_NO_INFO){
-					isSuccess = false;
-				}
-			}
 
-			if(isSuccess){//操作成功
+			if(JDBCUtil.isBatchSuccess(results)){//操作成功
 				IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS, IFUtil.FLAG_YES, "");
 			}
 			returntf = MdmReturnSave.getTrueMsg();
