@@ -141,18 +141,35 @@ public class MdmToMroServiceImp implements MdmToMroService {
 						ps1.addBatch();
 
 						/*对电话表操作*/
-						phoneSql = "merge into sys_phone ph using (select personid from sys_person where personid=?) p" +
-								" on ( p.personid=ph.personid )\n" +
-								" when matched then\n" +
-								"   update set phonenum=?";
-						ps2 = conn.prepareStatement(phoneSql);
+						if(StringUtil.isStrNotEmpty(mobile)){
 
-						ps2.setString(1, empcode);//人员id
-						ps2.setString(2, mobile);//电话号码
+							phoneSql = "merge into sys_phone ph using (select personid from sys_person where personid=?) p" +
+									" on ( p.personid=ph.personid )\n" +
+									" when matched then\n" +
+									"   update set phonenum=?" +
+									" when not matched then "+
+									" 	insert (ISPRIMARY,SYS_PHONE,phonenum,personid) " +
+									"    values(1,sys_phoneseq.nextval,?,p.personid)";
+							ps2 = conn.prepareStatement(phoneSql);
 
-						ps2.addBatch();
+							ps2.setString(1, empcode);//人员id
+							ps2.setString(2, mobile);//电话号码
+							ps2.setString(3, mobile);//电话号码
+
+							ps2.addBatch();
+
+						}
 
 						/*对邮箱表操作*/
+						//TODO 待完善
+						if(StringUtil.isStrNotEmpty(empmail)){
+							emailSql = "";
+							ps3 = conn.prepareStatement(emailSql);
+
+							ps3.setString(1, "");
+
+							ps3.addBatch();
+						}
 
 					}else{
 					//删除
@@ -162,7 +179,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 								" on (dat.personid=p.personid)\n" +
 								" when matched then\n" +
 								"    update set p.displayname=p.displayname\n" +
-								"    delete  where p.personid=dat.personid";
+								"    delete where p.personid=dat.personid";
 
 						ps1 = conn.prepareStatement(personSql1);
 
@@ -170,15 +187,35 @@ public class MdmToMroServiceImp implements MdmToMroService {
 
 						ps1.addBatch();
 
+						//TODO 待完善
 						/*操作电话表*/
+						phoneSql = "merge into sys_phone ph using (select ? personid from dual) dat" +
+								" on (dat.personid=ph.personid) "+
+								" when matched then "+
+								"   update set ph.phonenum=ph.phonenum "+
+								" 	delete where ph.personid=dat.personid ";
+						ps2 = conn.prepareStatement(phoneSql);
+
+						ps2.setString(1, empcode);
+
+						ps2.addBatch();
 
 						/*操作邮箱表*/
+						emailSql = "merge into sys_email e using (select ? personid from dual) dat" +
+								" on (dat.personid=e.personid) "+
+								" when matched then "+
+								"   update set e.emailaddress=e.emailaddress "+
+								" 	delete where e.personid=dat.personid ";
+						ps3 = conn.prepareStatement(emailSql);
 
+						ps3.setString(1, empcode);
+
+						ps3.addBatch();
 
 
 					}
 
-					//----------------------------------------------------
+					//TODO -----------------------待删除-----------------------------
 					personset.setUserWhere("PERSONID='" + empcode + "'");
 					personset.reset();
 
