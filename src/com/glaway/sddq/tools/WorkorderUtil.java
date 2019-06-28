@@ -1,28 +1,5 @@
 package com.glaway.sddq.tools;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.rmi.RemoteException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-
-import org.apache.axis2.transport.http.HTTPConstants;
-import org.apache.axis2.transport.http.impl.httpclient3.HttpTransportPropertiesImpl.Authenticator;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.glaway.mro.app.system.workflow.util.WfControlUtil;
@@ -34,26 +11,10 @@ import com.glaway.mro.util.GWConstant;
 import com.glaway.mro.util.StringUtil;
 import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub;
 import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.Char10;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.Char12;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.Char18;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.Char2;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.Char3;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.Char35;
 import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.Char4;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.Quantum153;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.TableOfZsdZsywItems;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.ZsdZsywHeader;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.ZsdZsywItems;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.ZtfunSdZsyw;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.ZtfunSdZsywResponse;
+import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywdd.ComZzsErpZTFUN_SD_ZSYW_WEBStub.*;
 import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjhd.ComZzsErpZTFUN_SD_ZSYWJH_WEBStub;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjhd.ComZzsErpZTFUN_SD_ZSYWJH_WEBStub.Numeric6;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjhd.ComZzsErpZTFUN_SD_ZSYWJH_WEBStub.Quantum133;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjhd.ComZzsErpZTFUN_SD_ZSYWJH_WEBStub.TableOfZsywjhItem;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjhd.ComZzsErpZTFUN_SD_ZSYWJH_WEBStub.ZsywjhHeader;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjhd.ComZzsErpZTFUN_SD_ZSYWJH_WEBStub.ZsywjhItem;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjhd.ComZzsErpZTFUN_SD_ZSYWJH_WEBStub.ZtfunSdZsywjh;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjhd.ComZzsErpZTFUN_SD_ZSYWJH_WEBStub.ZtfunSdZsywjhResponse;
+import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjhd.ComZzsErpZTFUN_SD_ZSYWJH_WEBStub.*;
 import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjpd.ComZzsErpZTFUN_SD_ZJHJP_WEBStub;
 import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjpd.ComZzsErpZTFUN_SD_ZJHJP_WEBStub.TableOfZsdZjhjpItems;
 import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.sbywjpd.ComZzsErpZTFUN_SD_ZJHJP_WEBStub.ZsdZjhjpHeader;
@@ -63,6 +24,22 @@ import com.glaway.sddq.back.Interface.webservice.qms.sclient.ComZzsQmsDqXcgzMapp
 import com.glaway.sddq.back.Interface.webservice.qms.sclient.ComZzsQmsDqXcgzMappingServiceStub.GetDataFormMRO;
 import com.glaway.sddq.back.Interface.webservice.qms.sclient.ComZzsQmsDqXcgzMappingServiceStub.GetDataFormMROResponse;
 import com.glaway.sddq.material.invtrans.common.CommonInventory;
+import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.axis2.transport.http.impl.httpclient3.HttpTransportPropertiesImpl.Authenticator;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.rmi.RemoteException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.*;
 
 /**
  * 
