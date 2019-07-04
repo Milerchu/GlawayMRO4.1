@@ -451,6 +451,8 @@ public class WorkorderUtil {
 					if (!downAsset.isEmpty()) {
 						IJpo down = downAsset.getJpo();
 						down.setValue("SOFTVERSION", newsoftversion);
+                        // 重置锁定标记
+                        down.setValue("ISLOCKED",0,GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 						downAsset.save();
 
 						exchange.setValue("ISDO", "1",
@@ -473,24 +475,13 @@ public class WorkorderUtil {
 						IJpo down = downAsset.getJpo();
 						down.setValue("SOFTVERSION", newsoftversion,
 								GWConstant.P_NOVALIDATION);
+                        // 重置锁定标记
+						down.setValue("ISLOCKED",0,GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 						downAsset.save();
 					}
 				}
 				exchange.setValue("ISDO", "1",
 						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);// 设置完成标志
-				// 重置锁定标记
-				IJpoSet upAssetSet = exchange.getJpoSet("NEWASSET");
-				if (upAssetSet != null && upAssetSet.count() > 0) {
-					IJpo upAsset = upAssetSet.getJpo(0);
-					upAsset.setValue("islocked", 0,
-							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				}
-				IJpoSet downAssetSet = exchange.getJpoSet("ASSET");
-				if (downAssetSet != null && downAssetSet.count() > 0) {
-					IJpo downAsset = downAssetSet.getJpo(0);
-					downAsset.setValue("islocked", 0,
-							GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-				}
 				continue;
 			}
 			// 出入库操作
