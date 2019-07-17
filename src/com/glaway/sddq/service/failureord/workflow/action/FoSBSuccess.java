@@ -41,10 +41,10 @@ public class FoSBSuccess implements ActionCustomClass {
 					for (int idx = 0; idx < exSet.count(); idx++) {
 						if (!exSet.getJpo(idx).getBoolean("ISCUSTITEM")) {
 							flag = true;
-						}
-						if (SddqConstant.FAIL_DEALMODE_BASEREPAIR.equals(exSet
-								.getJpo(idx).getString("dealmode"))) {
-							flag2 = true;
+							if (SddqConstant.FAIL_DEALMODE_BASEREPAIR.equals(exSet
+									.getJpo(idx).getString("dealmode"))) {
+								flag2 = true;
+							}
 						}
 						// 不返修并且技术主管同意
 						if (SddqConstant.FAIL_DEALMODE_RETENTION.equals(exSet
@@ -61,10 +61,10 @@ public class FoSBSuccess implements ActionCustomClass {
 					for (int j = 0; j < lossSet.count(); j++) {
 						if (!lossSet.getJpo(j).getBoolean("ISCUSTITEM")) {
 							flag = true;
-						}
-						if (SddqConstant.FAIL_DEALMODE_BASEREPAIR
-								.equals(lossSet.getJpo(j).getString("dealmode"))) {
-							flag2 = true;
+							if (SddqConstant.FAIL_DEALMODE_BASEREPAIR
+									.equals(lossSet.getJpo(j).getString("dealmode"))) {
+								flag2 = true;
+							}
 						}
 
 						// 不返修并且技术主管同意
