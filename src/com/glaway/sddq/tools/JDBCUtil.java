@@ -2,6 +2,8 @@ package com.glaway.sddq.tools;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -26,55 +28,69 @@ public class JDBCUtil {
 
     public static void main(String[] args) {
 
-        String sql = "merge into sys_item item " +
-              "using (select ? itemnum, ? des, ? itemtype, ? orderunit, ? SPEC," +
-                "? itemgroup,? producter from dual) dat " +
-                "on (dat.itemnum=item.itemnum)\n " +
+        String sql = "merge into sys_person p using (select ? personid,? displayname,? GENDER," +
+                "               ? PERSONCLASSIFICATION,? NATION,? COMPUTERLV,? STATUS from dual) dat " +
+                "                   on (dat.personid=p.personid)\n" +
                 "when matched then\n" +
-                " update set item.description=dat.des,item.SPECIFICATION=dat.SPEC," +
-                "item.ORDERUNIT=dat.orderunit,item.ITEMGROUP=dat.itemgroup,item.ITEMTYPE=dat.itemtype," +
-                "item.producter=dat.producter \n" +
+                "    update set p.displayname=dat.displayname,p.GENDER=dat.GENDER," +
+                "               p.PERSONCLASSIFICATION=dat.PERSONCLASSIFICATION,p.NATION=dat.NATION," +
+                "               p.COMPUTERLV=dat.COMPUTERLV,p.status=dat.STATUS\n" +
                 "when not matched then\n" +
-                " insert (SYS_ITEMID,itemnum,description,HARDRESISSUE,ISKIT,ITEMTYPE,ORDERUNIT," +
-                "OUTSIDE,PRORATE,ROTATING,SPECIFICATION,STATUS,Statusdate,CAPITALIZED,IMPORTANT," +
-                "ISCHECK,ISTURNOVER,ITEMGROUP,PLUSCISINHOUSECAL,PLUSCSOLUTION,PRODUCTER,SPAREPARTAUTOADD," +
-                "ISNEW,TOOL,ISLOT,IMPORTANTERP,ISLOTERP,ISTURNOVERERP,ISIV) \n" +
-                " values(Sys_Itemseq.Nextval,dat.itemnum,dat.des,0,0,dat.itemtype,dat.orderunit," +
-                "0,0,0,dat.SPEC,'活动',sysdate,0,0,0,0,dat.itemgroup,0,0,dat.producter,0,1,0,0,0,0,0,0)";
+                "    insert (PERSONID,DISPLAYNAME,GENDER,PERSONCLASSIFICATION,NATION,COMPUTERLV,\n" +
+                "            STATUS,SYS_PERSONID,ACCEPTINGWFMAIL,locale,LANGCODE,LOCTOSERVREQ," +
+                "            statusdate,WFMAILELECTION,TRANSEMAILELECTION)\n" +
+                "    values (dat.personid,dat.displayname,dat.GENDER,dat.PERSONCLASSIFICATION," +
+                "            dat.NATION,dat.COMPUTERLV,dat.STATUS,sys_personseq.nextval,1,'zh_CN'," +
+                "            'ZH',1,sysdate,'过程','从不')";
+        String sql2 = "merge into sys_phone ph using (select personid from sys_person where personid=?) p\n" +
+                "     on ( p.personid=ph.personid )\n" +
+                "     when matched then\n" +
+                "       update set phonenum=?\n" +
+                "     when not matched then\n" +
+                "      insert (ISPRIMARY,SYS_PHONEID,phonenum,personid)\n" +
+                "        values(1,sys_phoneseq.nextval,?,p.personid)";
 
         Connection conn = null;
         PreparedStatement pstm = null;
+        PreparedStatement ps = null;
+        List<Statement> psList = new ArrayList<Statement>();
+
+
 //        ResultSet rs = null;
         try {
             conn = getOrclConn();
             pstm = conn.prepareStatement(sql);
-            for(int idx = 1; idx < 3; idx++){
+            for(int idx = 10317; idx < 10319; idx++){
 
-                pstm.setString(1, "b"+idx);
-                pstm.setString(2, "C罗1");
-                pstm.setString(3, "cs");
-                pstm.setString(4, "dd");
-                pstm.setString(5, "ff");
-                pstm.setString(6, "zz");
-                pstm.setString(7, "A");
+                pstm.setString(1, "A"+idx);
+                pstm.setString(2, "C罗"+idx);
+                pstm.setString(3, "男");
+                pstm.setString(4, "1");
+                pstm.setString(5, "1");
+                pstm.setString(6, "0");
+                pstm.setString(7, "活动");
                 pstm.addBatch();
             }
-            pstm.addBatch("delete from sys_item where itemnum='b0'");
-            int[] results = pstm.executeBatch();
-            for(int i : results){
-                if(i < 0 && i != PreparedStatement.SUCCESS_NO_INFO){
+            psList.add(pstm);
 
-                }
+            ps = conn.prepareStatement(sql2);
+            for(int j = 7; j < 9; j++){
+                ps.setString(1, "A1031"+j);
+                ps.setString(2, "1380200256"+j);
+                ps.setString(3, "1380200256"+j);
+                ps.addBatch();
             }
-            //int rs = pstm.executeUpdate();
-
-            System.out.println(results.toString());
+            psList.add(ps);
+            int[] results1 = pstm.executeBatch();
+            System.out.println("r1:"+isBatchSuccess(results1));
+            int[] results2 =ps.executeBatch();
+            System.out.println("r2:"+isBatchSuccess(results2));
 
 
         }catch(Exception e){
             e.printStackTrace();
         }finally {
-            close(pstm, conn);
+           close(psList, conn);
         }
 
     }
@@ -102,14 +118,6 @@ public class JDBCUtil {
         return ret;
     }
 
-    public static ResultSet getResult(String sql) {
-        Connection conn = null;
-        PreparedStatement pstm = null;
-        ResultSet rs = null;
-
-
-        return rs;
-    }
 
     public static boolean update(String tableName, String[] field, Object[] value) {
         //操作结果
@@ -153,23 +161,15 @@ public class JDBCUtil {
     public static void close(ResultSet rs, Statement st, Connection conn){
 
          try {
-            if (rs!=null) {
+            if (rs != null) {
                 rs.close();
+                rs = null;//防止内存泄漏
             }
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
-
-         try {
-            if (st!=null) {
+            if (st != null) {
                 st.close();
+                st = null;//防止内存泄漏
             }
-         } catch (SQLException e) {
-            e.printStackTrace();
-         }
-
-         try {
-            if (conn!=null) {
+            if (conn != null) {
                 conn.close();
             }
          } catch (SQLException e) {
@@ -178,8 +178,28 @@ public class JDBCUtil {
 
     }
 
-    public static void close(Statement st, Connection conn) {
-        close(null, st, conn);
+    public static void close(Connection conn, Statement... sts ) {
+        for(Statement st: sts){
+            close(null, st, conn);
+        }
+    }
+
+    public static void close(List<Statement> statementList, Connection conn) {
+
+        try {
+            for (Statement st : statementList) {
+                if (st != null) {
+                    st.close();
+                    st = null;
+                }
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
     }
 
     /**

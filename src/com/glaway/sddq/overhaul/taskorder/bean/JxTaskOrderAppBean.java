@@ -1,9 +1,5 @@
 package com.glaway.sddq.overhaul.taskorder.bean;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.glaway.mro.controller.AppBean;
 import com.glaway.mro.exception.AppException;
 import com.glaway.mro.exception.MroException;
@@ -17,6 +13,10 @@ import com.glaway.sddq.material.invtrans.common.CommonInventory;
 import com.glaway.sddq.tools.IFUtil;
 import com.glaway.sddq.tools.SddqConstant;
 import com.glaway.sddq.tools.WorkorderUtil;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 检修工单AppBean
@@ -455,6 +455,20 @@ public class JxTaskOrderAppBean extends AppBean {
 			String ancestor = jpo.getString("ASSET.ANCESTOR");
 			String parent = jpo.getString("ASSET.PARENT");
 			String faultposition=jpo.getString("FAULTPOSITION");
+
+			// 重置锁定标记
+			IJpoSet upAssetSet = jpo.getJpoSet("NEWASSET");
+			if (upAssetSet != null && upAssetSet.count() > 0) {
+				IJpo upAsset = upAssetSet.getJpo(0);
+				upAsset.setValue("islocked", 0,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+			}
+			IJpoSet downAssetSet = jpo.getJpoSet("ASSET");
+			if (downAssetSet != null && downAssetSet.count() > 0) {
+				IJpo downAsset = downAssetSet.getJpo(0);
+				downAsset.setValue("islocked", 0,
+						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
+			}
 
 			// 获取ASSET表中待拆卸的选中部件以及子部件
 			IJpoSet removeMboset = MroServer.getMroServer().getSysJpoSet(

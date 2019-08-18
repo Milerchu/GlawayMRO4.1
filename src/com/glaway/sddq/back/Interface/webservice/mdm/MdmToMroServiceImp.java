@@ -5,12 +5,11 @@ import com.glaway.mro.jpo.IJpo;
 import com.glaway.mro.jpo.IJpoSet;
 import com.glaway.mro.system.MroServer;
 import com.glaway.mro.util.GWConstant;
+import com.glaway.mro.util.StringUtil;
 import com.glaway.sddq.base.custinfo.data.CustInfo;
 import com.glaway.sddq.tools.IFUtil;
 import com.glaway.sddq.tools.JDBCUtil;
 import com.glaway.sddq.tools.MdmReturnSave;
-import com.glaway.sddq.tools.MsgUtil;
-import com.glaway.mro.util.StringUtil;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -19,6 +18,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 @WebService(endpointInterface = "com.glaway.sddq.back.Interface.webservice.mdm.MdmToMroService")
@@ -37,12 +37,12 @@ public class MdmToMroServiceImp implements MdmToMroService {
 	public String toMroMdmPersonData(String mdmXml) {
 		String num = "";
 		IJpoSet personset = null;
-		IJpoSet sysphoneset = null;
-		IJpoSet sysemailset = null;
+
 		Connection conn = null;
 		PreparedStatement ps1 = null;
 		PreparedStatement ps2 = null;
 		PreparedStatement ps3 = null;
+		ResultSet rs = null;
 
 		try {
 			num = IFUtil.addIfHistory("MDM_MRO_PERSONIF", mdmXml, IFUtil.TYPE_INPUT);
@@ -50,16 +50,11 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			//获取连接
 			conn = JDBCUtil.getOrclConn();
 
-			String personSql1 = "";
+			String personSql = "";
 			String phoneSql = "";
 			String emailSql = "";
 
-
-			personset = MroServer.getMroServer().getSysJpoSet("SYS_PERSON");
-
-			sysphoneset = MroServer.getMroServer().getSysJpoSet("SYS_PHONE");
-
-			sysemailset = MroServer.getMroServer().getSysJpoSet("SYS_EMAIL");
+			boolean results = false;
 
 			Document doc = DocumentHelper.parseText(mdmXml);
 			Element root = doc.getRootElement();
@@ -84,8 +79,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					String emp_type1 = personBaseInfo.valueOf("emp_type1");// 人员分类AB
 					String emp_type2 = personBaseInfo.valueOf("emp_type2");// 人员分类
 
-					// zzx add 2018.10.17 删除标识
-					String delcode = personBaseInfo.valueOf("del_code");
+					String delcode = personBaseInfo.valueOf("del_code");//删除标记
 
 					String status = "";
 					if (empcode.startsWith("9") || empcode.startsWith("P")) {
@@ -101,7 +95,6 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					}else if(StringUtil.isHaveStr(activeStatus, status)){
 						status = "活动";
 					}
-					// zzx end
 					String calzzmc = "";
 					List<Element> personComputerList = object.elements("personComputerList");
 					for (Element personComputer : personComputerList) {
@@ -113,7 +106,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					if(StringUtil.isStrEmpty(delcode)){
 
 						/*对人员表操作*/
-						personSql1 = "merge into sys_person p using (select ? personid,? displayname,? GENDER," +
+						personSql = "merge into sys_person p using (select ? personid,? displayname,? GENDER," +
 								"               ? PERSONCLASSIFICATION,? NATION,? COMPUTERLV,? STATUS from dual) dat " +
 								"                   on (dat.personid=p.personid)\n" +
 								"when matched then\n" +
@@ -128,15 +121,15 @@ public class MdmToMroServiceImp implements MdmToMroService {
 								"            dat.NATION,dat.COMPUTERLV,dat.STATUS,sys_personseq.nextval,1,'zh_CN'," +
 								"            'ZH',1,sysdate,'过程','从不')";
 
-						ps1 = conn.prepareStatement(personSql1);
+						ps1 = conn.prepareStatement(personSql);
 
-						ps1.setString(1, empcode);
-						ps1.setString(2, empname);
-						ps1.setString(3, gender);
-						ps1.setString(4, emp_type2);
-						ps1.setString(5, nation);
-						ps1.setString(6, calzzmc);
-						ps1.setString(7, status);
+						ps1.setString(1, empcode);//人员id
+						ps1.setString(2, empname);//人员姓名
+						ps1.setString(3, gender);//性别
+						ps1.setString(4, emp_type2);//人员类型
+						ps1.setString(5, nation);//国籍
+						ps1.setString(6, calzzmc);//计算机水平
+						ps1.setString(7, status);//状态
 
 						ps1.addBatch();
 
@@ -161,12 +154,19 @@ public class MdmToMroServiceImp implements MdmToMroService {
 						}
 
 						/*对邮箱表操作*/
-						//TODO 待完善
 						if(StringUtil.isStrNotEmpty(empmail)){
-							emailSql = "";
+							emailSql = "merge into sys_email em using (select personid from sys_person where personid=?) p " +
+									"    on ( p.personid=em.personid )\n" +
+									"    when matched then\n" +
+									"        update set emailaddress=?\n" +
+									"    when not matched then\n" +
+									"        insert (ISPRIMARY,SYS_EMAILID,emailaddress,personid)\n" +
+									"         values(1,sys_emailseq.nextval,?,p.personid)";
 							ps3 = conn.prepareStatement(emailSql);
 
-							ps3.setString(1, "");
+							ps3.setString(1, empcode);//人员id
+							ps3.setString(2, empmail);//邮箱
+							ps3.setString(3, empmail);//邮箱
 
 							ps3.addBatch();
 						}
@@ -174,21 +174,20 @@ public class MdmToMroServiceImp implements MdmToMroService {
 					}else{
 					//删除
 
-						/*操作人员表*/
-						personSql1 = "merge into sys_person p using (select ? personid from dual) dat " +
+						/*删除人员表*/
+						personSql = "merge into sys_person p using (select ? personid from dual) dat " +
 								" on (dat.personid=p.personid)\n" +
 								" when matched then\n" +
 								"    update set p.displayname=p.displayname\n" +
 								"    delete where p.personid=dat.personid";
 
-						ps1 = conn.prepareStatement(personSql1);
+						ps1 = conn.prepareStatement(personSql);
 
 						ps1.setString(1, empcode);
 
 						ps1.addBatch();
 
-						//TODO 待完善
-						/*操作电话表*/
+						/*删除电话表*/
 						phoneSql = "merge into sys_phone ph using (select ? personid from dual) dat" +
 								" on (dat.personid=ph.personid) "+
 								" when matched then "+
@@ -200,7 +199,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 
 						ps2.addBatch();
 
-						/*操作邮箱表*/
+						/*删除邮箱表*/
 						emailSql = "merge into sys_email e using (select ? personid from dual) dat" +
 								" on (dat.personid=e.personid) "+
 								" when matched then "+
@@ -215,110 +214,20 @@ public class MdmToMroServiceImp implements MdmToMroService {
 
 					}
 
-					//TODO -----------------------待删除-----------------------------
-					personset.setUserWhere("PERSONID='" + empcode + "'");
-					personset.reset();
+					//执行批处理sql
+					int[] rs1 = ps1.executeBatch();
+					int[] rs2 = ps2.executeBatch();
+					int[] rs3 = ps3.executeBatch();
 
-					if (personset.count() > 0) {
-						if (StringUtil.isStrEmpty(delcode)) {
-
-							sysphoneset.setUserWhere("PERSONID='" + empcode + "'");
-							sysphoneset.reset();
-
-							sysemailset.setUserWhere("PERSONID='" + empcode + "'");
-							sysemailset.reset();
-
-							IJpo personJpo = null;
-							personJpo = personset.getJpo();
-							personJpo.setValue("DISPLAYNAME", empname);
-							personJpo.setValue("GENDER", gender, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personJpo.setValue("NATION", nation, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personJpo.setValue("STATUS", status, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-
-							personJpo.setValue("COMPUTERLV", calzzmc,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personJpo.setValue("PERSONCLASSIFICATION",
-									emp_type2, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);// 人员分类
-
-
-							if (!StringUtil.isStrEmpty(mobile)) {
-								IJpo sysphonesetJpo = null;
-								sysphonesetJpo = sysphoneset.getJpo();
-								sysphonesetJpo.setValue("PHONENUM", mobile, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								sysphoneset.save();
-								personJpo.setValue("PRIMARYPHONE", mobile,
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-
-							}
-
-							if (!StringUtil.isStrEmpty(empmail)) {
-								/**
-								 * 邮件
-								 */
-								IJpo sysemailsetJpo = null;
-								sysemailsetJpo = sysemailset.getJpo();
-								sysemailsetJpo.setValue("EMAILADDRESS", empmail,
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								sysemailset.save();
-								personJpo.setValue("PRIMARYEMAIL", empmail,
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-
-							}
-						} else {
-
-							personset.getJpo().setValue("STATUS", "不活动", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personset.getJpo().delete(0);
-
-						}
-
-					} else {
-						IJpo personsetJpo = null;
-						if (StringUtil.isStrEmpty(delcode)) {
-
-							personsetJpo = personset.addJpo();
-							personsetJpo.setValue("PERSONID", empcode);
-							personsetJpo.setValue("DISPLAYNAME", empname);
-							personsetJpo.setValue("GENDER", gender, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("NATION", nation, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							// personsetJpo.setValue("NATION.DESCRIPTION",
-							// nation,GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("STATUS", status, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("PRIMARYEMAIL", empmail, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("COMPUTERLV", calzzmc, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							personsetJpo.setValue("PERSONCLASSIFICATION", emp_type2,
-									GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-
-							if (!StringUtil.isStrEmpty(mobile)) {
-								IJpo sysphonesetJpo = null;
-								sysphonesetJpo = sysphoneset.addJpo();
-								sysphonesetJpo.setValue("PERSONID", empcode);
-								sysphonesetJpo.setValue("PHONENUM", mobile, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								sysphonesetJpo.setValue("ISPRIMARY", "1", GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								sysphoneset.save();
-								personsetJpo.setValue("PRIMARYPHONE", mobile, GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							}
-
-							if (!StringUtil.isStrEmpty(empmail)) {
-								IJpo sysemailsetJpo = null;
-								sysemailsetJpo = sysemailset.addJpo();
-								sysemailsetJpo.setValue("PERSONID", empcode);
-								sysemailsetJpo.setValue("EMAILADDRESS", empmail,
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								sysemailsetJpo.setValue("ISPRIMARY", "1",
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								sysemailset.save();
-								personsetJpo.setValue("PRIMARYEMAIL", empmail,
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								// zzx end
-
-							}
-							MsgUtil.addMsg("PERSONINFO", personsetJpo.getLong("SYS_PERSONID"), MsgUtil.PERSONADD,
-									"MDM新推人员编号为:" + personsetJpo.getString("PERSONID"), MsgUtil.GWADMINPERSON);
-
-						}
+					//执行成功
+					if(JDBCUtil.isBatchSuccess(rs1) && JDBCUtil.isBatchSuccess(rs2)
+							&& JDBCUtil.isBatchSuccess(rs3)){
+						results = true;
 					}
-					personset.save();
 
+					//TODO 改成jdbc形式无法获取id,暂时取消推送
+					// MsgUtil.addMsg("PERSONINFO", personsetJpo.getLong("SYS_PERSONID"), MsgUtil.PERSONADD,
+					//		"MDM新推人员编号为:" + personsetJpo.getString("PERSONID"), MsgUtil.GWADMINPERSON);
 
 				} else {
 					/**
@@ -342,91 +251,99 @@ public class MdmToMroServiceImp implements MdmToMroService {
 						// 删除标识
 						delremark = emp.valueOf("del_code");// 删除标识
 
-						// 3.判断新增还是修改
-
-						personset.setUserWhere("PERSONID='" + empcodeone + "'");
-						personset.reset();
-
-						if (personset.count() > 0) {
-							IJpo personupdateorgsetJpo = null;
-							personupdateorgsetJpo = personset.getJpo();
-							String personid = personupdateorgsetJpo.getString("PERSONID");
-
-							/**
-							 * A 类人员更新岗位
-							 */
-							if (personid.startsWith("9") || personid.startsWith("P")) {
-								personupdateorgsetJpo.setValue("DEPARTMENT", depacode,
-												GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-							} else {
-								if (jobcodetag != null && !StringUtil.isStrEmpty(jobcodeOne)) {
-									personupdateorgsetJpo .setValue("JOBCODE", jobcodeOne,
-													GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-									personupdateorgsetJpo .setValue("DEPARTMENT", depacode,
-													GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-								}
-
+						//拼接sql
+						personSql = "update sys_person set DEPARTMENT=? ";
+						//A 类人员更新岗位
+						if (!(empcodeone.startsWith("9") || empcodeone.startsWith("P"))) {
+							if (jobcodetag != null && StringUtil.isStrNotEmpty(jobcodeOne)) {
+								personSql += ",jobcode=? ";
 							}
+						}
+						personSql += " where personid=?";
 
-							/**
-							 * 判断是否是主要岗位,设置部门主要负责人
-							 */
-							IJpoSet postset = personset.getJpo().getJpoSet("POST");
-							IJpo postsetJpo = postset.getJpo();
+						ps1 = conn.prepareStatement(personSql);
 
-							if (postsetJpo != null) {
-								IJpoSet deptset = postsetJpo.getJpoSet("SYS_DEPT");
-								String director = postsetJpo.getString("DIRECTOR");
-								if (deptset != null && deptset.count() > 0) {
-									if (director.equals("是") && !deptset.isEmpty()) {
-										IJpo deptsetpo = deptset.getJpo();
-										deptsetpo.setValue("OWNER", personid,
-														GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
-									}
+						ps1.setString(1, depacode);//部门编号
+						//A 类人员更新岗位
+						if (!(empcodeone.startsWith("9") || empcodeone.startsWith("P"))) {
+							if (jobcodetag != null && StringUtil.isStrNotEmpty(jobcodeOne)) {
+								ps1.setString(2, jobcodeOne);//岗位编号
+								ps1.setString(3, empcodeone);//人员编号
+							}
+						}else{
+							ps1.setString(2, empcodeone);//人员编号
+						}
+						ps1.addBatch();
+
+						//判断是否是主要岗位,设置部门主要负责人
+						if (jobcodetag != null && StringUtil.isStrNotEmpty(jobcodeOne)) {
+
+							String postSlctSql = "select director,detpnum from post where postnum=?";
+							ps2 = conn.prepareStatement(postSlctSql);
+
+							ps2.setString(1, jobcodeOne);
+
+							rs = ps2.executeQuery();
+
+							String deptnum = "";
+
+							while (rs.next()){
+								if("是".equals(rs.getString("director"))){
+									deptnum = rs.getString("detpnum");
 								}
 							}
 
-						} else {
+							String deptSql = "update sys_dept set owner=? where mdm_deptid=?";
+							ps3 = conn.prepareStatement(deptSql);
 
-							returntf = MdmReturnSave.getFalseMsg(empcodeone + "人员不存在");
+							ps3.setString(1, empcodeone);
+							ps3.setString(2, deptnum);
+
+							ps3.addBatch();
+
 						}
 
+					}
+
+					int[] rs1 = ps1.executeBatch();
+					int[] rs2 = ps3.executeBatch();
+
+					if(JDBCUtil.isBatchSuccess(rs1) && JDBCUtil.isBatchSuccess(rs2)){
+						results = true;
 					}
 
 				}
 
 			}
 
-			personset.save();
 
-			/**
-			 * 处理成功
-			 */
-			IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS, IFUtil.FLAG_YES, "");
-			returntf = MdmReturnSave.getTrueMsg();
-			return returntf;
+			//处理成功
+			if(results){
+				IFUtil.updateIfHistory(num, IFUtil.STATUS_SUCCESS, IFUtil.FLAG_YES, "");
+				returntf = MdmReturnSave.getTrueMsg();
+			}else{
+				IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE, IFUtil.FLAG_YES, "数据库操作失败");
+				returntf = MdmReturnSave.getFalseMsg("数据库操作失败！");
+			}
 		} catch (Exception e) {
 
 			String errorMsg = e.getMessage();
 			returntf = MdmReturnSave.getFalseMsg(errorMsg);
 			try {
-				IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE, IFUtil.FLAG_YES, e.getMessage());
+				IFUtil.updateIfHistory(num, IFUtil.STATUS_FAILURE, IFUtil.FLAG_YES, errorMsg);
 			} catch (MroException e1) {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
-			return returntf;
+
 		} finally {
-			if(personset != null){
-				personset.destroy();
-			}
-			if(sysphoneset != null){
-				sysphoneset.destroy();
-			}
-			if(sysemailset != null){
-				sysemailset.destroy();
-			}
+
+			//关闭连接
+			JDBCUtil.close(conn, ps1, ps3);
+			JDBCUtil.close(rs, ps2, conn);
+
 		}
+		return returntf;
 
 	}
 
@@ -1126,7 +1043,7 @@ public class MdmToMroServiceImp implements MdmToMroService {
 			e.printStackTrace();
 		} finally {
 			//关闭数据库连接
-			JDBCUtil.close(pstm, conn);
+			JDBCUtil.close(conn,pstm);
 		}
 		return returntf;
 
