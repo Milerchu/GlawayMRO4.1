@@ -1,13 +1,5 @@
 package com.glaway.sddq.service.failureord.bean;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.apache.axis2.transport.http.HTTPConstants;
-import org.apache.axis2.transport.http.impl.httpclient3.HttpTransportPropertiesImpl.Authenticator;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -23,43 +15,15 @@ import com.glaway.mro.system.MroServer;
 import com.glaway.mro.util.GWConstant;
 import com.glaway.mro.util.StringUtil;
 import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Bapi2017GmItemCreate;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char1;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char10;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char12;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char14;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char15;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char16;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char18;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char2;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char20;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char24;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char25;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char3;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char32;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char4;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char40;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char50;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char6;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Char8;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Decimal234;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Decimal30;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Numeric10;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Numeric2;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Numeric3;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Numeric4;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Numeric5;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Numeric6;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Quantum133;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.TableOfBapi2017GmItemCreate;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.Unit3;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.ZtfunWmsBasisFunction;
-import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.ZtfunWmsBasisFunctionResponse;
-import com.glaway.sddq.tools.HttpRequestHelper;
-import com.glaway.sddq.tools.IFUtil;
-import com.glaway.sddq.tools.ItemUtil;
-import com.glaway.sddq.tools.SddqConstant;
-import com.glaway.sddq.tools.WorkorderUtil;
+import com.glaway.sddq.back.Interface.webservice.erp.zsxt.erptomrozsxt.gggz.ComZzsErpZTFUN_WMS_BASIS_FUNCTIONStub.*;
+import com.glaway.sddq.tools.*;
+import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.axis2.transport.http.impl.httpclient3.HttpTransportPropertiesImpl.Authenticator;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 
@@ -597,31 +561,49 @@ public class FailureOrdAppBean extends AppBean {
 			String result = iface309();
 			if ("E".equals(result)) {
 				throw new AppException("", "309接口出错：" + result);
+			}else {// 接口访问成功
+
+				/* 上下车操作 */
+				// 耗损件记录子表
+				IJpoSet consumeSet = MroServer.getMroServer().getSysJpoSet(
+						"JXTASKLOSSPART", "JXTASKNUM='" + ordernum + "'");
+				if (consumeSet != null && consumeSet.count() > 0) {
+					WorkorderUtil.consumeUpDown(consumeSet, jpo);
+				}
+				// 序列号件上下车记录子表
+				IJpoSet exchangeRcdSet = MroServer.getMroServer().getSysJpoSet(
+						"EXCHANGERECORD", "FAILUREORDERNUM='" + ordernum + "'");
+				if (exchangeRcdSet != null && exchangeRcdSet.count() > 0) {
+					WorkorderUtil.swapHistory(exchangeRcdSet, jpo);
+				}
 			}
 		}
+
 		// 调用三包接口
-		String ret = WorkorderUtil.tomsg(jpo);
-		// 接口出错
-		if (!"S".equals(ret)) {
-			showMsgbox("错误", "三包订单接口访问出错:" + ret);
-		} else {// 接口访问成功
+		if(!flag2){
 
-			// 变更库存和配置
+			String ret = WorkorderUtil.tomsg(jpo);
+			// 接口出错
+			if (!"S".equals(ret)) {
+				showMsgbox("错误", "三包订单接口访问出错:" + ret);
+			} else {// 接口访问成功
 
-			/* 上下车操作 */
-			// 耗损件记录子表
-			IJpoSet consumeSet = MroServer.getMroServer().getSysJpoSet(
-					"JXTASKLOSSPART", "JXTASKNUM='" + ordernum + "'");
-			if (consumeSet != null && consumeSet.count() > 0) {
-				WorkorderUtil.consumeUpDown(consumeSet, jpo);
-			}
-			// 序列号件上下车记录子表
-			IJpoSet exchangeRcdSet = MroServer.getMroServer().getSysJpoSet(
-					"EXCHANGERECORD", "FAILUREORDERNUM='" + ordernum + "'");
-			if (exchangeRcdSet != null && exchangeRcdSet.count() > 0) {
-				WorkorderUtil.swapHistory(exchangeRcdSet, jpo);
+				/* 上下车操作 */
+				// 耗损件记录子表
+				IJpoSet consumeSet = MroServer.getMroServer().getSysJpoSet(
+						"JXTASKLOSSPART", "JXTASKNUM='" + ordernum + "'");
+				if (consumeSet != null && consumeSet.count() > 0) {
+					WorkorderUtil.consumeUpDown(consumeSet, jpo);
+				}
+				// 序列号件上下车记录子表
+				IJpoSet exchangeRcdSet = MroServer.getMroServer().getSysJpoSet(
+						"EXCHANGERECORD", "FAILUREORDERNUM='" + ordernum + "'");
+				if (exchangeRcdSet != null && exchangeRcdSet.count() > 0) {
+					WorkorderUtil.swapHistory(exchangeRcdSet, jpo);
+				}
 			}
 		}
+
 
 		this.SAVE();
 		this.reloadPage();
