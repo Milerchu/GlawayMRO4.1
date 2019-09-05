@@ -249,7 +249,23 @@
         <servlet-name>MobileService</servlet-name>
         <url-pattern>/mobile/*</url-pattern>
     </servlet-mapping>
-    
+
+	<servlet>
+		<servlet-name>AuthService</servlet-name>
+		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>com.glaway.sddq.back.Interface.webservice.comm</param-value>
+		</init-param>
+
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>AuthService</servlet-name>
+		<url-pattern>/comm/*</url-pattern>
+	</servlet-mapping>
+
 	<listener>  
         <listener-class>
             com.sun.xml.ws.transport.http.servlet.WSServletContextListener  
