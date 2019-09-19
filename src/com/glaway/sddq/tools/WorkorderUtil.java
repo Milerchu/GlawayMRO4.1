@@ -5000,10 +5000,24 @@ public class WorkorderUtil {
 		return flag;
 	}
 
+    /**
+     *
+     * 根据条件获取库房编号
+     * @param erploc
+     * @param locationType
+     * @param station
+     * @return
+     * @throws MroException
+     */
 	public static String getLocation(String erploc, String locationType, String station) throws MroException{
-		String location = "";
+		String location = "erploc='"+erploc+"' and storeroomlevel in('"+ ItemUtil.STOREROOMLEVEL_XCK
+                +"','"+ItemUtil.STOREROOMLEVEL_XCZDK+"') and locationtype='"+locationType
+                +"' and status='正常' and locsite='"+station+"' and jxorfw='"+ ItemUtil.JXORFW_FW+"'";
 		String where = "";
-
+		IJpoSet locationSet = MroServer.getMroServer().getSysJpoSet("LOCATIONS", where);
+		if(locationSet!=null && locationSet.count()>0){
+		    location = locationSet.getJpo(0).getString("location");
+        }
 
 		return location;
 	}

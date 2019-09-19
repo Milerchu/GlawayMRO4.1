@@ -140,6 +140,10 @@ public class FldDownItemnum extends JpoField {
 		super.action();
 		if (isValueChanged()) {
 
+			//批次号件设置批次号字段必填
+			if (ItemUtil.LOT_I_ITEM.equals(ItemUtil.getItemInfo(getInputMroType().asString()))) {
+				getJpo().setFieldFlag("DOWNLOTNUM",GWConstant.S_REQUIRED,true);
+			}
 			// 清空已选的上车件信息
 			getField("INVENTORY").setValueNull();
 			// getField("AMOUNT").setValueNull();

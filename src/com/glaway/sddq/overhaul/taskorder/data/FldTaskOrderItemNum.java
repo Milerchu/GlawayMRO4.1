@@ -1,8 +1,5 @@
 package com.glaway.sddq.overhaul.taskorder.data;
 
-import java.util.Iterator;
-import java.util.List;
-
 import com.glaway.mro.exception.AppException;
 import com.glaway.mro.exception.MroException;
 import com.glaway.mro.jpo.IJpo;
@@ -14,6 +11,10 @@ import com.glaway.mro.util.StringUtil;
 import com.glaway.sddq.tools.ItemUtil;
 import com.glaway.sddq.tools.LocationUtil;
 import com.glaway.sddq.tools.SddqConstant;
+import com.glaway.sddq.tools.WorkorderUtil;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 
@@ -82,9 +83,9 @@ public class FldTaskOrderItemNum extends JpoField {
 			} else {
 
 				locationWhere = " erploc='" + ItemUtil.ERPLOC_1020 + "' "
-						+ "and STOREROOMLEVEL='"
-						+ ItemUtil.STOREROOMLEVEL_XCZDK
-						+ "' and LOCATIONTYPE='" + ItemUtil.LOCATIONTYPE_CG
+						+ "and STOREROOMLEVEL in('"
+						+ ItemUtil.STOREROOMLEVEL_XCZDK + "','" + ItemUtil.STOREROOMLEVEL_XCK
+						+ "') and LOCATIONTYPE='" + ItemUtil.LOCATIONTYPE_CG
 						+ "' and jxorfw = '" + ItemUtil.JXORFW_FW
 						+ "' and status='正常' and locsite='" + station + "'";
 			}
@@ -215,14 +216,10 @@ public class FldTaskOrderItemNum extends JpoField {
 	public void action() throws MroException {
 
 		super.action();
-		IJpo exjpo = getJpo();
+		IJpo lossPart = getJpo();
 		// String downitemnum = exjpo.getString("downitemnum");
 		String itemnum = getInputMroType().asString();
 		if (StringUtil.isStrNotEmpty(itemnum)) {
-			/*
-			 * IJpoSet assetpartSet = getUserServer().getJpoSet("ASSETPART",
-			 * " itemnum='" + itemnum + "'");
-			 */
 			String workordertype = this.getJpo().getString("WORKORDERTYPE");
 			if (SddqConstant.SXC_JX.equals(workordertype)) {
 
@@ -230,21 +227,29 @@ public class FldTaskOrderItemNum extends JpoField {
 				String whichstation = wo.getString("WHICHSTATION");// 获取站点数据
 				String newloc = LocationUtil.getLocationForHsXc(whichstation);
 
-				exjpo.setValue("UNDERLOC", newloc,
+				lossPart.setValue("UNDERLOC", newloc,
 						GWConstant.P_NOCHECK_NOACTION_NOVALIDAT);
 
 			} else if (SddqConstant.SXC_GZ.equals(workordertype)) {// 故障工单
 
-				// 故障品处置方式
-				String dealMode = exjpo.getString("dealmode");
+				//工单jpo
+				IJpo wo = lossPart.getParent();
+				//工单站点
+				String station = wo.getString("whichstation");
+				//故障品处置方式
+				String dealMode = lossPart.getString("dealmode");
 				if (StringUtil.isStrNotEmpty(dealMode)
 						&& SddqConstant.FAIL_DEALMODE_RETENTION
 								.equals(dealMode)) {// 不返修
 					// 将库房设置成一致
-					if (!exjpo.getString("underloc").equalsIgnoreCase(
-							exjpo.getString("uploc"))) {
-						exjpo.setValue("underloc", exjpo.getString("uploc"),
-								GWConstant.P_NOVALIDATION);
+					if (!lossPart.getString("underloc").equalsIgnoreCase(
+							lossPart.getString("uploc"))) {
+						String underloc = WorkorderUtil.getLocation(ItemUtil.ERPLOC_1020,
+								ItemUtil.LOCATIONTYPE_CG, station);
+						if(StringUtil.isStrEmpty(underloc)){
+							throw new MroException("库房设置失败！");
+						}
+						lossPart.setValue("underloc", underloc, GWConstant.P_NOVALIDATION);
 					}
 
 				}
