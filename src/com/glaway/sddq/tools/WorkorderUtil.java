@@ -5000,4 +5000,12 @@ public class WorkorderUtil {
 		return flag;
 	}
 
+	public static String getLocation(String erploc, String locationType, String station) throws MroException{
+		String location = "";
+		String where = "";
+
+
+		return location;
+	}
+
 }
