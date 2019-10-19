@@ -266,7 +266,7 @@ public class FldTaskOrderSwapNewSqn extends JpoField {
 						+ itemnums
 						+ ") and type in( '1','3') and location in (select location from locations where "
 						+ locationWhere
-						+ " ) and status not in('故障','改造下车') and sqn not like 'LS%' and iserp<>0 and islocked<>1 ";
+						+ " ) and status not in('故障','改造下车') and sqn not like 'LS%' and iserp<>0 and nvl(islocked,0)<>1 ";
 				if (StringUtil.isStrNotEmpty(assetnumnew)) {
 					sql += " and assetnum not in(" + assetnumnew + ")";
 
