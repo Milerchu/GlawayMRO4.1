@@ -580,7 +580,7 @@ public class FailureOrdAppBean extends AppBean {
 		}
 
 		// 调用三包接口
-		if(!flag2){
+		//if(!flag2){
 
 			String ret = WorkorderUtil.tomsg(jpo);
 			// 接口出错
@@ -602,7 +602,7 @@ public class FailureOrdAppBean extends AppBean {
 					WorkorderUtil.swapHistory(exchangeRcdSet, jpo);
 				}
 			}
-		}
+		//}
 
 
 		this.SAVE();
